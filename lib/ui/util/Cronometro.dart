@@ -67,19 +67,26 @@ class _CronometroState extends State<Cronometro> {
   Widget _buildBody() {
     return Column(
       children: <Widget>[
-        Expanded(
-          child: FittedBox(
-            fit: BoxFit.none,
-            child: Text(
-              _stopwatchText,
-              style: TextStyle(fontSize: 72),
-            ),
-          ),
-        ),
+
         Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
+
+
+            mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
+
+              Card(
+
+                    child: Text(
+                      _stopwatchText,
+                      style: TextStyle(fontSize: 42),
+                    ),
+
+
+              ),
+
+
+
               RaisedButton(
                 child: Icon(_isStart ? Icons.play_arrow : Icons.stop),
                 onPressed: _startStopButtonPressed,

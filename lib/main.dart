@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Minha Vaga',
+      title: 'Cronograma de Estudos',
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
@@ -16,7 +16,6 @@ class MyApp extends StatelessWidget {
       supportedLocales: [
         const Locale('pt', 'BR'), ],
       theme: ThemeData(
-
         primarySwatch: Colors.deepPurple,
       ),
       home: CeAppPage(),
