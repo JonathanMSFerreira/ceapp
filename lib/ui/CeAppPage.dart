@@ -71,7 +71,7 @@ void _showDialog(BuildContext context) {
           style: TextStyle(color: Colors.deepPurple),
         ),
         content:
-            new Text("Deseja remover TJMA?\nTodos os dados serão apagados! "),
+            new Text("Remover TJMA?\nTodos os dados serão apagados! "),
         actions: <Widget>[
           // usually buttons at the bottom of the dialog
           new FlatButton(
@@ -118,7 +118,7 @@ Widget _ceDrawer() {
           ),
         ),
         ListTile(
-          title: Text('Ciclos', style: TextStyle(color: Colors.deepPurpleAccent),),
+          title: Text('Ciclos de estudos', style: TextStyle(color: Colors.deepPurpleAccent),),
           leading: Icon(Icons.all_inclusive,color: Colors.deepPurpleAccent),
           onTap: () {
             // Update the state of the app.
@@ -136,7 +136,7 @@ Widget _ceDrawer() {
         ),
         Divider(),
         ListTile(
-          title: Text('Campartilhe', style: TextStyle(color: Colors.deepPurpleAccent)),
+          title: Text('Compartilhe', style: TextStyle(color: Colors.deepPurpleAccent)),
           leading: Icon(Icons.share, color: Colors.deepPurpleAccent),
           onTap: () {
             // Update the state of the app.
@@ -161,15 +161,28 @@ Widget _cardCe(BuildContext context) {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         const ListTile(
-          leading: Icon(Icons.album),
-          title: Text('Concurso TJMA'),
-          subtitle: Text('Analista Judiciário'),
-          trailing: Text("10 matérias"),
+
+
+          isThreeLine: true,
+         // leading: Icon(Icons.border_color, color: Colors.deepPurple,),
+          title: Text('Liceu Maranhense', style: TextStyle(fontSize: 20.0),),
+          subtitle: Text('Inicio: 09/09/2019\nFim: 09/12/2019'),
+          trailing: Text("10 matérias", style: TextStyle(color: Colors.yellow),),
         ),
+
+        Divider(),
         ButtonTheme.bar(
+
+
+
+
+
           // make buttons use the appropriate styles for cards
           child: ButtonBar(
+
+            alignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+
               FlatButton(
                 child: const Text(
                   'Remover',
@@ -179,6 +192,19 @@ Widget _cardCe(BuildContext context) {
                   _showDialog(context);
                 },
               ),
+
+              FlatButton(
+                child: const Text(
+                  'Disciplinas',
+                  style: TextStyle(color: Colors.deepPurple),
+                ),
+                onPressed: () {
+
+
+
+                },
+              ),
+
               FlatButton(
                 child: const Text('Gerenciar'),
                 onPressed: () {
