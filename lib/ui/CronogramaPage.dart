@@ -1,9 +1,8 @@
-import 'package:ceapp/ui/util/Cronometro.dart';
+
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-
-
+import 'DisciplinaPage.dart';
 
 
 final Map<DateTime, List> _holidays = {
@@ -15,20 +14,20 @@ final Map<DateTime, List> _holidays = {
 };
 
 
-class CeCalendar extends StatefulWidget {
+class CronogramaPage extends StatefulWidget {
 
 
   final String title;
 
-  CeCalendar({Key key, this.title}) : super(key: key);
+  CronogramaPage({Key key, this.title}) : super(key: key);
 
 
 
   @override
-  _CeCalendarState createState() => _CeCalendarState();
+  _CronogramaPageState createState() => _CronogramaPageState();
 }
 
-class _CeCalendarState extends State<CeCalendar> with TickerProviderStateMixin {
+class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStateMixin {
 
 
   bool down = false;
@@ -153,8 +152,6 @@ class _CeCalendarState extends State<CeCalendar> with TickerProviderStateMixin {
   Widget _buildTableCalendarWithBuilders() {
     return TableCalendar(
 
-
-
       locale: 'pt_br',
       calendarController: _calendarController,
       events: _events,
@@ -164,46 +161,28 @@ class _CeCalendarState extends State<CeCalendar> with TickerProviderStateMixin {
       startingDayOfWeek: StartingDayOfWeek.sunday,
       availableGestures: AvailableGestures.all,
 
-
       availableCalendarFormats: const {
         CalendarFormat.month: '',
         CalendarFormat.week: '',
       },
 
-
-
-
-
       calendarStyle: CalendarStyle(
-
-
 
         outsideDaysVisible: false,
         weekendStyle: TextStyle().copyWith(color: Colors.grey),
         holidayStyle: TextStyle().copyWith(color: Colors.grey),
       ),
 
-
-
       daysOfWeekStyle: DaysOfWeekStyle(
         weekendStyle: TextStyle().copyWith(color: Colors.orangeAccent),
 
-
-
       ),
-
 
       headerStyle: HeaderStyle(
         centerHeaderTitle: true,
         formatButtonVisible: false,
 
-
-
       ),
-
-
-
-
 
       builders: CalendarBuilders(
         selectedDayBuilder: (context, date, _) {
@@ -267,7 +246,10 @@ class _CeCalendarState extends State<CeCalendar> with TickerProviderStateMixin {
   }
 
   Widget _buildEventsMarker(DateTime date, List events) {
+
+
     return AnimatedContainer(
+
       duration: const Duration(milliseconds: 300),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
@@ -278,10 +260,7 @@ class _CeCalendarState extends State<CeCalendar> with TickerProviderStateMixin {
       width: 16.0,
       height: 16.0,
       child: Center(
-        child: Text(
-          '${events.length}' ?? '',
-          style: TextStyle().copyWith(color: Colors.white, fontSize: 12.0,
-          ),
+        child: Text('${events.length}' ?? '', style: TextStyle().copyWith(color: Colors.white, fontSize: 12.0,),
         ),
       ),
     );
@@ -295,88 +274,32 @@ class _CeCalendarState extends State<CeCalendar> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildButtons() {
-    return Column(
-      children: <Widget>[
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            RaisedButton(
-              child: Text('month' ?? ''),
-              onPressed: () {
-                setState(() {
-                  _calendarController.setCalendarFormat(CalendarFormat.month);
-                });
-              },
-            ),
-            RaisedButton(
-              child: Text('2 weeks'),
-              onPressed: () {
-                setState(() {
-                  _calendarController.setCalendarFormat(CalendarFormat.twoWeeks);
-                });
-              },
-            ),
-            RaisedButton(
-              child: Text('week' ?? ''),
-              onPressed: () {
-                setState(() {
-                  _calendarController.setCalendarFormat(CalendarFormat.week);
-                });
-              },
-            ),
-          ],
-        ),
-        const SizedBox(height: 8.0),
-        RaisedButton(
-          child: Text('setDay 10-07-2019' ?? ''),
-          onPressed: () {
-            _calendarController.setSelectedDay(DateTime(2019, 7, 10), runCallback: true);
-          },
-        ),
-      ],
-    );
-  }
-
   Widget _buildEventList() {
-    return
-
-
-
-
-
-      Card(
-
-
-
-
-
+    return Card(
 
         elevation: 8.0,
         color: Colors.deepPurple,
-        child: ListView(children: _selectedEvents.map((event) => Card(
+        child:
 
-          elevation: 5.0,
-          color: Colors.deepPurpleAccent,
-            child: ListTile(
+             ListView(children: _selectedEvents.map((event) => Card(
 
-              trailing: Icon(Icons.zoom_out_map, color: Colors.white,),
-              subtitle: Text("08h à 9h 30", style: TextStyle(color: Colors.white),),
-              title: Text(event.toString() ?? '', style: TextStyle(color: Colors.yellowAccent, fontSize: 20.0),),
-              onTap: () {
+              elevation: 5.0,
+              color: Colors.deepPurpleAccent,
+              child: ListTile(
 
-                Navigator.push(context,
-                    new MaterialPageRoute(builder: (context) => new Cronometro()));
+                trailing: Icon(Icons.zoom_out_map, color: Colors.white,),
+                subtitle: Text("08h à 9h 30", style: TextStyle(color: Colors.white),),
+                title: Text(event.toString() ?? '', style: TextStyle(color: Colors.yellowAccent, fontSize: 20.0),),
+                onTap: () {
 
-
-              },
-            ),
+                  Navigator.push(context, new MaterialPageRoute(builder: (context) => new DisciplinaPage()));
 
 
-          )
-        ).toList(),
-        )
+                },
+              ),)
+            ).toList(),
+            )
+
       );
 
   }

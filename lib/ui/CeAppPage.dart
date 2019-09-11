@@ -3,8 +3,8 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'CeCalendar.dart';
-import 'MateriaPage.dart';
+import 'CronogramaPage.dart';
+import 'DisciplinaPage.dart';
 import 'NewCePage.dart';
 
 class CeAppPage extends StatefulWidget {
@@ -165,22 +165,18 @@ Widget _cardCe(BuildContext context) {
 
           isThreeLine: true,
          // leading: Icon(Icons.border_color, color: Colors.deepPurple,),
-          title: Text('Liceu Maranhense', style: TextStyle(fontSize: 20.0),),
-          subtitle: Text('Inicio: 09/09/2019\nFim: 09/12/2019'),
-          trailing: Text("10 matérias", style: TextStyle(color: Colors.yellow),),
+          title: Text('Liceu Maranhense', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),),
+          subtitle: Text('Inicio: 09/09/2019\nFim:    09/12/2019'),
+          trailing: Text("10 matérias", style: TextStyle(color: Colors.amber, fontSize: 15.0),),
         ),
 
         Divider(),
         ButtonTheme.bar(
 
-
-
-
-
           // make buttons use the appropriate styles for cards
           child: ButtonBar(
 
-            alignment: MainAxisAlignment.spaceBetween,
+
             children: <Widget>[
 
               FlatButton(
@@ -193,27 +189,24 @@ Widget _cardCe(BuildContext context) {
                 },
               ),
 
-              FlatButton(
-                child: const Text(
-                  'Disciplinas',
-                  style: TextStyle(color: Colors.deepPurple),
-                ),
-                onPressed: () {
 
 
 
-                },
-              ),
-
-              FlatButton(
-                child: const Text('Gerenciar'),
+              RaisedButton(
+                textColor: Colors.white,
+                color: Colors.deepPurpleAccent,
+                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                child: Text('Ciclo de estudo'),
                 onPressed: () {
                   Navigator.push(
                       context,
                       new MaterialPageRoute(
-                          builder: (context) => new CeCalendar()));
+                          builder: (context) => new CronogramaPage()));
                 },
               ),
+
+
+
             ],
           ),
         ),
