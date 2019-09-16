@@ -1,12 +1,9 @@
-import 'package:ceapp/ui/tabsDisciplinaPage/CronometroContent.dart';
 import 'package:ceapp/ui/tabsDisciplinaPage/EstatiticasContent.dart';
 import 'package:ceapp/ui/tabsDisciplinaPage/HomeContent.dart';
-import 'package:ceapp/ui/tabsDisciplinaPage/HomeDisciplinaContent.dart';
 import 'package:ceapp/ui/util/Background.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter/material.dart';
-
 import 'CronogramaPage.dart';
+
 
 class CeAppPage extends StatefulWidget {
   @override
@@ -55,7 +52,7 @@ class _CeAppPageState extends State<CeAppPage> {
         appBar: AppBar(
           elevation: 0.0,
           centerTitle: true,
-          title: Text("Sophos"),
+          title: Text("Ciclo de Estudos"),
 
           actions: <Widget>[
 
@@ -83,10 +80,7 @@ class _CeAppPageState extends State<CeAppPage> {
         drawer: _ceDrawer(),
 
         bottomNavigationBar: BottomNavigationBar(
-          elevation: 0.0,
 
-          selectedItemColor: Colors.indigo,
-          unselectedItemColor: Colors.grey,
           onTap: onTabTapped, // new
           currentIndex: _currentIndex, // this will be set when a new tab is tapped
           items: [
@@ -130,58 +124,78 @@ Widget _ceDrawer() {
   return Drawer(
 
 
-    child: ListView(
+    child:  Stack(
 
 
-      padding: EdgeInsets.zero,
       children: <Widget>[
-        UserAccountsDrawerHeader(
-          accountName: Text("Jonathan Ferreira"),
-          accountEmail: Text("jmontsf@gmail.com"),
-          currentAccountPicture: CircleAvatar(
-            backgroundColor: Colors.yellowAccent,
-            child: Text("EC"),
-          ),
-        ),
-        ListTile(
-          title: Text(
-            'Ciclos de estudos',
-            style: TextStyle(color: Colors.indigo),
-          ),
-          leading: Icon(Icons.all_inclusive, color: Colors.indigo),
-          onTap: () {
-            // Update the state of the app.
-            // ...
-          },
-        ),
-        Divider(),
-        ListTile(
-          title: Text('Cronograma',
-              style: TextStyle(color: Colors.indigo)),
-          leading: Icon(Icons.access_time, color: Colors.indigo),
-          onTap: () {
-            // Update the state of the app.
-            // ...
-          },
-        ),
-        Divider(),
-        ListTile(
-          title: Text('Compartilhe',
-              style: TextStyle(color: Colors.indigo)),
-          leading: Icon(Icons.share, color: Colors.indigo),
-          onTap: () {
-            // Update the state of the app.
-            // ...
-          },
-        ),
-        Divider(),
-        ListTile(
-          title: Text("Sair", style: TextStyle(color: Colors.indigo)),
-          leading:
+
+        Container(color: Colors.indigoAccent,),
+
+
+        ListView(
+
+
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+
+              accountName: Text("Jonathan Ferreira"),
+              accountEmail: Text("jmontsf@gmail.com"),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.yellowAccent,
+                child: Text("EC"),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                'Ciclos de estudos',
+                style: TextStyle(color: Colors.indigo),
+              ),
+              leading: Icon(Icons.all_inclusive, color: Colors.indigo),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            Divider(),
+            ListTile(
+              title: Text('Cronograma',
+                  style: TextStyle(color: Colors.indigo)),
+              leading: Icon(Icons.access_time, color: Colors.indigo),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            Divider(),
+            ListTile(
+              title: Text('Compartilhe',
+                  style: TextStyle(color: Colors.indigo)),
+              leading: Icon(Icons.share, color: Colors.indigo),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            Divider(),
+            ListTile(
+              title: Text("Sair", style: TextStyle(color: Colors.indigo)),
+              leading:
               Icon(Icons.power_settings_new, color: Colors.indigo),
+            )
+          ],
         )
+
       ],
-    ),
+
+
+    )
+
+
+
+
+
+    ,
   );
 }
 
