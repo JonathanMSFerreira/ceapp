@@ -36,11 +36,18 @@ class _DisciplinaPageState extends State<DisciplinaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text("Direito Adminstrativo"),
-        ),
-      bottomNavigationBar: BottomNavigationBar(
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => new CronometroContent()));
+        },
+        child: Icon(Icons.access_alarm),
+      ),
+
+
+
+   /*   bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped, // new
         currentIndex: _currentIndex, // this will be set when a new tab is tapped
         items: [
@@ -58,6 +65,9 @@ class _DisciplinaPageState extends State<DisciplinaPage> {
               icon: Icon(Icons.access_alarm), title: Text('Cronômetro'))
         ],
       ),
+
+
+      */
         body: _children[_currentIndex],
         );
   }

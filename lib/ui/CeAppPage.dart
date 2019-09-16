@@ -1,11 +1,12 @@
+import 'package:ceapp/ui/tabsDisciplinaPage/CronometroContent.dart';
+import 'package:ceapp/ui/tabsDisciplinaPage/EstatiticasContent.dart';
+import 'package:ceapp/ui/tabsDisciplinaPage/HomeContent.dart';
+import 'package:ceapp/ui/tabsDisciplinaPage/HomeDisciplinaContent.dart';
 import 'package:ceapp/ui/util/Background.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import 'CronogramaPage.dart';
-import 'DisciplinaPage.dart';
-import 'NewCePage.dart';
 
 class CeAppPage extends StatefulWidget {
   @override
@@ -19,45 +20,170 @@ class _CeAppPageState extends State<CeAppPage> {
 
   final background = Background();
 
+
+  int _currentIndex = 0;
+
+  final List<Widget> _children = [
+
+
+    HomeContent(),
+
+
+   CronogramaPage(),
+
+    EstatisticasContent(),
+
+   /*CronometroContent(),*/
+  ];
+
+
+
+
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         appBar: AppBar(
+          elevation: 0.0,
           centerTitle: true,
-          title: Text("Minha Vaga"),
+          title: Text("Sophos"),
+
+          actions: <Widget>[
+
+            IconButton( icon: Icon(Icons.clear), onPressed: (){
+
+
+              _showDialog(context);
+
+
+
+            })
+
+
+          ],
+
+
         ),
-        floatingActionButton: FloatingActionButton(
+    /*    floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(context,
                 new MaterialPageRoute(builder: (context) => new NewCePage()));
           },
           child: Icon(Icons.add),
-        ),
+        ),*/
         drawer: _ceDrawer(),
+
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: 0, // this will be set when a new tab is tapped
+          elevation: 0.0,
+
+          selectedItemColor: Colors.indigo,
+          unselectedItemColor: Colors.grey,
+          onTap: onTabTapped, // new
+          currentIndex: _currentIndex, // this will be set when a new tab is tapped
           items: [
             BottomNavigationBarItem(
+
               icon: new Icon(Icons.home),
               title: new Text('Início'),
             ),
+
+    BottomNavigationBarItem(
+    icon: Icon(Icons.calendar_today), title: Text('Cronograma')),
             BottomNavigationBarItem(
-              icon: new Icon(Icons.mail),
-              title: new Text('Mensagens'),
+              icon: new Icon(Icons.show_chart),
+              title: new Text('Estatísticas'),
+
+
             ),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.person), title: Text('Minha conta'))
+
           ],
         ),
+
+
+        body:_children[_currentIndex]
+/*
         body: Container(
-          child: _cardCe(context),
-        ));
+          color: Colors.deepPurple,
+          child: _contCe(context),
+
+        )
+    */
+    );
   }
 }
 
+
 /*
-**********MÉTODOS AUXILIARES**************
+**********WIDGETS**************
 */
+
+Widget _ceDrawer() {
+  return Drawer(
+
+
+    child: ListView(
+
+
+      padding: EdgeInsets.zero,
+      children: <Widget>[
+        UserAccountsDrawerHeader(
+          accountName: Text("Jonathan Ferreira"),
+          accountEmail: Text("jmontsf@gmail.com"),
+          currentAccountPicture: CircleAvatar(
+            backgroundColor: Colors.yellowAccent,
+            child: Text("EC"),
+          ),
+        ),
+        ListTile(
+          title: Text(
+            'Ciclos de estudos',
+            style: TextStyle(color: Colors.indigo),
+          ),
+          leading: Icon(Icons.all_inclusive, color: Colors.indigo),
+          onTap: () {
+            // Update the state of the app.
+            // ...
+          },
+        ),
+        Divider(),
+        ListTile(
+          title: Text('Cronograma',
+              style: TextStyle(color: Colors.indigo)),
+          leading: Icon(Icons.access_time, color: Colors.indigo),
+          onTap: () {
+            // Update the state of the app.
+            // ...
+          },
+        ),
+        Divider(),
+        ListTile(
+          title: Text('Compartilhe',
+              style: TextStyle(color: Colors.indigo)),
+          leading: Icon(Icons.share, color: Colors.indigo),
+          onTap: () {
+            // Update the state of the app.
+            // ...
+          },
+        ),
+        Divider(),
+        ListTile(
+          title: Text("Sair", style: TextStyle(color: Colors.indigo)),
+          leading:
+              Icon(Icons.power_settings_new, color: Colors.indigo),
+        )
+      ],
+    ),
+  );
+}
 
 void _showDialog(BuildContext context) {
   // flutter defined function
@@ -66,12 +192,13 @@ void _showDialog(BuildContext context) {
     builder: (BuildContext context) {
       // return object of type Dialog
       return AlertDialog(
+
+        backgroundColor: Colors.indigo,
         title: new Text(
           "Remover ciclo de estudo",
-          style: TextStyle(color: Colors.deepPurple),
+          style: TextStyle(color: Colors.white),
         ),
-        content:
-            new Text("Remover TJMA?\nTodos os dados serão apagados! "),
+        content: new Text("Os dados serão apagados!", style: TextStyle(color: Colors.white),),
         actions: <Widget>[
           // usually buttons at the bottom of the dialog
           new FlatButton(
@@ -85,7 +212,9 @@ void _showDialog(BuildContext context) {
           ),
 
           new FlatButton(
-            child: new Text("Sim"),
+            child: new Text("Sim", style: TextStyle(color: Colors.white),),
+            shape: CircleBorder(),
+
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -96,121 +225,5 @@ void _showDialog(BuildContext context) {
   );
 }
 
-/*
-**********WIDGETS**************
-*/
-
-Widget _ceDrawer() {
-  return Drawer(
-    // Add a ListView to the drawer. This ensures the user can scroll
-    // through the options in the drawer if there isn't enough vertical
-    // space to fit everything.
-    child: ListView(
-      // Important: Remove any padding from the ListView.
-      padding: EdgeInsets.zero,
-      children: <Widget>[
-        UserAccountsDrawerHeader(
-          accountName: Text("Jonathan Ferreira"),
-          accountEmail: Text("jmontsf@gmail.com"),
-          currentAccountPicture: CircleAvatar(
-            backgroundColor: Colors.yellowAccent,
-            child: Text("EC"),
-          ),
-        ),
-        ListTile(
-          title: Text('Ciclos de estudos', style: TextStyle(color: Colors.deepPurpleAccent),),
-          leading: Icon(Icons.all_inclusive,color: Colors.deepPurpleAccent),
-          onTap: () {
-            // Update the state of the app.
-            // ...
-          },
-        ),
-        Divider(),
-        ListTile(
-          title: Text('Cronograma', style: TextStyle(color: Colors.deepPurpleAccent)),
-          leading: Icon(Icons.access_time, color: Colors.deepPurpleAccent),
-          onTap: () {
-            // Update the state of the app.
-            // ...
-          },
-        ),
-        Divider(),
-        ListTile(
-          title: Text('Compartilhe', style: TextStyle(color: Colors.deepPurpleAccent)),
-          leading: Icon(Icons.share, color: Colors.deepPurpleAccent),
-          onTap: () {
-            // Update the state of the app.
-            // ...
-          },
-        ),
-        Divider(),
-
-        ListTile(
-          title: Text("Sair",style: TextStyle(color: Colors.deepPurpleAccent)),
-          leading: Icon(Icons.power_settings_new , color: Colors.deepPurpleAccent),
-        )
-      ],
-    ),
-  );
-}
-
-Widget _cardCe(BuildContext context) {
-  return Card(
-    elevation: 8.0,
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        const ListTile(
 
 
-          isThreeLine: true,
-         // leading: Icon(Icons.border_color, color: Colors.deepPurple,),
-          title: Text('Liceu Maranhense', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),),
-          subtitle: Text('Inicio: 09/09/2019\nFim:    09/12/2019'),
-          trailing: Text("10 matérias", style: TextStyle(color: Colors.amber, fontSize: 15.0),),
-        ),
-
-        Divider(),
-        ButtonTheme.bar(
-
-          // make buttons use the appropriate styles for cards
-          child: ButtonBar(
-
-
-            children: <Widget>[
-
-              FlatButton(
-                child: const Text(
-                  'Remover',
-                  style: TextStyle(color: Colors.grey),
-                ),
-                onPressed: () {
-                  _showDialog(context);
-                },
-              ),
-
-
-
-
-              RaisedButton(
-                textColor: Colors.white,
-                color: Colors.deepPurpleAccent,
-                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                child: Text('Ciclo de estudo'),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new CronogramaPage()));
-                },
-              ),
-
-
-
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
-}

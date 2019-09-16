@@ -101,10 +101,7 @@ class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text("Concurso TJ MA"),
-      ),
+
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
@@ -169,12 +166,12 @@ class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStat
       calendarStyle: CalendarStyle(
 
         outsideDaysVisible: false,
-        weekendStyle: TextStyle().copyWith(color: Colors.grey),
-        holidayStyle: TextStyle().copyWith(color: Colors.grey),
+        weekendStyle: TextStyle().copyWith(color: Colors.black26),
+        holidayStyle: TextStyle().copyWith(color: Colors.black26),
       ),
 
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekendStyle: TextStyle().copyWith(color: Colors.orangeAccent),
+        weekendStyle: TextStyle().copyWith(color: Colors.grey),
 
       ),
 
@@ -191,7 +188,7 @@ class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStat
             child: Container(
               margin: const EdgeInsets.all(4.0),
               padding: const EdgeInsets.only(top: 5.0, left: 6.0),
-              color: Colors.deepPurpleAccent,
+              color: Colors.indigo,
               width: 100,
               height: 100,
               child: Text(
@@ -255,7 +252,7 @@ class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStat
         shape: BoxShape.circle,
         color: _calendarController.isSelected(date)
             ? Colors.yellow
-            : _calendarController.isToday(date) ? Colors.yellowAccent: Colors.black54,
+            : _calendarController.isToday(date) ? Colors.black: Colors.black54,
       ),
       width: 16.0,
       height: 16.0,
@@ -277,19 +274,20 @@ class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStat
   Widget _buildEventList() {
     return Card(
 
-        elevation: 8.0,
-        color: Colors.deepPurple,
+
+        elevation: 1.0,
+        color: Colors.white,
         child:
 
              ListView(children: _selectedEvents.map((event) => Card(
 
               elevation: 5.0,
-              color: Colors.deepPurpleAccent,
+              color: Colors.white,
               child: ListTile(
 
-                trailing: Icon(Icons.zoom_out_map, color: Colors.white,),
-                subtitle: Text("08h à 9h 30", style: TextStyle(color: Colors.white),),
-                title: Text(event.toString() ?? '', style: TextStyle(color: Colors.yellowAccent, fontSize: 20.0),),
+                trailing: Icon(Icons.call_made, color: Colors.black26,),
+                subtitle: Text("08h à 9h 30", style: TextStyle(color: Colors.black26),),
+                title: Text(event.toString() ?? '', style: TextStyle(color: Colors.indigo, fontSize: 20.0),),
                 onTap: () {
 
                   Navigator.push(context, new MaterialPageRoute(builder: (context) => new DisciplinaPage()));

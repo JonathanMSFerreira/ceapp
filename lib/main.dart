@@ -1,3 +1,5 @@
+import 'package:ceapp/ui/NewCePage.dart';
+import 'package:ceapp/ui/NovoCicloPage.dart';
 import 'package:flutter/material.dart';
 import 'package:ceapp/ui/CeAppPage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -16,7 +18,10 @@ class MyApp extends StatelessWidget {
       supportedLocales: [
         const Locale('pt', 'BR'), ],
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
+
+
+        backgroundColor: Colors.white,
+        primaryColor: Colors.white,
       ),
       home: CeAppPage(),
     );

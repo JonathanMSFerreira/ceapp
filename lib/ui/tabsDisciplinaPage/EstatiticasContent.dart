@@ -24,7 +24,9 @@ class EstatisticasContent extends StatelessWidget {
           domainFn: (DadoAluno dadoAluno,_)=>dadoAluno.dia,
           measureFn: (DadoAluno dadoAluno,_)=>dadoAluno.comportamento,
           id: "Dados",
-          data: data
+          data: data,
+
+
 
 
       )
