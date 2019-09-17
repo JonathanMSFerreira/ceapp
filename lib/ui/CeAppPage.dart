@@ -4,7 +4,6 @@ import 'package:ceapp/ui/util/Background.dart';
 import 'package:flutter/material.dart';
 import 'CronogramaPage.dart';
 
-
 class CeAppPage extends StatefulWidget {
   @override
   _CeAppPageState createState() => _CeAppPageState();
@@ -17,24 +16,14 @@ class _CeAppPageState extends State<CeAppPage> {
 
   final background = Background();
 
-
   int _currentIndex = 0;
 
   final List<Widget> _children = [
-
-
     HomeContent(),
-
-
-   CronogramaPage(),
-
+    CronogramaPage(),
     EstatisticasContent(),
 
-   /*CronometroContent(),*/
   ];
-
-
-
 
   void onTabTapped(int index) {
     setState(() {
@@ -42,35 +31,22 @@ class _CeAppPageState extends State<CeAppPage> {
     });
   }
 
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         appBar: AppBar(
           elevation: 0.0,
           centerTitle: true,
-          title: Text("Ciclo de Estudos"),
-
+          title: Text("Concurso Receita Federal", style: TextStyle(color: Colors.indigo),),
           actions: <Widget>[
-
-            IconButton( icon: Icon(Icons.clear), onPressed: (){
-
-
-              _showDialog(context);
-
-
-
-            })
-
-
+            IconButton(
+                icon: Icon(Icons.clear),
+                onPressed: () {
+                  _showDialog(context);
+                })
           ],
-
-
         ),
-    /*    floatingActionButton: FloatingActionButton(
+        /*    floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(context,
                 new MaterialPageRoute(builder: (context) => new NewCePage()));
@@ -78,32 +54,32 @@ class _CeAppPageState extends State<CeAppPage> {
           child: Icon(Icons.add),
         ),*/
         drawer: _ceDrawer(),
-
         bottomNavigationBar: BottomNavigationBar(
-
+          unselectedItemColor: Colors.grey,
+          selectedItemColor: Colors.indigo,
           onTap: onTabTapped, // new
-          currentIndex: _currentIndex, // this will be set when a new tab is tapped
+          currentIndex:
+              _currentIndex, // this will be set when a new tab is tapped
           items: [
             BottomNavigationBarItem(
 
+              backgroundColor: Colors.grey,
               icon: new Icon(Icons.home),
               title: new Text('Início'),
             ),
-
-    BottomNavigationBarItem(
-    icon: Icon(Icons.calendar_today), title: Text('Cronograma')),
             BottomNavigationBarItem(
+
+                backgroundColor: Colors.grey,
+                icon: Icon(Icons.calendar_today), title: Text('Cronograma')),
+            BottomNavigationBarItem(
+              backgroundColor: Colors.grey,
+
               icon: new Icon(Icons.show_chart),
               title: new Text('Estatísticas'),
-
-
             ),
-
           ],
         ),
-
-
-        body:_children[_currentIndex]
+        body: _children[_currentIndex]
 /*
         body: Container(
           color: Colors.deepPurple,
@@ -111,10 +87,9 @@ class _CeAppPageState extends State<CeAppPage> {
 
         )
     */
-    );
+        );
   }
 }
-
 
 /*
 **********WIDGETS**************
@@ -122,80 +97,67 @@ class _CeAppPageState extends State<CeAppPage> {
 
 Widget _ceDrawer() {
   return Drawer(
-
-
-    child:  Stack(
-
-
+    child: Stack(
       children: <Widget>[
-
-        Container(color: Colors.indigoAccent,),
-
-
+        Container(
+          color: Colors.indigo,
+        ),
         ListView(
-
 
           padding: EdgeInsets.zero,
           children: <Widget>[
-            UserAccountsDrawerHeader(
 
-              accountName: Text("Jonathan Ferreira"),
-              accountEmail: Text("jmontsf@gmail.com"),
+
+
+
+            UserAccountsDrawerHeader(
+              accountName: Text("Jonathan Ferreira", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),),
+              accountEmail: Text("jmontsf@gmail.com", style: TextStyle(color: Colors.grey),),
               currentAccountPicture: CircleAvatar(
-                backgroundColor: Colors.yellowAccent,
-                child: Text("EC"),
+                backgroundColor: Colors.grey,
+                child: Icon(Icons.person,size: 50.0, color: Colors.white,),
               ),
             ),
             ListTile(
               title: Text(
                 'Ciclos de estudos',
-                style: TextStyle(color: Colors.indigo),
+                style: TextStyle(color: Colors.white),
               ),
-              leading: Icon(Icons.all_inclusive, color: Colors.indigo),
+              leading: Icon(Icons.all_inclusive, color: Colors.white),
               onTap: () {
                 // Update the state of the app.
                 // ...
               },
             ),
-            Divider(),
+            Divider(color: Colors.white,),
             ListTile(
-              title: Text('Cronograma',
-                  style: TextStyle(color: Colors.indigo)),
-              leading: Icon(Icons.access_time, color: Colors.indigo),
+              title: Text('Cronograma', style: TextStyle(color: Colors.white)),
+              leading: Icon(Icons.access_time, color: Colors.white),
               onTap: () {
                 // Update the state of the app.
                 // ...
               },
             ),
-            Divider(),
+            Divider(color: Colors.white,),
             ListTile(
-              title: Text('Compartilhe',
-                  style: TextStyle(color: Colors.indigo)),
-              leading: Icon(Icons.share, color: Colors.indigo),
+              title:
+                  Text('Compartilhe', style: TextStyle(color: Colors.white)),
+              leading: Icon(Icons.share, color: Colors.white),
               onTap: () {
                 // Update the state of the app.
                 // ...
               },
             ),
-            Divider(),
+            Divider(color: Colors.white,),
+
             ListTile(
-              title: Text("Sair", style: TextStyle(color: Colors.indigo)),
-              leading:
-              Icon(Icons.power_settings_new, color: Colors.indigo),
+              title: Text("Sair", style: TextStyle(color: Colors.white)),
+              leading: Icon(Icons.power_settings_new, color: Colors.white),
             )
           ],
         )
-
       ],
-
-
-    )
-
-
-
-
-
-    ,
+    ),
   );
 }
 
@@ -206,13 +168,15 @@ void _showDialog(BuildContext context) {
     builder: (BuildContext context) {
       // return object of type Dialog
       return AlertDialog(
-
         backgroundColor: Colors.indigo,
         title: new Text(
           "Remover ciclo de estudo",
           style: TextStyle(color: Colors.white),
         ),
-        content: new Text("Os dados serão apagados!", style: TextStyle(color: Colors.white),),
+        content: new Text(
+          "Os dados serão apagados!",
+          style: TextStyle(color: Colors.white),
+        ),
         actions: <Widget>[
           // usually buttons at the bottom of the dialog
           new FlatButton(
@@ -226,9 +190,11 @@ void _showDialog(BuildContext context) {
           ),
 
           new FlatButton(
-            child: new Text("Sim", style: TextStyle(color: Colors.white),),
+            child: new Text(
+              "Sim",
+              style: TextStyle(color: Colors.white),
+            ),
             shape: CircleBorder(),
-
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -238,6 +204,3 @@ void _showDialog(BuildContext context) {
     },
   );
 }
-
-
-

@@ -8,8 +8,6 @@ class HomeContent extends StatefulWidget {
 }
 
 class _HomeContentState extends State<HomeContent> {
-
-
   bool manha = false;
   bool tarde = false;
   bool noite = false;
@@ -21,13 +19,11 @@ class _HomeContentState extends State<HomeContent> {
   bool sabado = false;
   bool domingo = false;
 
-
-
   @override
   Widget build(BuildContext context) {
     List<StaggeredTile> _disposicaoCards = const <StaggeredTile>[
-      const StaggeredTile.count(2, 6),
-      const StaggeredTile.count(2, 4),
+      const StaggeredTile.count(2, 5),
+      const StaggeredTile.count(2, 3),
       const StaggeredTile.count(2, 2),
     ];
 
@@ -41,29 +37,14 @@ class _HomeContentState extends State<HomeContent> {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(5.0),
-            child: Text(
-              'Concurso PC-DF',
-              style: TextStyle(
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.indigo),
-            ),
-          )
-        ],
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
           LinearPercentIndicator(
-            width: MediaQuery.of(context).size.width - 30,
+            width: MediaQuery.of(context).size.width - 20,
             animation: true,
-            lineHeight: 20.0,
+            lineHeight: 17.0,
             animationDuration: 2500,
-            percent: 0.8,
+            percent: 0.5,
             center: Text(
-              "80.0%",
+              "09 dias restantes",
               style: TextStyle(color: Colors.white),
             ),
             linearStrokeCap: LinearStrokeCap.roundAll,
@@ -72,7 +53,7 @@ class _HomeContentState extends State<HomeContent> {
         ],
       ),
       Padding(
-        padding: EdgeInsets.only(left: 10.0, right: 10.0),
+        padding: EdgeInsets.only(left: 13.0, right: 13.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -88,7 +69,7 @@ class _HomeContentState extends State<HomeContent> {
         ),
       ),
       SizedBox(
-        height: 10.0,
+        height: 3.0,
       ),
       Expanded(
           /* padding: const EdgeInsets.only(top: 12.0),*/
@@ -98,7 +79,7 @@ class _HomeContentState extends State<HomeContent> {
         children: _cards,
         mainAxisSpacing: 4.0,
         crossAxisSpacing: 4.0,
-        padding: const EdgeInsets.all(4.0),
+        padding: const EdgeInsets.all(10.0),
       ))
     ]);
   }
@@ -120,21 +101,25 @@ class _HomeContentState extends State<HomeContent> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Icon(Icons.wb_sunny),
+              Icon(
+                Icons.wb_sunny,
+                color: Colors.indigo,
+              ),
               Padding(
                 padding: EdgeInsets.only(left: 5.0),
-                child: Text("Horários"),
+                child: Text(
+                  "Horários",
+                  style: TextStyle(color: Colors.indigo),
+                ),
               )
             ],
           ),
           Divider(),
           Expanded(
+              flex: 1,
+              child: Container(
 
-            flex: 1,
-            child: Container(
-
-
-
+/*
               child:
 
               Column(
@@ -193,15 +178,9 @@ class _HomeContentState extends State<HomeContent> {
                     ],
                   ),
                 ],
-              ))
+              )*/
 
-
-
-
-
-
-
-          )
+                  ))
         ],
       ),
     );
@@ -224,152 +203,39 @@ class _HomeContentState extends State<HomeContent> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Icon(Icons.calendar_today),
+              Icon(
+                Icons.calendar_today,
+                color: Colors.indigo,
+              ),
               Padding(
                 padding: EdgeInsets.only(left: 5.0),
-                child: Text("Dias da semana"),
+                child: Text(
+                  "Dias da semana",
+                  style: TextStyle(color: Colors.indigo),
+                ),
               )
             ],
           ),
           Divider(),
           Expanded(
-
-              flex: 1,
-              child: Container(
-
-
-
-                  child:
-
-                  Column(
-
+            flex: 1,
+            child: Container(
+                child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
 
 
 
-
-
-                      Row(
+                  Container(
+                      height: 15.0,
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text("Segunda"),
-                          Checkbox(
 
-                            value: segunda,
-                            onChanged: (bool value) {
-                              setState(() {
-                                segunda = value;
-                              });
-                            },
-                          ),
                         ],
-                      ),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text("Terça"),
-                          Checkbox(
-
-                            value: terca,
-                            onChanged: (bool value) {
-                              setState(() {
-                                terca = value;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                      // [Wednesday] checkbox
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text("Quarta"),
-                          Checkbox(
-                            value: quarta,
-                            onChanged: (bool value) {
-                              setState(() {
-                                quarta = value;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text("Quinta"),
-                          Checkbox(
-                            value: quinta,
-                            onChanged: (bool value) {
-                              setState(() {
-                                quinta = value;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text("Sexta"),
-                          Checkbox(
-                            value: sexta,
-                            onChanged: (bool value) {
-                              setState(() {
-                                sexta = value;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text("Sábado"),
-                          Checkbox(
-                            value: sabado,
-                            onChanged: (bool value) {
-                              setState(() {
-                                sabado = value;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text("Domingo"),
-                          Checkbox(
-                            value: domingo,
-                            onChanged: (bool value) {
-                              setState(() {
-                                domingo = value;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-
-
-                    ],
-                  ))
-
-
-
-
-
-
-
-          ),
-
+                      ))
+                ])),
+          )
         ],
       ),
     );
@@ -392,10 +258,16 @@ class _HomeContentState extends State<HomeContent> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Icon(Icons.school),
+              Icon(
+                Icons.school,
+                color: Colors.indigo,
+              ),
               Padding(
                 padding: EdgeInsets.only(left: 5.0),
-                child: Text("Disciplinas"),
+                child: Text(
+                  "Disciplinas",
+                  style: TextStyle(color: Colors.indigo),
+                ),
               )
             ],
           ),
@@ -403,18 +275,10 @@ class _HomeContentState extends State<HomeContent> {
           Expanded(
             flex: 1,
             child: Container(),
-          ),
-          Row(
-            mainAxisAlignment:  MainAxisAlignment.end,
-            children: <Widget>[
-              Icon(Icons.mode_edit),
-            ],
-          ),
+          )
         ],
       ),
     );
-
-
   }
 }
 
