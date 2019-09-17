@@ -1,34 +1,73 @@
+import 'package:ceapp/ui/tabsDisciplinaPage/EstatiticasContent.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
-class HomeContent extends StatefulWidget {
-  @override
-  _HomeContentState createState() => _HomeContentState();
-}
+class HomeContent extends StatelessWidget {
 
-class _HomeContentState extends State<HomeContent> {
-  bool manha = false;
-  bool tarde = false;
-  bool noite = false;
-  bool segunda = false;
-  bool terca = false;
-  bool quarta = false;
-  bool quinta = false;
-  bool sexta = false;
-  bool sabado = false;
-  bool domingo = false;
+
+
+
+  EstatisticasContent _estatisticasContent =  new EstatisticasContent();
+
+
+
+  List<charts.Series> seriesList;
+   bool animate;
+
+
+
+
+
+  static List<charts.Series<Periodo, String>> _createSampleData() {
+    final data = [
+      new Periodo('Manha', 10, Colors.yellow),
+      new Periodo('Tarde', 35, Colors.orange),
+      new Periodo('Noite', 25, Colors.grey),
+
+
+    ];
+
+
+
+
+
+    return [
+      new charts.Series<Periodo, String>(
+        id: 'Periodos',
+        domainFn: (Periodo sales, _) => sales.periodo,
+        measureFn: (Periodo sales, _) => sales.horas,
+        data: data,
+        colorFn: (Periodo sales, _) => sales.color,
+        labelAccessorFn: (Periodo row, _) => '${row.periodo}: ${row.horas}',
+      )
+    ];
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
+
+
     List<StaggeredTile> _disposicaoCards = const <StaggeredTile>[
-      const StaggeredTile.count(2, 5),
-      const StaggeredTile.count(2, 3),
+      const StaggeredTile.count(4, 3),
       const StaggeredTile.count(2, 2),
+
+      const StaggeredTile.count(2, 2),
+
     ];
 
+
+
+
+
+
+
     List<Widget> _cards = <Widget>[
-      _cardDisciplinas(),
+      _cardDisciplinas(context),
       _cardDias(),
       _cardPeriodos(true, true, true),
     ];
@@ -103,13 +142,13 @@ class _HomeContentState extends State<HomeContent> {
             children: <Widget>[
               Icon(
                 Icons.wb_sunny,
-                color: Colors.indigo,
+                color: Colors.orange,
               ),
               Padding(
                 padding: EdgeInsets.only(left: 5.0),
                 child: Text(
-                  "Horários",
-                  style: TextStyle(color: Colors.indigo),
+                  "Períodos do dia",
+                  style: TextStyle(color: Colors.orange),
                 ),
               )
             ],
@@ -119,67 +158,12 @@ class _HomeContentState extends State<HomeContent> {
               flex: 1,
               child: Container(
 
-/*
-              child:
+                child:  charts.PieChart(_createSampleData(),
+                      animate: false,
 
-              Column(
-
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-
-
-
-
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text("Manhã"),
-                      Checkbox(
-
-                        value: manha,
-                        onChanged: (bool value) {
-                          setState(() {
-                            manha = value;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text("Tarde"),
-                      Checkbox(
-
-                        value: tarde,
-                        onChanged: (bool value) {
-                          setState(() {
-                            tarde = value;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  // [Wednesday] checkbox
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text("Noite"),
-                      Checkbox(
-                        value: noite,
-                        onChanged: (bool value) {
-                          setState(() {
-                            noite = value;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              )*/
-
+                      defaultRenderer: new charts.ArcRendererConfig(
+                          arcWidth: 60,
+                          arcRendererDecorators: [new charts.ArcLabelDecorator()]))
                   ))
         ],
       ),
@@ -220,28 +204,24 @@ class _HomeContentState extends State<HomeContent> {
           Expanded(
             flex: 1,
             child: Container(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
+             child:
+
+             charts.PieChart(_createSampleData(),
+                 animate: false,
+
+                 defaultRenderer: new charts.ArcRendererConfig(
+                     arcWidth: 60,
+                     arcRendererDecorators: [new charts.ArcLabelDecorator()]))
 
 
-
-                  Container(
-                      height: 15.0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-
-                        ],
-                      ))
-                ])),
+              ,),
           )
         ],
       ),
     );
   }
 
-  Widget _cardDisciplinas() {
+  Widget _cardDisciplinas(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
@@ -274,7 +254,12 @@ class _HomeContentState extends State<HomeContent> {
           Divider(),
           Expanded(
             flex: 1,
-            child: Container(),
+            child: Container(
+
+                child : _estatisticasContent.build(context)
+
+
+            ),
           )
         ],
       ),
@@ -285,3 +270,11 @@ class _HomeContentState extends State<HomeContent> {
 /*
 **********MÉTODOS AUXILIARES**************
 */
+class Periodo {
+  final String periodo;
+  final int horas;
+  final charts.Color color;
+
+  Periodo(this.periodo, this.horas, Color color): this.color = new charts.Color(
+      r: color.red, g: color.green, b: color.blue, a: color.alpha);
+}

@@ -10,9 +10,11 @@ class CeAppPage extends StatefulWidget {
 }
 
 class _CeAppPageState extends State<CeAppPage> {
+
   DateTime date1;
   DateTime date2;
   DateTime date3;
+
 
   final background = Background();
 
@@ -37,7 +39,7 @@ class _CeAppPageState extends State<CeAppPage> {
         appBar: AppBar(
           elevation: 0.0,
           centerTitle: true,
-          title: Text("Concurso Receita Federal", style: TextStyle(color: Colors.indigo),),
+          title: Text("Receita Federal", style: TextStyle(color: Colors.indigo),),
           actions: <Widget>[
             IconButton(
                 icon: Icon(Icons.clear),
@@ -55,8 +57,8 @@ class _CeAppPageState extends State<CeAppPage> {
         ),*/
         drawer: _ceDrawer(),
         bottomNavigationBar: BottomNavigationBar(
-          unselectedItemColor: Colors.grey,
-          selectedItemColor: Colors.indigo,
+
+
           onTap: onTabTapped, // new
           currentIndex:
               _currentIndex, // this will be set when a new tab is tapped
