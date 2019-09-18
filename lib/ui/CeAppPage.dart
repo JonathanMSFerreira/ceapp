@@ -46,19 +46,11 @@ class _CeAppPageState extends State<CeAppPage> {
                 })
           ],
         ),
-        /*    floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(context,
-                new MaterialPageRoute(builder: (context) => new NewCePage()));
-          },
-          child: Icon(Icons.add),
-        ),*/
+
         drawer: _ceDrawer(),
         bottomNavigationBar: BottomNavigationBar(
 
 
-          selectedItemColor: Colors.indigo,
-          unselectedItemColor: Colors.grey,
           onTap: onTabTapped, // new
           currentIndex:
               _currentIndex, // this will be set when a new tab is tapped
@@ -72,12 +64,7 @@ class _CeAppPageState extends State<CeAppPage> {
 
                 backgroundColor: Colors.grey,
                 icon: Icon(Icons.calendar_today), title: Text('Cronograma')),
-       /*     BottomNavigationBarItem(
-              backgroundColor: Colors.grey,
 
-              icon: new Icon(Icons.show_chart),
-              title: new Text('Estatísticas'),
-            ),*/
           ],
         ),
         body:

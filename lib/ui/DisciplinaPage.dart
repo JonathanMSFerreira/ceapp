@@ -1,6 +1,6 @@
 import 'package:ceapp/ui/tabsDisciplinaPage/CronometroContent.dart';
 import 'package:ceapp/ui/tabsDisciplinaPage/EstatiticasContent.dart';
-import 'package:ceapp/ui/tabsDisciplinaPage/HomeDisciplinaContent.dart';
+
 import 'package:flutter/material.dart';
 
 class DisciplinaPage extends StatefulWidget {
@@ -14,8 +14,6 @@ class _DisciplinaPageState extends State<DisciplinaPage> {
   int _currentIndex = 0;
 
   final List<Widget> _children = [
-
-  HomeDisciplinaContent(),
 
     EstatisticasContent(),
 

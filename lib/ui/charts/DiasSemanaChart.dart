@@ -4,45 +4,46 @@ import 'package:flutter/material.dart';
 class DiasSemanaChart extends StatelessWidget {
 
 
-  final List<charts.Series> seriesList;
-  final bool animate;
+  List<charts.Series> seriesList;
 
-  DiasSemanaChart(this.seriesList, {this.animate});
+   bool animate = true;
 
-  /// Creates a [BarChart] with sample data and no transition.
-  factory DiasSemanaChart.withSampleData() {
-    return new DiasSemanaChart(
-      _createSampleData(),
-      // Disable animations for image tests.
-      animate: false,
-    );
-  }
+
 
 
   @override
   Widget build(BuildContext context) {
-    // For horizontal bar charts, set the [vertical] flag to false.
+
     return new charts.BarChart(
-      seriesList,
+      _createSampleData(),
       animate: animate,
       vertical: false,
+      animationDuration: Duration(seconds: 2),
+
+
+
+
     );
   }
 
-  /// Create one series with sample hard coded data.
-  static List<charts.Series<OrdinalSales, String>> _createSampleData() {
+
+  static List<charts.Series<DiaSemana, String>> _createSampleData() {
     final data = [
-      new OrdinalSales('2014', 5),
-      new OrdinalSales('2015', 25),
-      new OrdinalSales('2016', 100),
-      new OrdinalSales('2017', 75),
+      new DiaSemana('Seg', 5),
+      new DiaSemana('Ter', 25),
+      new DiaSemana('Qua', 100),
+      new DiaSemana('Qui', 37),
+      new DiaSemana('Sex', 85),
+      new DiaSemana('Sab', 55),
+      new DiaSemana('Dom', 25),
+
     ];
 
     return [
-      new charts.Series<OrdinalSales, String>(
-        id: 'Sales',
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
+      new charts.Series<DiaSemana, String>(
+        id: 'DiaSemana',
+        domainFn: (DiaSemana dia, _) => dia.diaSemana,
+        measureFn: (DiaSemana dia, _) => dia.horas,
         data: data,
       )
     ];
@@ -50,9 +51,9 @@ class DiasSemanaChart extends StatelessWidget {
 }
 
 /// Sample ordinal data type.
-class OrdinalSales {
-  final String year;
-  final int sales;
+class DiaSemana {
+  final String diaSemana;
+  final int horas;
 
-  OrdinalSales(this.year, this.sales);
+  DiaSemana(this.diaSemana, this.horas);
 }

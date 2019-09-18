@@ -1,49 +1,27 @@
-import 'package:ceapp/ui/charts/DiasSemanaChart.dart';
-import 'package:ceapp/ui/tabsDisciplinaPage/EstatiticasContent.dart';
 
+import 'package:ceapp/ui/charts/DiasSemanaChart.dart';
+import 'package:ceapp/ui/charts/DisciplinasChart.dart';
+import 'package:ceapp/ui/charts/PeriodoChart.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
+
 
 class HomeContent extends StatelessWidget {
 
 
 
 
-  EstatisticasContent _estatisticasContent =  new EstatisticasContent();
+  
+  
+  
+  DisciplinasChart _disciplinasChart = new DisciplinasChart();
+  
+  
 
-  //DiasSemanaChart _diasSemanaChart =  new  DiasSemanaChart();
+  PeriodoChart _periodoChart = new PeriodoChart();
 
-
-  List<charts.Series> seriesList;
-   bool animate;
-
-
-
-
-
-  static List<charts.Series<Periodo, String>> _createSampleData() {
-    final data = [
-      new Periodo('Manha', 20, Colors.yellow),
-      new Periodo('Tarde', 55, Colors.indigo),
-      new Periodo('Noite', 25, Colors.grey),
-
-
-    ];
-
-
-    return [
-      new charts.Series<Periodo, String>(
-        id: 'Periodos',
-        domainFn: (Periodo sales, _) => sales.periodo,
-        measureFn: (Periodo sales, _) => sales.horas,
-        data: data,
-        colorFn: (Periodo sales, _) => sales.color,
-        labelAccessorFn: (Periodo row, _) => '${row.periodo}: ${row.horas}',
-      )
-    ];
-  }
+  DiasSemanaChart _diasSemanaChart = new DiasSemanaChart();
 
 
 
@@ -67,8 +45,8 @@ class HomeContent extends StatelessWidget {
 
     List<Widget> _cards = <Widget>[
       _cardDisciplinas(context),
-      _cardDias(),
-      _cardPeriodos(true, true, true),
+      _cardDias(context),
+      _cardPeriodos(context),
     ];
 
     return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
@@ -122,9 +100,9 @@ class HomeContent extends StatelessWidget {
     ]);
   }
 
-  _cardPeriodos(bool manha, bool tarde, bool noite) {
+  _cardPeriodos(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 10.0, top: 10.0),
+     // padding: EdgeInsets.only(left: 10.0, top: 10.0),
       decoration: BoxDecoration(
           shape: BoxShape.rectangle, // BoxShape.circle or BoxShape.retangle
           color: Colors.white,
@@ -135,41 +113,35 @@ class HomeContent extends StatelessWidget {
             ),
           ]),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+       mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Icon(
-                Icons.wb_sunny,
-                color: Colors.orange,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 5.0),
-                child: Text(
-                  "Períodos do dia",
-                  style: TextStyle(color: Colors.orange),
-                ),
-              )
-            ],
-          ),
+
+          Padding(
+
+            padding: EdgeInsets.only(top: 5.0, left: 5.0),
+
+
+                  child: Text(
+                    "Períodos do dia",
+                    style: TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold),
+                  ),
+
+
+          )
+
+        ,
 
           Expanded(
               flex: 1,
               child: Container(
 
-                child:  charts.PieChart(_createSampleData(),
-                      animate: false,
-
-                      defaultRenderer: new charts.ArcRendererConfig(
-                          arcWidth: 60,
-                          arcRendererDecorators: [new charts.ArcLabelDecorator()]))
-                  ))
+                child: _periodoChart.build(context) ))
         ],
       ),
     );
   }
 
-  Widget _cardDias() {
+  Widget _cardDias(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
@@ -184,26 +156,22 @@ class HomeContent extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Icon(
-                Icons.calendar_today,
-                color: Colors.indigo,
-              ),
+
               Padding(
                 padding: EdgeInsets.only(left: 5.0),
                 child: Text(
                   "Dias da semana",
-                  style: TextStyle(color: Colors.indigo),
+                  style: TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold),
                 ),
-              )
-            ],
+
           ),
 
           Expanded(
             flex: 1,
             child: Container(
 
+
+              child: _diasSemanaChart.build(context),
 
 
               ),
@@ -228,29 +196,23 @@ class HomeContent extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Icon(
-                Icons.school,
-                color: Colors.indigo,
-              ),
+
               Padding(
                 padding: EdgeInsets.only(left: 5.0),
                 child: Text(
                   "Disciplinas",
-                  style: TextStyle(color: Colors.indigo),
+                  style: TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold),
                 ),
-              )
-            ],
+
           ),
 
           Expanded(
             flex: 1,
             child: Container(
 
+                child: _disciplinasChart.build(context),
 
-
-                child : _estatisticasContent.build(context)
+               // child : _estatisticasContent.build(context)
 
 
             ),
@@ -264,11 +226,3 @@ class HomeContent extends StatelessWidget {
 /*
 **********MÉTODOS AUXILIARES**************
 */
-class Periodo {
-  final String periodo;
-  final int horas;
-  final charts.Color color;
-
-  Periodo(this.periodo, this.horas, Color color): this.color = new charts.Color(
-      r: color.red, g: color.green, b: color.blue, a: color.alpha);
-}

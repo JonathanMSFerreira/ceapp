@@ -4,45 +4,39 @@ import 'package:flutter/material.dart';
 class DisciplinasChart extends StatelessWidget {
 
 
-  final List<charts.Series> seriesList;
-  final bool animate;
-
-  DisciplinasChart(this.seriesList, {this.animate});
-
-
-  factory DisciplinasChart.withSampleData() {
-    return new DisciplinasChart(
-      _createSampleData(),
-      // Disable animations for image tests.
-      animate: false,
-    );
-  }
+  List<charts.Series> seriesList;
+  bool animate = true;
 
 
   @override
   Widget build(BuildContext context) {
 
     return new charts.BarChart(
-      seriesList,
+      _createChartDisciplina(),
       animate: animate,
-      vertical: false,
+     // vertical: false,
     );
   }
 
 
-  static List<charts.Series<OrdinalSales, String>> _createSampleData() {
+  static List<charts.Series<Disciplina, String>> _createChartDisciplina() {
     final data = [
-      new OrdinalSales('2014', 5),
-      new OrdinalSales('2015', 25),
-      new OrdinalSales('2016', 100),
-      new OrdinalSales('2017', 75),
+      new Disciplina('MAT', 5),
+      new Disciplina('ING', 25),
+      new Disciplina('PRT', 90),
+      new Disciplina('BIO', 75),
+      new Disciplina('QUI', 17),
+      new Disciplina('LIT', 80),
+      new Disciplina('GEO', 44),
+      new Disciplina('EDF', 95),
+      new Disciplina('FIS', 89),
     ];
 
     return [
-      new charts.Series<OrdinalSales, String>(
-        id: 'Sales',
-        domainFn: (OrdinalSales sales, _) => sales.year,
-        measureFn: (OrdinalSales sales, _) => sales.sales,
+      new charts.Series<Disciplina, String>(
+        id: 'Disciplina',
+        domainFn: (Disciplina disc, _) => disc.disciplina,
+        measureFn: (Disciplina disc, _) => disc.horas,
         data: data,
       )
     ];
@@ -50,9 +44,9 @@ class DisciplinasChart extends StatelessWidget {
 }
 
 /// Sample ordinal data type.
-class OrdinalSales {
-  final String year;
-  final int sales;
+class Disciplina{
+  final String disciplina;
+  final int horas;
 
-  OrdinalSales(this.year, this.sales);
+  Disciplina(this.disciplina, this.horas);
 }
