@@ -18,8 +18,6 @@ class MyApp extends StatelessWidget {
       supportedLocales: [
         const Locale('pt', 'BR'), ],
       theme: ThemeData(
-
-
         backgroundColor: Colors.white,
         primaryColor: Colors.white,
       ),

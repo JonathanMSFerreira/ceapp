@@ -1,4 +1,6 @@
+import 'package:ceapp/ui/charts/DiasSemanaChart.dart';
 import 'package:ceapp/ui/tabsDisciplinaPage/EstatiticasContent.dart';
+
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -11,6 +13,7 @@ class HomeContent extends StatelessWidget {
 
   EstatisticasContent _estatisticasContent =  new EstatisticasContent();
 
+  //DiasSemanaChart _diasSemanaChart =  new  DiasSemanaChart();
 
 
   List<charts.Series> seriesList;
@@ -22,15 +25,12 @@ class HomeContent extends StatelessWidget {
 
   static List<charts.Series<Periodo, String>> _createSampleData() {
     final data = [
-      new Periodo('Manha', 10, Colors.yellow),
-      new Periodo('Tarde', 35, Colors.orange),
+      new Periodo('Manha', 20, Colors.yellow),
+      new Periodo('Tarde', 55, Colors.indigo),
       new Periodo('Noite', 25, Colors.grey),
 
 
     ];
-
-
-
 
 
     return [
@@ -55,7 +55,6 @@ class HomeContent extends StatelessWidget {
     List<StaggeredTile> _disposicaoCards = const <StaggeredTile>[
       const StaggeredTile.count(4, 3),
       const StaggeredTile.count(2, 2),
-
       const StaggeredTile.count(2, 2),
 
     ];
@@ -153,7 +152,7 @@ class HomeContent extends StatelessWidget {
               )
             ],
           ),
-          Divider(),
+
           Expanded(
               flex: 1,
               child: Container(
@@ -200,21 +199,14 @@ class HomeContent extends StatelessWidget {
               )
             ],
           ),
-          Divider(),
+
           Expanded(
             flex: 1,
             child: Container(
-             child:
-
-             charts.PieChart(_createSampleData(),
-                 animate: false,
-
-                 defaultRenderer: new charts.ArcRendererConfig(
-                     arcWidth: 60,
-                     arcRendererDecorators: [new charts.ArcLabelDecorator()]))
 
 
-              ,),
+
+              ),
           )
         ],
       ),
@@ -223,7 +215,7 @@ class HomeContent extends StatelessWidget {
 
   Widget _cardDisciplinas(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10.0),
+      padding: EdgeInsets.all(7.0),
       decoration: BoxDecoration(
           shape: BoxShape.rectangle, // BoxShape.circle or BoxShape.retangle
           color: Colors.white,
@@ -251,10 +243,12 @@ class HomeContent extends StatelessWidget {
               )
             ],
           ),
-          Divider(),
+
           Expanded(
             flex: 1,
             child: Container(
+
+
 
                 child : _estatisticasContent.build(context)
 

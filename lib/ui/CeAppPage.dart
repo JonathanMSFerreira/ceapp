@@ -1,6 +1,5 @@
 import 'package:ceapp/ui/tabsDisciplinaPage/EstatiticasContent.dart';
 import 'package:ceapp/ui/tabsDisciplinaPage/HomeContent.dart';
-import 'package:ceapp/ui/util/Background.dart';
 import 'package:flutter/material.dart';
 import 'CronogramaPage.dart';
 
@@ -16,14 +15,13 @@ class _CeAppPageState extends State<CeAppPage> {
   DateTime date3;
 
 
-  final background = Background();
 
   int _currentIndex = 0;
 
   final List<Widget> _children = [
     HomeContent(),
     CronogramaPage(),
-    EstatisticasContent(),
+    //EstatisticasContent(),
 
   ];
 
@@ -59,12 +57,13 @@ class _CeAppPageState extends State<CeAppPage> {
         bottomNavigationBar: BottomNavigationBar(
 
 
+          selectedItemColor: Colors.indigo,
+          unselectedItemColor: Colors.grey,
           onTap: onTabTapped, // new
           currentIndex:
               _currentIndex, // this will be set when a new tab is tapped
           items: [
             BottomNavigationBarItem(
-
               backgroundColor: Colors.grey,
               icon: new Icon(Icons.home),
               title: new Text('Início'),
@@ -73,22 +72,19 @@ class _CeAppPageState extends State<CeAppPage> {
 
                 backgroundColor: Colors.grey,
                 icon: Icon(Icons.calendar_today), title: Text('Cronograma')),
-            BottomNavigationBarItem(
+       /*     BottomNavigationBarItem(
               backgroundColor: Colors.grey,
 
               icon: new Icon(Icons.show_chart),
               title: new Text('Estatísticas'),
-            ),
+            ),*/
           ],
         ),
-        body: _children[_currentIndex]
-/*
-        body: Container(
-          color: Colors.deepPurple,
-          child: _contCe(context),
+        body:
 
-        )
-    */
+          _children[_currentIndex]
+
+
         );
   }
 }
@@ -108,8 +104,6 @@ Widget _ceDrawer() {
 
           padding: EdgeInsets.zero,
           children: <Widget>[
-
-
 
 
             UserAccountsDrawerHeader(
@@ -172,7 +166,7 @@ void _showDialog(BuildContext context) {
       return AlertDialog(
         backgroundColor: Colors.indigo,
         title: new Text(
-          "Remover ciclo de estudo",
+          "Remover ciclo de estudo ?",
           style: TextStyle(color: Colors.white),
         ),
         content: new Text(
@@ -184,7 +178,7 @@ void _showDialog(BuildContext context) {
           new FlatButton(
             child: new Text(
               "Cancelar",
-              style: TextStyle(color: Colors.grey),
+              style: TextStyle(color: Colors.grey[300]),
             ),
             onPressed: () {
               Navigator.of(context).pop();

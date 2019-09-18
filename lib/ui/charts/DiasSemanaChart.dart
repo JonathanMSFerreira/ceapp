@@ -1,17 +1,17 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
-class DisciplinasChart extends StatelessWidget {
+class DiasSemanaChart extends StatelessWidget {
 
 
   final List<charts.Series> seriesList;
   final bool animate;
 
-  DisciplinasChart(this.seriesList, {this.animate});
+  DiasSemanaChart(this.seriesList, {this.animate});
 
-
-  factory DisciplinasChart.withSampleData() {
-    return new DisciplinasChart(
+  /// Creates a [BarChart] with sample data and no transition.
+  factory DiasSemanaChart.withSampleData() {
+    return new DiasSemanaChart(
       _createSampleData(),
       // Disable animations for image tests.
       animate: false,
@@ -21,7 +21,7 @@ class DisciplinasChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    // For horizontal bar charts, set the [vertical] flag to false.
     return new charts.BarChart(
       seriesList,
       animate: animate,
@@ -29,7 +29,7 @@ class DisciplinasChart extends StatelessWidget {
     );
   }
 
-
+  /// Create one series with sample hard coded data.
   static List<charts.Series<OrdinalSales, String>> _createSampleData() {
     final data = [
       new OrdinalSales('2014', 5),
