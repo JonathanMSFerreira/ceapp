@@ -36,6 +36,7 @@ class _NewCePageState extends State<NewCePage> {
         appBar: AppBar(
           centerTitle: true,
           title: Text("Novo Ciclo de Estudos"),
+          elevation: 0.0,
         ),
 
 
@@ -47,8 +48,9 @@ class _NewCePageState extends State<NewCePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
 
+                        Text("Informações sobre o ciclo"),
 
-
+                        Divider(height: 2.0,color: Colors.indigo,),
 
                         TextFormField(
                           decoration:
@@ -62,6 +64,9 @@ class _NewCePageState extends State<NewCePage> {
                           decoration:
                           InputDecoration(labelText: 'Fim do ciclo'),
                         ),
+
+                        Divider(height: 2.0,color: Colors.indigo,),
+
                         Padding(
                           padding: EdgeInsets.all(30.0),
                           child: Text(
@@ -194,7 +199,7 @@ class _NewCePageState extends State<NewCePage> {
 
 
 
-                        Divider(),
+                        Divider(height: 2.0,color: Colors.indigo,),
 
                         Padding(
                           padding: EdgeInsets.all(10.0),
@@ -254,7 +259,7 @@ class _NewCePageState extends State<NewCePage> {
                             ),
                           ],
                         ),
-                        Divider(),
+                        Divider(height: 2.0,color: Colors.indigo,),
                         RaisedButton(
                           color: Colors.deepPurple,
 

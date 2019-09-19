@@ -212,7 +212,7 @@ class HomeContent extends StatelessWidget {
 
                 child: _disciplinasChart.build(context),
 
-               // child : _estatisticasContent.build(context)
+
 
 
             ),

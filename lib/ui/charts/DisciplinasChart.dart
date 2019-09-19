@@ -14,6 +14,7 @@ class DisciplinasChart extends StatelessWidget {
     return new charts.BarChart(
       _createChartDisciplina(),
       animate: animate,
+     animationDuration: Duration(seconds: 2),
      // vertical: false,
     );
   }
@@ -38,6 +39,7 @@ class DisciplinasChart extends StatelessWidget {
         domainFn: (Disciplina disc, _) => disc.disciplina,
         measureFn: (Disciplina disc, _) => disc.horas,
         data: data,
+
       )
     ];
   }

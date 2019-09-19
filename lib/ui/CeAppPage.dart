@@ -2,6 +2,8 @@ import 'package:ceapp/ui/tabsDisciplinaPage/EstatiticasContent.dart';
 import 'package:ceapp/ui/tabsDisciplinaPage/HomeContent.dart';
 import 'package:flutter/material.dart';
 import 'CronogramaPage.dart';
+import 'NewCePage.dart';
+import 'NovoCicloPage.dart';
 
 class CeAppPage extends StatefulWidget {
   @override
@@ -39,11 +41,23 @@ class _CeAppPageState extends State<CeAppPage> {
           centerTitle: true,
           title: Text("Receita Federal", style: TextStyle(color: Colors.indigo),),
           actions: <Widget>[
-            IconButton(
+
+
+          _currentIndex == 0 ? IconButton(
                 icon: Icon(Icons.clear),
                 onPressed: () {
                   _showDialog(context);
-                })
+                }) :
+
+          IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () {
+
+                Navigator.push(context, new MaterialPageRoute(builder: (context) => NewCePage()));
+
+              })
+
+
           ],
         ),
 
@@ -51,6 +65,8 @@ class _CeAppPageState extends State<CeAppPage> {
         bottomNavigationBar: BottomNavigationBar(
 
 
+          unselectedItemColor: Colors.grey,
+          selectedItemColor: Colors.indigo,
           onTap: onTabTapped, // new
           currentIndex:
               _currentIndex, // this will be set when a new tab is tapped
