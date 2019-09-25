@@ -1,6 +1,5 @@
 import 'package:ceapp/ui/tabsDisciplinaPage/CronometroContent.dart';
 import 'package:ceapp/ui/tabsDisciplinaPage/EstatiticasContent.dart';
-
 import 'package:flutter/material.dart';
 
 class DisciplinaPage extends StatefulWidget {
@@ -19,6 +18,7 @@ class _DisciplinaPageState extends State<DisciplinaPage> {
 
     CronometroContent(),
   ];
+
 
 
 

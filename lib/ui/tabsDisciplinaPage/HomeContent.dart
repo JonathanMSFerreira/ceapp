@@ -9,11 +9,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class HomeContent extends StatelessWidget {
 
-
-
-
-  
-  
   
   DisciplinasChart _disciplinasChart = new DisciplinasChart();
   
@@ -36,12 +31,6 @@ class HomeContent extends StatelessWidget {
       const StaggeredTile.count(2, 2),
 
     ];
-
-
-
-
-
-
 
     List<Widget> _cards = <Widget>[
       _cardDisciplinas(context),
