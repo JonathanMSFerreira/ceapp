@@ -56,6 +56,8 @@ class _CronogramaPageState extends State<CronogramaPage>
         'Event C8',
         'Event D8'
       ],
+
+
       _selectedDay.add(Duration(days: 3)):
           Set.from(['Direito Adm', 'Direito Penal', 'RLM']).toList(),
       _selectedDay.add(Duration(days: 7)): [
@@ -147,7 +149,7 @@ class _CronogramaPageState extends State<CronogramaPage>
 
 
 
-                          color: Colors.indigo,
+                          color: Colors.orange,
                           padding: EdgeInsets.all(10.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -157,7 +159,7 @@ class _CronogramaPageState extends State<CronogramaPage>
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'OpenSans',
-                                    fontSize: 25.0, fontWeight: FontWeight.bold),
+                                    fontSize: 20.0, fontWeight: FontWeight.bold),
                               ),
                               Text(
                                 dataFormatada(DateTime.now()),
@@ -296,7 +298,7 @@ class _CronogramaPageState extends State<CronogramaPage>
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: _calendarController.isSelected(date)
-            ? Colors.yellow
+            ? Colors.orange
             : _calendarController.isToday(date) ? Colors.black : Colors.black54,
       ),
       width: 16.0,
@@ -369,38 +371,44 @@ class _CronogramaPageState extends State<CronogramaPage>
   }
 
   Widget _buildEventList() {
-    return ListView(
+    return ListView.separated(
 
-      children: _selectedEvents
-          .map((event) =>  ListTile(
+        itemCount: _selectedEvents.length,
+        separatorBuilder: (context, index) =>
+            Divider(height: 1.0, color: Colors.grey),
 
 
-                  leading: CircleAvatar(
-                    backgroundColor: Colors.indigo,
-                    child: Center(
-                      
-                      child: Text("HST", style: TextStyle(color: Colors.white),),
-                      
-                    ),
-                  ),
-                  trailing: Icon(
-                    Icons.call_made,
-                    color: Colors.black26,
-                  ),
+        itemBuilder: (context, index) {
+          return
+            ListTile(
 
-                  title: Text(
-                    event.toString() ?? '',
-                    style: TextStyle(color: Colors.indigo, fontSize: 20.0),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) => new DisciplinaPage()));
-                  },
 
-              ))
-          .toList(),
+              leading: CircleAvatar(
+                backgroundColor: Colors.indigo,
+                child: Center(
+
+                  child: Text("HST", style: TextStyle(color: Colors.white),),
+
+                ),
+              ),
+              trailing: Icon(
+                Icons.call_made,
+                color: Colors.black26,
+              ),
+
+              title: Text(
+                _selectedEvents[index].toString() ?? '',
+                style: TextStyle(color: Colors.indigo, fontSize: 20.0),
+              ),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new DisciplinaPage()));
+              },
+
+            );
+        }
     );
   }
 }
