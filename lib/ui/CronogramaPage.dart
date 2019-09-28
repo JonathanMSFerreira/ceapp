@@ -1,7 +1,9 @@
+import 'package:ceapp/model/Disciplina.dart';
+import 'package:ceapp/ui/DisciplinasPage.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import 'DisciplinaPage.dart';
+import 'CronometroPage.dart';
 
 final Map<DateTime, List> _holidays = {
   DateTime(2019, 1, 1): ['Ano novo'],
@@ -56,8 +58,6 @@ class _CronogramaPageState extends State<CronogramaPage>
         'Event C8',
         'Event D8'
       ],
-
-
       _selectedDay.add(Duration(days: 3)):
           Set.from(['Direito Adm', 'Direito Penal', 'RLM']).toList(),
       _selectedDay.add(Duration(days: 7)): [
@@ -111,7 +111,6 @@ class _CronogramaPageState extends State<CronogramaPage>
         appBar: AppBar(
           centerTitle: true,
           elevation: 0.0,
-
           title: Text(
             "Cronograma",
             style: TextStyle(
@@ -134,54 +133,52 @@ class _CronogramaPageState extends State<CronogramaPage>
                       ],
                     )),
                 Expanded(
-
                     child: Card(
-
-
-
-
                         child: Column(
-
-                      mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-
-                        Container(
-
-
-
-                          color: Colors.orange,
-                          padding: EdgeInsets.all(10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                'Disciplinas',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'OpenSans',
-                                    fontSize: 20.0, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                dataFormatada(DateTime.now()),
-                                style: TextStyle(color: Colors.white),
-                              )
-                            ],
-                          ),
-                        ),
+                        Padding(
+                            padding: EdgeInsets.only(left: 12.0),
+                            child: Text(
+                              'Disciplinas',
+                              style: TextStyle(
+                                  color: Colors.orange,
+                                  fontFamily: 'OpenSans',
+                                  fontSize: 25.0,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                        Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: IconButton(
+                              color: Colors.orange,
+                                icon: Icon(Icons.edit),
+                                onPressed: () {
 
 
+                                  Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (context) => DisciplinasPage(new Disciplina())));
 
 
-                        Expanded(child: _buildEventList()),
+                                })),
 
+                        /*      Text(
+                          dataFormatada(DateTime.now()),
+                          style: TextStyle(color: Colors.indigoAccent),
+                        )*/
                       ],
-
-
-                    )
-                    )
-
                     ),
-
+                    Divider(
+                      height: 5.0,
+                      color: Colors.orange,
+                    ),
+                    Expanded(child: _buildEventList()),
+                  ],
+                ))),
               ],
             )));
   }
@@ -213,18 +210,18 @@ class _CronogramaPageState extends State<CronogramaPage>
       headerStyle: HeaderStyle(
         leftChevronIcon: Icon(
           Icons.arrow_back_ios,
-          color: Colors.indigoAccent,
+          color: Colors.orange,
         ),
         rightChevronIcon: Icon(
           Icons.arrow_forward_ios,
-          color: Colors.indigoAccent,
+          color: Colors.orange,
         ),
         centerHeaderTitle: true,
         formatButtonVisible: false,
         titleTextStyle: TextStyle().copyWith(
-          color: Colors.indigoAccent,
+          color: Colors.orange,
           fontFamily: 'OpenSans',
-          fontSize: 17,
+          fontSize: 18,
         ),
       ),
       builders: CalendarBuilders(
@@ -372,43 +369,35 @@ class _CronogramaPageState extends State<CronogramaPage>
 
   Widget _buildEventList() {
     return ListView.separated(
-
         itemCount: _selectedEvents.length,
         separatorBuilder: (context, index) =>
             Divider(height: 1.0, color: Colors.grey),
-
-
         itemBuilder: (context, index) {
-          return
-            ListTile(
-
-
-              leading: CircleAvatar(
-                backgroundColor: Colors.indigo,
-                child: Center(
-
-                  child: Text("HST", style: TextStyle(color: Colors.white),),
-
+          return ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.indigo,
+              child: Center(
+                child: Text(
+                  "HST",
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
-              trailing: Icon(
-                Icons.call_made,
-                color: Colors.black26,
-              ),
-
-              title: Text(
-                _selectedEvents[index].toString() ?? '',
-                style: TextStyle(color: Colors.indigo, fontSize: 20.0),
-              ),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => new DisciplinaPage()));
-              },
-
-            );
-        }
-    );
+            ),
+            trailing: Icon(
+              Icons.call_made,
+              color: Colors.black26,
+            ),
+            title: Text(
+              _selectedEvents[index].toString() ?? '',
+              style: TextStyle(color: Colors.indigo, fontSize: 20.0),
+            ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new CronometroPage()));
+            },
+          );
+        });
   }
 }

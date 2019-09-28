@@ -1,4 +1,3 @@
-import 'package:ceapp/ui/tabsDisciplinaPage/HomeContent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'CronogramaPage.dart';
@@ -6,6 +5,8 @@ import 'NewCePage.dart';
 import 'charts/DiasSemanaChart.dart';
 import 'charts/DisciplinasChart.dart';
 import 'charts/PeriodoChart.dart';
+
+
 
 class CeAppPage extends StatefulWidget {
   @override
@@ -23,15 +24,7 @@ class _CeAppPageState extends State<CeAppPage> {
 
   DiasSemanaChart _diasSemanaChart = new DiasSemanaChart();
 
-  HomeContent homeContent = new HomeContent();
 
-  int _currentIndex = 0;
-
-  void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,20 +49,17 @@ class _CeAppPageState extends State<CeAppPage> {
           style: TextStyle(color: Colors.white, fontFamily: 'OpenSans'),
         ),
         actions: <Widget>[
-          _currentIndex == 0
-              ? IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () {
-                    _showDialog(context);
-                  })
-              : IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) => NewCePage()));
-                  })
+      /*    IconButton(
+              icon: Icon(Icons.clear),
+              onPressed: () {
+                _showDialog(context);
+              }),*/
+          IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () {
+                Navigator.push(context,
+                    new MaterialPageRoute(builder: (context) => NewCePage()));
+              })
         ],
       ),
       drawer: _ceDrawer(),
@@ -125,16 +115,18 @@ class _CeAppPageState extends State<CeAppPage> {
               padding: const EdgeInsets.all(10.0),
             )),
             Container(
-                color: Colors.indigoAccent,
-                height: 50.0,
+                color: Colors.indigo,
+                height: 60.0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    IconButton(
-                      icon: Icon(Icons.home),
-                      color: Colors.white,
-                      onPressed: () {},
-                    ),
+
+                        IconButton(
+                          icon: Icon(Icons.home),
+                          color: Colors.white,
+                          onPressed: () {},
+                        ),
+
                     IconButton(
                       icon: Icon(Icons.calendar_today),
                       color: Colors.white,
@@ -168,11 +160,11 @@ class _CeAppPageState extends State<CeAppPage> {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(top: 5.0, left: 5.0),
-            child: Text(
-              "Períodos do dia",
-              style:
-                  TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold),
-            ),
+            child: Text("Períodos do dia",
+                style: TextStyle(
+                    color: Colors.orange,
+                    fontFamily: 'OpenSans',
+                    fontSize: 15.0)),
           ),
           Expanded(
               flex: 1, child: Container(child: _periodoChart.build(context)))
@@ -198,11 +190,11 @@ class _CeAppPageState extends State<CeAppPage> {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(left: 5.0),
-            child: Text(
-              "Dias da semana",
-              style:
-                  TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold),
-            ),
+            child: Text("Dias da semana",
+                style: TextStyle(
+                    color: Colors.orange,
+                    fontFamily: 'OpenSans',
+                    fontSize: 15.0)),
           ),
           Expanded(
             flex: 1,
@@ -232,11 +224,11 @@ class _CeAppPageState extends State<CeAppPage> {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(left: 5.0),
-            child: Text(
-              "Disciplinas",
-              style:
-                  TextStyle(color: Colors.indigo, fontWeight: FontWeight.bold),
-            ),
+            child: Text("Disciplinas",
+                style: TextStyle(
+                    color: Colors.orange,
+                    fontFamily: 'OpenSans',
+                    fontSize: 15.0)),
           ),
           Expanded(
             flex: 1,
@@ -267,11 +259,15 @@ Widget _ceDrawer() {
             UserAccountsDrawerHeader(
               accountName: Text(
                 "Jonathan Ferreira",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'OpenSans',
+                    fontSize: 20.0),
               ),
               accountEmail: Text(
                 "jmontsf@gmail.com",
-                style: TextStyle(color: Colors.grey),
+                style: TextStyle(
+                    color: Colors.grey, fontFamily: 'OpenSans', fontSize: 15.0),
               ),
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.grey,
@@ -283,11 +279,12 @@ Widget _ceDrawer() {
               ),
             ),
             ListTile(
-              title: Text(
-                'Ciclos de estudos',
-                style: TextStyle(color: Colors.indigoAccent),
-              ),
-              leading: Icon(Icons.all_inclusive, color: Colors.indigoAccent),
+              title: Text('Cronograma de estudos',
+                  style: TextStyle(
+                      color: Colors.indigoAccent,
+                      fontFamily: 'OpenSans',
+                      fontSize: 17.0)),
+              leading: Icon(Icons.calendar_today, color: Colors.indigoAccent),
               onTap: () {
                 // Update the state of the app.
                 // ...
@@ -297,9 +294,12 @@ Widget _ceDrawer() {
               color: Colors.indigoAccent,
             ),
             ListTile(
-              title: Text('Cronograma',
-                  style: TextStyle(color: Colors.indigoAccent)),
-              leading: Icon(Icons.access_time, color: Colors.indigoAccent),
+              title: Text('Disciplinas',
+                  style: TextStyle(
+                      color: Colors.indigoAccent,
+                      fontFamily: 'OpenSans',
+                      fontSize: 17.0)),
+              leading: Icon(Icons.school, color: Colors.indigoAccent),
               onTap: () {
                 // Update the state of the app.
                 // ...
@@ -310,7 +310,10 @@ Widget _ceDrawer() {
             ),
             ListTile(
               title: Text('Compartilhe',
-                  style: TextStyle(color: Colors.indigoAccent)),
+                  style: TextStyle(
+                      color: Colors.indigoAccent,
+                      fontFamily: 'OpenSans',
+                      fontSize: 17.0)),
               leading: Icon(Icons.share, color: Colors.indigoAccent),
               onTap: () {
                 // Update the state of the app.
@@ -321,7 +324,11 @@ Widget _ceDrawer() {
               color: Colors.indigoAccent,
             ),
             ListTile(
-              title: Text("Sair", style: TextStyle(color: Colors.indigoAccent)),
+              title: Text("Sair",
+                  style: TextStyle(
+                      color: Colors.indigoAccent,
+                      fontFamily: 'OpenSans',
+                      fontSize: 17.0)),
               leading:
                   Icon(Icons.power_settings_new, color: Colors.indigoAccent),
             )
@@ -363,7 +370,7 @@ void _showDialog(BuildContext context) {
           new FlatButton(
             child: new Text(
               "Sim",
-              style: TextStyle(color: Colors.yellow),
+              style: TextStyle(color: Colors.white),
             ),
             shape: CircleBorder(),
             onPressed: () {
