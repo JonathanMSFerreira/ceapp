@@ -1,43 +1,34 @@
-final String compraTable = "compraTable";
-final String idColumn = "idColumn";
-final String nameColumn = "nameColumn";
-final String dateColumn = "dateColumn";
-final String qtdItensColumn = "qtdColumn";
+final String disciplinaTable = "disciplinaTable";
+final String idDColumn = "idColumn";
+final String nomeDColumn = "nomeColumn";
 
 
 
 class Disciplina {
 
   int id;
-  String name;
-  String date;
-  int qtd = 0;
-
-
+  String nome;
 
   Disciplina();
 
-
   Disciplina.fromMap(Map map) {
 
-    id = map[idColumn];
-    name = map[nameColumn];
-    date = map[dateColumn];
-    qtd = map[qtdItensColumn];
+    id = map[idDColumn];
+    nome = map[nomeDColumn];
+
 
   }
 
 
   Map toMap() {
     Map<String, dynamic> map = {
-      nameColumn: name,
-      dateColumn: date,
-      qtdItensColumn: qtd,
+      nomeDColumn: nome,
+
 
     };
 
     if (id != null) {
-      map[idColumn] = id;
+      map[idDColumn] = id;
     }
 
     return map;
@@ -46,7 +37,7 @@ class Disciplina {
   @override
   String toString() {
 
-    return "Compra(id: $id, name: $name, date: $date, qtdItens: $qtd)";
+    return "Disciplina(id: $id, nome: $nome)";
 
   }
 

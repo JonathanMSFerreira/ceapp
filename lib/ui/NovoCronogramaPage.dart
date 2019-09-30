@@ -1,17 +1,22 @@
 import 'package:ceapp/fragments/MultiSelectChip.dart';
 import 'package:ceapp/helper/DbCeAppHelper.dart';
 import 'package:ceapp/model/Cronograma.dart';
+import 'package:ceapp/model/DiaPeriodoDisciplina.dart';
 import 'package:flutter/material.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
 
 
-class NewCePage extends StatefulWidget {
+class NovoCronogramaPage extends StatefulWidget {
   @override
-  _NewCePageState createState() => _NewCePageState();
+  _NovoCronogramaPageState createState() => _NovoCronogramaPageState();
 }
 
-class _NewCePageState extends State<NewCePage> {
+class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
+
+
+
+  bool diasSelecionado = true;
 
 
   static final _key = GlobalKey<FormState>();
@@ -21,11 +26,6 @@ class _NewCePageState extends State<NewCePage> {
   var _passKey = GlobalKey();
   var _passIKey = GlobalKey();
   var _passFKey = GlobalKey();
-
-
-
-
-
 
 
 
@@ -161,6 +161,9 @@ class _NewCePageState extends State<NewCePage> {
                               },
 
                             ),
+
+
+
                             DateTimePickerFormField(
 
                               key: _passFKey,
@@ -204,13 +207,20 @@ class _NewCePageState extends State<NewCePage> {
                             ),
                             MultiSelectChip(
                               diasList,
+
                               onSelectionChanged: (selectedList) {
                                 setState(() {
                                   _diasSelecionadosList = selectedList;
-
                                 });
                               },
+
                             ),
+
+
+                          diasSelecionado == false ? Text("Selecione pelo menos um dia para os estudos!", style: TextStyle(color: Colors.redAccent, fontSize: 12.0),)
+                          : Container()
+
+
                           ]),
                         )),
                         Card(
@@ -242,16 +252,35 @@ class _NewCePageState extends State<NewCePage> {
                             padding: const EdgeInsets.all(15.0),
                             textColor: Colors.white,
                             color: Colors.orange,
-                            onPressed: () {
+                            onPressed: () async {
                               if (_key.currentState.validate()) {
 
-
-
-                                tmpCronograma.nome = _nome;
+                                   tmpCronograma.nome = _nome;
                                    tmpCronograma.dataInicio = _inicio.toString();
                                    tmpCronograma.dataFim = _fim.toString();
 
-                                   helper.saveCronograma(tmpCronograma);
+                                    Cronograma  savedCronograma = await helper.saveCronograma(tmpCronograma);
+
+
+                                   DiaPeriodoDisciplina tmpDpd = new DiaPeriodoDisciplina();
+
+
+
+
+
+
+
+
+                                    DiaPeriodoDisciplina dpd = await helper.saveDiaPeriodoDisciplina(tmpDpd);
+
+
+
+
+
+
+
+
+
 
 
 
@@ -262,6 +291,9 @@ class _NewCePageState extends State<NewCePage> {
 
                                 setState(() {
                                   _autoValidate = true;
+
+
+
                                 });
 
 

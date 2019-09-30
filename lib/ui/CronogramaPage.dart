@@ -1,5 +1,5 @@
 import 'package:ceapp/fragments/CeBottomNavigation.dart';
-import 'package:ceapp/ui/NewCePage.dart';
+import 'package:ceapp/ui/NovoCronogramaPage.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -483,7 +483,7 @@ class _CronogramaPageState extends State<CronogramaPage>
             child: FlatButton.icon(onPressed: () {
 
               Navigator.push(context,
-                  new MaterialPageRoute(builder: (context) => NewCePage()));
+                  new MaterialPageRoute(builder: (context) => NovoCronogramaPage()));
 
 
             }, icon: Icon(Icons.edit,), label: Text("Editar Cronograma"))

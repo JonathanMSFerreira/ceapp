@@ -1,4 +1,8 @@
 
+import 'package:ceapp/model/DiaPeriodoDisciplina.dart';
+import 'package:ceapp/model/DiaSemana.dart';
+import 'package:ceapp/model/Disciplina.dart';
+import 'package:ceapp/model/Periodo.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:ceapp/model/Cronograma.dart';
@@ -38,16 +42,30 @@ class DbCeAppHelper {
     final databasesPath = await getDatabasesPath();
     final path =  join(databasesPath,"db_ceapp.db");
 
-    return await openDatabase(path,version: 1, onCreate: (Database db, int newerVersion) async{
+    return await openDatabase(path,version: 2, onCreate: (Database db, int newerVersion) async{
 
       await db.execute(
         "CREATE TABLE $cronogramaTable( $idColumn INTEGER PRIMARY KEY, $nomeColumn TEXT NOT NULL,  $dataInicioColumn TEXT NOT NULL, $dataFimColumn TEXT NOT NULL)");
 
 
 
-      /*await db.execute(
-          "CREATE TABLE $itemTable( $idItemColumn INTEGER PRIMARY KEY, $nameItemColumn TEXT,  $qtdColumn TEXT, $medidaColumn TEXT,  $okColumn INTEGER NOT NULL,  $fkCompraColumn INTEGER)");*/
+        await db.execute("CREATE TABLE $disciplinaTable( $idDColumn INTEGER PRIMARY KEY, $nomeDColumn TEXT NOT NULL)");
 
+
+
+      /*  await db.execute("CREATE TABLE $periodoTable( $idPColumn INTEGER PRIMARY KEY, $nomePColumn TEXT NOT NULL)");
+
+
+
+        await db.execute("CREATE TABLE $diaSemanaTable( $idDSColumn INTEGER PRIMARY KEY, $nomeDSColumn TEXT NOT NULL)");*/
+
+
+      await db.execute("CREATE TABLE $diaPeriodoDisciplinaTable( $idDPDColumn INTEGER PRIMARY KEY, $fkDColumn INTEGER NOT NULL"
+          ", $diaColumn TEXT NOT NULL, $periodoColumn TEXT NOT NULL,  $horasColumn INTEGER NOT NULL)");
+
+
+
+      print("DATABASE CREATE");
 
 
     });
@@ -94,7 +112,11 @@ class DbCeAppHelper {
 
     Database dbCronograma = await db;
 
-    dbCronograma.delete(cronogramaTable, where: "$idColumn = ?",whereArgs: [id]);
+    //dbCronograma.delete(cronogramaTable, where: "$idColumn = ?",whereArgs: [id]);
+
+
+
+
 
     return await dbCronograma.delete(cronogramaTable, where: "$idColumn = ?",whereArgs: [id]);
 
@@ -113,8 +135,76 @@ class DbCeAppHelper {
 
   }
 
+//////////////////////////////////////////////////////////////////////////////////////////////
+  /*
+      MÉTODO PARA SALVAR UM CRONOGRAMA
+   */
+  Future<DiaPeriodoDisciplina> saveDiaPeriodoDisciplina(DiaPeriodoDisciplina diaPeriodoDisciplina) async {
+
+    Database dbDiaPeriodoDisciplina = await db;
+    diaPeriodoDisciplina.id = await dbDiaPeriodoDisciplina.insert(diaPeriodoDisciplinaTable, diaPeriodoDisciplina.toMap());
+    return diaPeriodoDisciplina;
 
 
+  }
+
+  /*
+      MÉTODO PARA BUSCAR UM CRONOGRAMA PELO ID
+   */
+  Future<DiaPeriodoDisciplina> getDiaPeriodoDisciplina(int id) async {
+
+    Database dbDiaPeriodoDisciplina = await db;
+
+    List<Map> maps = await dbDiaPeriodoDisciplina.query(diaPeriodoDisciplinaTable,
+        columns: [idDPDColumn,fkDColumn,periodoColumn, diaColumn, horasColumn],
+        where: "$idDPDColumn = ?",
+        whereArgs: [id]);
+
+    if(maps.length > 0){
+      return DiaPeriodoDisciplina.fromMap(maps.first);
+    }else{
+
+      return null;
+    }
+
+  }
+
+
+  /*
+     DELETA  UM  CRONOGRAMA PELO ID
+   */
+  Future<int> deleteDiaPeriodoDisciplina(int id) async{
+
+    Database dbDiaPeriodoDisciplina = await db;
+
+   // dbDiaPeriodoDisciplina.delete(diaPeriodoDisciplinaTable, where: "$idDPDColumn = ?",whereArgs: [id]);
+
+
+
+
+
+    return await dbDiaPeriodoDisciplina.delete(diaPeriodoDisciplinaTable, where: "$idDPDColumn = ?",whereArgs: [id]);
+
+
+  }
+
+
+  /*
+      ATUALIZA UM CRONOGRAMA
+   */
+  Future<int> updateDiaPeriodoDisciplina(DiaPeriodoDisciplina diaPeriodoDisciplina) async {
+
+    Database dbDiaPeriodoDisciplina = await db;
+    return  await dbDiaPeriodoDisciplina.update(cronogramaTable, diaPeriodoDisciplina.toMap(), where: "$idDPDColumn= ?",whereArgs: [diaPeriodoDisciplina.id]);
+
+
+  }
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
   /*
       FECHA UMA CONEXÃO COM O BANCO DE DADOS
    */

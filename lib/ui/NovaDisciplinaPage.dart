@@ -2,19 +2,25 @@ import 'package:ceapp/fragments/MultiSelectChip.dart';
 import 'package:ceapp/model/Disciplina.dart';
 import 'package:flutter/material.dart';
 
-class NovaDisciplinaPage extends StatefulWidget {
+class DialogNovaDisciplina extends StatefulWidget {
+
+
   Disciplina disciplina;
 
-  NovaDisciplinaPage(Disciplina disciplina) {
+
+  DialogNovaDisciplina(Disciplina disciplina) {
     this.disciplina = disciplina;
   }
 
+
   @override
-  _NovaDisciplinaPageState createState() =>
-      _NovaDisciplinaPageState(disciplina);
+  _DialogNovaDisciplinaState createState() =>
+      _DialogNovaDisciplinaState(disciplina);
 }
 
-class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
+
+class _DialogNovaDisciplinaState extends State<DialogNovaDisciplina> {
+
   List<Color> coresList = [
     Colors.red,
     Colors.redAccent,
@@ -65,15 +71,11 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
 
   List<String> diasSelecionadosList = List();
 
-  final _nameController = TextEditingController();
-  final _qtdController = TextEditingController();
-  final _nameFocus = FocusNode();
-
-  _NovaDisciplinaPageState(Disciplina disciplina) {
+  _DialogNovaDisciplinaState(Disciplina disciplina) {
     this.disciplina = disciplina;
   }
 
-  // CompraHelper helper = new CompraHelper();
+
 
   @override
   Widget build(BuildContext context) {

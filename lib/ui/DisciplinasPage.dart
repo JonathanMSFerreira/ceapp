@@ -2,7 +2,7 @@ import 'package:ceapp/fragments/CeBottomNavigation.dart';
 import 'package:ceapp/model/Disciplina.dart';
 import 'package:flutter/material.dart';
 
-import 'dialog/DialogNovaDisciplina.dart';
+import 'package:ceapp/ui/NovaDisciplinaPage.dart';
 
 
 class DisciplinasPage extends StatefulWidget {
