@@ -1,5 +1,5 @@
-import 'package:ceapp/model/Disciplina.dart';
-import 'package:ceapp/ui/DisciplinasPage.dart';
+import 'package:ceapp/fragments/CeBottomNavigation.dart';
+import 'package:ceapp/ui/NewCePage.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -14,6 +14,8 @@ final Map<DateTime, List> _holidays = {
 };
 
 class CronogramaPage extends StatefulWidget {
+
+
   final String title;
 
   CronogramaPage({Key key, this.title}) : super(key: key);
@@ -116,7 +118,19 @@ class _CronogramaPageState extends State<CronogramaPage>
             style: TextStyle(
                 color: Colors.white, fontFamily: 'OpenSans', fontSize: 20.0),
           ),
+          actions: <Widget>[
+            /*    IconButton(
+              icon: Icon(Icons.clear),
+              onPressed: () {
+                _showDialog(context);
+              }),*/
+
+            _menuPopUp(),
+
+
+          ],
         ),
+        drawer: _ceDrawer(),
         body: Container(
             color: Colors.indigoAccent,
             child: Column(
@@ -141,34 +155,25 @@ class _CronogramaPageState extends State<CronogramaPage>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Padding(
-                            padding: EdgeInsets.only(left: 12.0),
+                            padding: EdgeInsets.all(12.0),
                             child: Text(
-                              'Disciplinas',
+                              'Disciplinas de hoje',
                               style: TextStyle(
                                   color: Colors.orange,
                                   fontFamily: 'OpenSans',
-                                  fontSize: 25.0,
+                                  fontSize: 22.0,
                                   fontWeight: FontWeight.bold),
                             )),
-                        Padding(
-                            padding: EdgeInsets.all(5.0),
-                            child: IconButton(
-                              color: Colors.orange,
-                                icon: Icon(Icons.edit),
-                                onPressed: () {
+
+                        /*       Padding(
+                          padding: EdgeInsets.all( 12.0),
+                          child:      Text(
+                            dataFormatada(DateTime.now()),
+                            style: TextStyle(color: Colors.indigoAccent),
+                          )
 
 
-                                  Navigator.push(
-                                      context,
-                                      new MaterialPageRoute(
-                                          builder: (context) => DisciplinasPage(new Disciplina())));
 
-
-                                })),
-
-                        /*      Text(
-                          dataFormatada(DateTime.now()),
-                          style: TextStyle(color: Colors.indigoAccent),
                         )*/
                       ],
                     ),
@@ -179,8 +184,104 @@ class _CronogramaPageState extends State<CronogramaPage>
                     Expanded(child: _buildEventList()),
                   ],
                 ))),
+                CeBottomNavigation(),
               ],
             )));
+  }
+
+  Widget _ceDrawer() {
+    return Drawer(
+      child: Stack(
+        children: <Widget>[
+          Container(
+            color: Colors.white,
+          ),
+          ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              UserAccountsDrawerHeader(
+                accountName: Text(
+                  "Jonathan Ferreira",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'OpenSans',
+                      fontSize: 20.0),
+                ),
+                accountEmail: Text(
+                  "jmontsf@gmail.com",
+                  style: TextStyle(
+                      color: Colors.grey,
+                      fontFamily: 'OpenSans',
+                      fontSize: 15.0),
+                ),
+                currentAccountPicture: CircleAvatar(
+                  backgroundColor: Colors.grey,
+                  child: Icon(
+                    Icons.person,
+                    size: 50.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              ListTile(
+                title: Text('Cronograma de estudos',
+                    style: TextStyle(
+                        color: Colors.indigoAccent,
+                        fontFamily: 'OpenSans',
+                        fontSize: 17.0)),
+                leading: Icon(Icons.calendar_today, color: Colors.indigoAccent),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              Divider(
+                color: Colors.indigoAccent,
+              ),
+              ListTile(
+                title: Text('Disciplinas',
+                    style: TextStyle(
+                        color: Colors.indigoAccent,
+                        fontFamily: 'OpenSans',
+                        fontSize: 17.0)),
+                leading: Icon(Icons.school, color: Colors.indigoAccent),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              Divider(
+                color: Colors.indigoAccent,
+              ),
+              ListTile(
+                title: Text('Compartilhe',
+                    style: TextStyle(
+                        color: Colors.indigoAccent,
+                        fontFamily: 'OpenSans',
+                        fontSize: 17.0)),
+                leading: Icon(Icons.share, color: Colors.indigoAccent),
+                onTap: () {
+                  // Update the state of the app.
+                  // ...
+                },
+              ),
+              Divider(
+                color: Colors.indigoAccent,
+              ),
+              ListTile(
+                title: Text("Sair",
+                    style: TextStyle(
+                        color: Colors.indigoAccent,
+                        fontFamily: 'OpenSans',
+                        fontSize: 17.0)),
+                leading:
+                    Icon(Icons.power_settings_new, color: Colors.indigoAccent),
+              )
+            ],
+          )
+        ],
+      ),
+    );
   }
 
   Widget _buildTableCalendarWithBuilders() {
@@ -367,6 +468,66 @@ class _CronogramaPageState extends State<CronogramaPage>
     return data.day.toString() + ' de ' + mes + ' de ' + data.year.toString();
   }
 
+
+  Widget _menuPopUp() {
+
+
+
+    return PopupMenuButton<int>(
+
+
+      itemBuilder: (context) =>
+      [
+        PopupMenuItem(
+            value: 1,
+            child: FlatButton.icon(onPressed: () {
+
+              Navigator.push(context,
+                  new MaterialPageRoute(builder: (context) => NewCePage()));
+
+
+            }, icon: Icon(Icons.edit,), label: Text("Editar Cronograma"))
+        ),
+
+/*
+
+        PopupMenuItem(
+            value: 2,
+            child: FlatButton.icon(onPressed: () {
+
+              Navigator.pop(context);
+            },
+                icon: Icon(Icons.clear,), label: Text("Desmarcar todos"))
+        ),
+        PopupMenuItem(
+            value: 2,
+            child: FlatButton.icon(onPressed: () {
+
+              Navigator.pop(context);
+            }, icon: Icon(Icons.check,), label: Text("Marcar todos"))
+        ),
+
+        PopupMenuDivider(),
+
+        PopupMenuItem(
+            value: 2,
+            child: FlatButton.icon(onPressed: () {
+
+            }, icon: Icon(Icons.delete,), label: Text("Limpar lista"))
+        ),
+*/
+
+
+      ],
+    );
+  }
+
+
+
+
+
+
+
   Widget _buildEventList() {
     return ListView.separated(
         itemCount: _selectedEvents.length,
@@ -384,7 +545,7 @@ class _CronogramaPageState extends State<CronogramaPage>
               ),
             ),
             trailing: Icon(
-              Icons.call_made,
+              Icons.access_alarms,
               color: Colors.black26,
             ),
             title: Text(

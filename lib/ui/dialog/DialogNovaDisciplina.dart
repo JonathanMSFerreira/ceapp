@@ -1,4 +1,4 @@
-import 'package:ceapp/helper/MultiSelectChip.dart';
+import 'package:ceapp/fragments/MultiSelectChip.dart';
 import 'package:ceapp/model/Disciplina.dart';
 import 'package:flutter/material.dart';
 

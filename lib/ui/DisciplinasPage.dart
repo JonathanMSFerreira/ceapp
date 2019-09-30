@@ -1,3 +1,4 @@
+import 'package:ceapp/fragments/CeBottomNavigation.dart';
 import 'package:ceapp/model/Disciplina.dart';
 import 'package:flutter/material.dart';
 
@@ -49,12 +50,12 @@ class _DisciplinasPageState extends State<DisciplinasPage> {
       backgroundColor: Colors.indigoAccent,
 
 
-     floatingActionButton: FloatingActionButton(
+     floatingActionButton:
+      FloatingActionButton(
+
         backgroundColor: Colors.orange,
         onPressed: () {
-
           _dialogAdicionaDisciplina(disciplina, context);
-
 
         },
         child: Icon(Icons.add),
@@ -65,15 +66,35 @@ class _DisciplinasPageState extends State<DisciplinasPage> {
         centerTitle: true,
         title: Text("Disciplina",style: TextStyle(color: Colors.white, fontFamily: 'OpenSans'),),
 
-      ),body:
+      ),body: Column(
 
 
-    Container(
+      children: <Widget>[
+
+        Expanded(
 
 
-      child: _cardsDisciplinas(disciplinaList),
+          child: _cardsDisciplinas(disciplinaList),
 
-    ),
+        ),
+
+
+
+
+
+      ],
+
+
+
+    )
+
+
+ ,
+
+
+
+
+
 
 
     );

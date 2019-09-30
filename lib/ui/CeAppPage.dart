@@ -1,7 +1,6 @@
+import 'package:ceapp/fragments/CeBottomNavigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'CronogramaPage.dart';
-import 'NewCePage.dart';
 import 'charts/DiasSemanaChart.dart';
 import 'charts/DisciplinasChart.dart';
 import 'charts/PeriodoChart.dart';
@@ -48,21 +47,9 @@ class _CeAppPageState extends State<CeAppPage> {
           "Receita Federal",
           style: TextStyle(color: Colors.white, fontFamily: 'OpenSans'),
         ),
-        actions: <Widget>[
-      /*    IconButton(
-              icon: Icon(Icons.clear),
-              onPressed: () {
-                _showDialog(context);
-              }),*/
-          IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () {
-                Navigator.push(context,
-                    new MaterialPageRoute(builder: (context) => NewCePage()));
-              })
-        ],
+
       ),
-      drawer: _ceDrawer(),
+      //drawer: _ceDrawer(),
       body: Container(
           color: Colors.indigoAccent,
           constraints: BoxConstraints.expand(),
@@ -114,31 +101,7 @@ class _CeAppPageState extends State<CeAppPage> {
               crossAxisSpacing: 4.0,
               padding: const EdgeInsets.all(10.0),
             )),
-            Container(
-                color: Colors.indigo,
-                height: 60.0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-
-                        IconButton(
-                          icon: Icon(Icons.home),
-                          color: Colors.white,
-                          onPressed: () {},
-                        ),
-
-                    IconButton(
-                      icon: Icon(Icons.calendar_today),
-                      color: Colors.white,
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (context) => CronogramaPage()));
-                      },
-                    )
-                  ],
-                ))
+            CeBottomNavigation()
           ])),
     );
   }
@@ -246,98 +209,7 @@ class _CeAppPageState extends State<CeAppPage> {
 **********WIDGETS**************
 */
 
-Widget _ceDrawer() {
-  return Drawer(
-    child: Stack(
-      children: <Widget>[
-        Container(
-          color: Colors.white,
-        ),
-        ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            UserAccountsDrawerHeader(
-              accountName: Text(
-                "Jonathan Ferreira",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'OpenSans',
-                    fontSize: 20.0),
-              ),
-              accountEmail: Text(
-                "jmontsf@gmail.com",
-                style: TextStyle(
-                    color: Colors.grey, fontFamily: 'OpenSans', fontSize: 15.0),
-              ),
-              currentAccountPicture: CircleAvatar(
-                backgroundColor: Colors.grey,
-                child: Icon(
-                  Icons.person,
-                  size: 50.0,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Cronograma de estudos',
-                  style: TextStyle(
-                      color: Colors.indigoAccent,
-                      fontFamily: 'OpenSans',
-                      fontSize: 17.0)),
-              leading: Icon(Icons.calendar_today, color: Colors.indigoAccent),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-            Divider(
-              color: Colors.indigoAccent,
-            ),
-            ListTile(
-              title: Text('Disciplinas',
-                  style: TextStyle(
-                      color: Colors.indigoAccent,
-                      fontFamily: 'OpenSans',
-                      fontSize: 17.0)),
-              leading: Icon(Icons.school, color: Colors.indigoAccent),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-            Divider(
-              color: Colors.indigoAccent,
-            ),
-            ListTile(
-              title: Text('Compartilhe',
-                  style: TextStyle(
-                      color: Colors.indigoAccent,
-                      fontFamily: 'OpenSans',
-                      fontSize: 17.0)),
-              leading: Icon(Icons.share, color: Colors.indigoAccent),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-            Divider(
-              color: Colors.indigoAccent,
-            ),
-            ListTile(
-              title: Text("Sair",
-                  style: TextStyle(
-                      color: Colors.indigoAccent,
-                      fontFamily: 'OpenSans',
-                      fontSize: 17.0)),
-              leading:
-                  Icon(Icons.power_settings_new, color: Colors.indigoAccent),
-            )
-          ],
-        )
-      ],
-    ),
-  );
-}
+
 
 void _showDialog(BuildContext context) {
   // flutter defined function
