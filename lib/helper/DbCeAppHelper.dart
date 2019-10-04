@@ -7,6 +7,8 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:ceapp/model/Cronograma.dart';
 
+import '../ui/charts/DiasSemanaChart.dart';
+
 /*
 
 CLASSE QUE AUXILIA NA MANIPULAÇÃO DO BANCO DE DADOS SQFLITE
@@ -44,28 +46,24 @@ class DbCeAppHelper {
 
     return await openDatabase(path,version: 2, onCreate: (Database db, int newerVersion) async{
 
-      await db.execute(
-        "CREATE TABLE $cronogramaTable( $idColumn INTEGER PRIMARY KEY, $nomeColumn TEXT NOT NULL,  $dataInicioColumn TEXT NOT NULL, $dataFimColumn TEXT NOT NULL)");
+      //  await db.execute("CREATE TABLE $cronogramaTable( $idColumn INTEGER PRIMARY KEY, $nomeColumn TEXT NOT NULL,  $dataInicioColumn TEXT NOT NULL, $dataFimColumn TEXT NOT NULL)");
+
+        await db.execute("CREATE TABLE $disciplinaTable( $idDColumn INTEGER PRIMARY KEY, $nomeDColumn TEXT NOT NULL, $siglaDColumn TEXT NOT NULL)");
+
+
+     //   await db.execute("CREATE TABLE $periodoTable( $idPColumn INTEGER PRIMARY KEY, $nomePColumn TEXT NOT NULL)");
 
 
 
-        await db.execute("CREATE TABLE $disciplinaTable( $idDColumn INTEGER PRIMARY KEY, $nomeDColumn TEXT NOT NULL)");
 
 
 
-      /*  await db.execute("CREATE TABLE $periodoTable( $idPColumn INTEGER PRIMARY KEY, $nomePColumn TEXT NOT NULL)");
+    //    await db.execute("CREATE TABLE $diaSemanaTable( $idDSColumn INTEGER PRIMARY KEY, $nomeDSColumn TEXT NOT NULL)");
 
 
+     //   await db.execute("CREATE TABLE $diaPeriodoDisciplinaTable( $idDPDColumn INTEGER PRIMARY KEY, $fkDColumn INTEGER NOT NULL"
+     //     ", $diaColumn TEXT NOT NULL, $periodoColumn TEXT NOT NULL,  $horasColumn INTEGER NOT NULL)");
 
-        await db.execute("CREATE TABLE $diaSemanaTable( $idDSColumn INTEGER PRIMARY KEY, $nomeDSColumn TEXT NOT NULL)");*/
-
-
-      await db.execute("CREATE TABLE $diaPeriodoDisciplinaTable( $idDPDColumn INTEGER PRIMARY KEY, $fkDColumn INTEGER NOT NULL"
-          ", $diaColumn TEXT NOT NULL, $periodoColumn TEXT NOT NULL,  $horasColumn INTEGER NOT NULL)");
-
-
-
-      print("DATABASE CREATE");
 
 
     });
@@ -112,11 +110,6 @@ class DbCeAppHelper {
 
     Database dbCronograma = await db;
 
-    //dbCronograma.delete(cronogramaTable, where: "$idColumn = ?",whereArgs: [id]);
-
-
-
-
 
     return await dbCronograma.delete(cronogramaTable, where: "$idColumn = ?",whereArgs: [id]);
 
@@ -135,7 +128,8 @@ class DbCeAppHelper {
 
   }
 
-//////////////////////////////////////////////////////////////////////////////////////////////
+
+  //////////////////////////////////////////////////////////////////////////////////////////////
   /*
       MÉTODO PARA SALVAR UM CRONOGRAMA
    */
@@ -177,12 +171,6 @@ class DbCeAppHelper {
 
     Database dbDiaPeriodoDisciplina = await db;
 
-   // dbDiaPeriodoDisciplina.delete(diaPeriodoDisciplinaTable, where: "$idDPDColumn = ?",whereArgs: [id]);
-
-
-
-
-
     return await dbDiaPeriodoDisciplina.delete(diaPeriodoDisciplinaTable, where: "$idDPDColumn = ?",whereArgs: [id]);
 
 
@@ -205,6 +193,9 @@ class DbCeAppHelper {
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
   /*
       FECHA UMA CONEXÃO COM O BANCO DE DADOS
    */

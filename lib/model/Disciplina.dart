@@ -1,6 +1,7 @@
 final String disciplinaTable = "disciplinaTable";
 final String idDColumn = "idColumn";
 final String nomeDColumn = "nomeColumn";
+final String siglaDColumn = "siglaColumn";
 
 
 
@@ -8,6 +9,7 @@ class Disciplina {
 
   int id;
   String nome;
+  String sigla;
 
   Disciplina();
 
@@ -15,6 +17,7 @@ class Disciplina {
 
     id = map[idDColumn];
     nome = map[nomeDColumn];
+    sigla = map[siglaDColumn];
 
 
   }
@@ -23,6 +26,7 @@ class Disciplina {
   Map toMap() {
     Map<String, dynamic> map = {
       nomeDColumn: nome,
+      siglaDColumn: sigla
 
 
     };
@@ -37,7 +41,7 @@ class Disciplina {
   @override
   String toString() {
 
-    return "Disciplina(id: $id, nome: $nome)";
+    return "Disciplina(id: $id, nome: $nome, sigla: $sigla)";
 
   }
 

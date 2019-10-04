@@ -21,6 +21,39 @@ class DialogNovaDisciplina extends StatefulWidget {
 
 class _DialogNovaDisciplinaState extends State<DialogNovaDisciplina> {
 
+/*
+  List<Color> coresList = [
+    Colors.red,
+    Colors.redAccent,
+    Colors.indigo,
+    Colors.indigoAccent,
+    Colors.orange,
+    Colors.orangeAccent,
+    Colors.purple,
+    Colors.purpleAccent,
+    Colors.deepPurple,
+    Colors.deepPurpleAccent,
+    Colors.grey,
+    Colors.yellow,
+    Colors.yellowAccent,
+    Colors.green,
+    Colors.greenAccent,
+    Colors.lightGreenAccent,
+    Colors.pink,
+    Colors.pinkAccent,
+    Colors.blue,
+    Colors.blueAccent,
+    Colors.lightBlue,
+    Colors.cyanAccent,
+    Colors.amber,
+    Colors.amberAccent,
+
+  ];
+*/
+
+
+
+
   List<Color> coresList = [
     Colors.red,
     Colors.redAccent,
@@ -235,25 +268,10 @@ class _DialogNovaDisciplinaState extends State<DialogNovaDisciplina> {
                   ),
                 )),
             onTap: () {
-              print(cores[index].toString());
+              print(cores[index].value);
             },
           );
         });
   }
-
-  /* cores.map((cor) => GestureDetector(
-                child: Container(
-                  width: 30.0,
-                  height: 30.0,
-                  decoration: new BoxDecoration(
-                    color: cor,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                onTap: () {
-                  print(cor.toString());
-                },
-              ))
-          .toList(),*/
 
 }
