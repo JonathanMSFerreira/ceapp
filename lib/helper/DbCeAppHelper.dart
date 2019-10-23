@@ -42,31 +42,23 @@ class DbCeAppHelper {
   Future<Database> initDb() async{
 
     final databasesPath = await getDatabasesPath();
-    final path =  join(databasesPath,"db_ceapp.db");
+    final path =  join(databasesPath,"db_ceaap.db");
 
-    return await openDatabase(path,version: 1, onCreate: (Database db, int newerVersion) async{
+    return await openDatabase(path, version: 2, onCreate: (Database db, int newerVersion) async{
 
         await db.execute("CREATE TABLE $cronogramaTable( $idColumn INTEGER PRIMARY KEY, $nomeColumn TEXT NOT NULL,  $dataInicioColumn TEXT NOT NULL, $dataFimColumn TEXT NOT NULL)");
 
-        db.execute("CREATE TABLE $disciplinaTable( $idDColumn INTEGER PRIMARY KEY, $nomeDColumn TEXT NOT NULL, $siglaDColumn TEXT NOT NULL)");
+        db.execute("CREATE TABLE $disciplinaTable( $idDColumn INTEGER PRIMARY KEY, $nomeDColumn TEXT NOT NULL, $siglaDColumn TEXT NOT NULL, $corDColumn INTEGER NOT NULL)");
 
        db.execute("CREATE TABLE $periodoTable( $idPColumn INTEGER PRIMARY KEY, $nomePColumn TEXT NOT NULL)");
 
-        db.execute("CREATE TABLE $diaSemanaTable( $idDSColumn INTEGER PRIMARY KEY, $nomeDSColumn TEXT NOT NULL)");
+        db.execute("CREATE TABLE $diaSemanaTable( $idDSColumn INTEGER PRIMARY KEY, $nomeDSColumn TEXT NOT NULL, $siglaDSColumn TEXT NOT NULL)");
 
        db.execute("CREATE TABLE $diaPeriodoDisciplinaTable( $idDPDColumn INTEGER PRIMARY KEY, $fkDColumn INTEGER NOT NULL"", $diaColumn TEXT NOT NULL, $periodoColumn TEXT NOT NULL,  $horasColumn INTEGER NOT NULL)");
 
-       db.execute("INSERT INTO $diaSemanaTable($nomeDSColumn) VALUES('Segunda')");
-       db.execute("INSERT INTO $diaSemanaTable($nomeDSColumn) VALUES('Terça')");
-       db.execute("INSERT INTO $diaSemanaTable($nomeDSColumn) VALUES('Quarta')");
-       db.execute("INSERT INTO $diaSemanaTable($nomeDSColumn) VALUES('Quinta')");
-       db.execute("INSERT INTO $diaSemanaTable($nomeDSColumn) VALUES('Sexta')");
-       db.execute("INSERT INTO $diaSemanaTable($nomeDSColumn) VALUES('Sábado')");
-       db.execute("INSERT INTO $diaSemanaTable($nomeDSColumn) VALUES('Domingo')");
+       db.execute("INSERT INTO $diaSemanaTable($nomeDSColumn, $siglaDSColumn) VALUES ('Segunda','SEG'), ('Terça','TER'), ('Quarta','QUA'), ('Quinta','QUI'), ('Sexta','SEX'),('Sábado','SAB'),('Domingo','DOM')");
 
-       db.execute("INSERT INTO $periodoTable ($nomePColumn) VALUES('Manhã')");
-       db.execute("INSERT INTO $periodoTable ($nomePColumn) VALUES('Tarde')");
-       db.execute("INSERT INTO $periodoTable ($nomePColumn) VALUES('Noite')");
+       db.execute("INSERT INTO $periodoTable ($nomePColumn) VALUES('Manhã'), ('Tarde'),('Noite')");
 
 
 
@@ -198,6 +190,40 @@ class DbCeAppHelper {
 
 
 
+  /*
+      MÉTODO PARA SALVAR UMA DISCIPLINA
+   */
+  Future<Disciplina> saveDisciplina(Disciplina disciplina) async {
+
+    Database dbDisciplina = await db;
+    disciplina.id = await dbDisciplina.insert(disciplinaTable, disciplina.toMap());
+
+    print("INSERT OK");
+
+
+    return disciplina;
+
+
+  }
+
+
+
+  Future<List<Disciplina>> getDisciplinas() async {
+
+    Database dbDisciplinas = await db;
+    List listMap = await dbDisciplinas.rawQuery("SELECT * FROM $disciplinaTable" );
+    List<Disciplina> listDisciplina =  List();
+    for(Map m in listMap){
+
+      listDisciplina.add(Disciplina.fromMap(m));
+
+    }
+
+    return listDisciplina;
+
+  }
+
+
 
   Future<List> getPeriodos() async {
 
@@ -248,6 +274,8 @@ class DbCeAppHelper {
 
 
   }
+
+
 
 
 

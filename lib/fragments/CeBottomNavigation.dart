@@ -48,7 +48,7 @@ class _CeBottomNavigationState extends State<CeBottomNavigation> {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (context) => DisciplinasPage(new Disciplina())));
+                        builder: (context) => DisciplinasPage()));
 
               },
             ),

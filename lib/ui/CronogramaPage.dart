@@ -482,14 +482,15 @@ class _CronogramaPageState extends State<CronogramaPage>
             value: 1,
             child: FlatButton.icon(onPressed: () {
 
-              Navigator.push(context,
+              Navigator.pushReplacement(context,
                   new MaterialPageRoute(builder: (context) => NovoCronogramaPage()));
 
 
-            }, icon: Icon(Icons.edit,), label: Text("Editar Cronograma"))
+            }, icon: Icon(Icons.edit, color: Colors.indigoAccent,), label: Text("Editar", style: TextStyle(
+                color: Colors.indigoAccent, fontFamily: 'OpenSans')))
         ),
 
-/*
+
 
         PopupMenuItem(
             value: 2,
@@ -497,14 +498,16 @@ class _CronogramaPageState extends State<CronogramaPage>
 
               Navigator.pop(context);
             },
-                icon: Icon(Icons.clear,), label: Text("Desmarcar todos"))
+                icon: Icon(Icons.file_upload, color: Colors.indigoAccent,), label: Text("Exportar", style: TextStyle(
+                    color: Colors.indigoAccent, fontFamily: 'OpenSans')))
         ),
         PopupMenuItem(
             value: 2,
             child: FlatButton.icon(onPressed: () {
 
               Navigator.pop(context);
-            }, icon: Icon(Icons.check,), label: Text("Marcar todos"))
+            }, icon: Icon(Icons.print, color: Colors.indigoAccent,), label: Text("Imprimir", style: TextStyle(
+                color: Colors.indigoAccent, fontFamily: 'OpenSans')))
         ),
 
         PopupMenuDivider(),
@@ -513,9 +516,10 @@ class _CronogramaPageState extends State<CronogramaPage>
             value: 2,
             child: FlatButton.icon(onPressed: () {
 
-            }, icon: Icon(Icons.delete,), label: Text("Limpar lista"))
+            }, icon: Icon(Icons.delete, color: Colors.indigoAccent,), label: Text("Deletar", style: TextStyle(
+    color: Colors.indigoAccent, fontFamily: 'OpenSans')))
         ),
-*/
+
 
 
       ],

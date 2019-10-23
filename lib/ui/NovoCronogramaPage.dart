@@ -18,11 +18,12 @@ class NovoCronogramaPage extends StatefulWidget {
 class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
 
 
-  //List<String> diasList;
+  List<String> _listaPeriodos = new List<String>();
+  List<String> _listaDias = new List<String>();
+
 
 
   List<String> _horariosSelecionadosList = List();
-
   List<String> _diasSelecionadosList = List();
 
 
@@ -41,10 +42,6 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
 
 
   Cronograma tmpCronograma;
-
-  List<String> _listaPeriodos = new List<String>();
-
-  List<String> _listaDias = new List<String>();
 
 
 
@@ -73,25 +70,9 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
 
   @override
   Widget build(BuildContext context) {
+
+
     final dateFormat = DateFormat("dd/MM/yyyy");
-
-
-//    List<String> diasList = [
-//      "Segunda",
-//      "Terça",
-//      "Quarta",
-//      "Quinta",
-//      "Sexta",
-//      "Sábado",
-//      "Domingo"
-//    ];
-
-    List<String> horariosList = [
-      "Manhã",
-      "Tarde",
-      "Noite",
-    ];
-
 
     return Scaffold(
       backgroundColor: Colors.indigoAccent,
@@ -281,9 +262,10 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
                             _nomeInserido, _inicioInserido, _fimInserido,
                             _diasInserido, _horariosInserido) == true ? Colors
                             .orange : Colors.grey,
-                        onPressed: formIsOk(
-                            _nomeInserido, _inicioInserido, _fimInserido,
-                            _diasInserido, _horariosInserido) == true ? () {
+                        onPressed: formIsOk(_nomeInserido, _inicioInserido, _fimInserido,
+                            _diasInserido, _horariosInserido) == true ?
+
+                            () {
                           helper.saveCronograma(tmpCronograma);
 
 
