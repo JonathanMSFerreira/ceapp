@@ -2,9 +2,12 @@ import 'package:ceapp/fragments/MultiSelectChip.dart';
 import 'package:ceapp/helper/DbCeAppHelper.dart';
 import 'package:ceapp/model/Cronograma.dart';
 import 'package:ceapp/model/DiaPeriodoDisciplina.dart';
+import 'package:ceapp/model/DiaSemana.dart';
+import 'package:ceapp/model/Periodo.dart';
 import 'package:flutter/material.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
+import 'package:sqflite/sqflite.dart';
 
 
 class NovoCronogramaPage extends StatefulWidget {
@@ -15,12 +18,15 @@ class NovoCronogramaPage extends StatefulWidget {
 class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
 
 
+  //List<String> diasList;
+
 
   List<String> _horariosSelecionadosList = List();
 
   List<String> _diasSelecionadosList = List();
 
 
+  DbCeAppHelper helper;
 
 
   FocusNode _nomeFocus;
@@ -34,14 +40,24 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
   bool _horariosInserido = false;
 
 
+  Cronograma tmpCronograma;
 
+  List<String> _listaPeriodos = new List<String>();
+
+  List<String> _listaDias = new List<String>();
 
 
 
   @override
   void initState() {
-
     super.initState();
+    helper = new DbCeAppHelper();
+
+    _getPeriodos();
+    _getDias();
+
+
+    tmpCronograma = new Cronograma();
     _nomeFocus = FocusNode();
     _inicioFocus = FocusNode();
     _fimFocus = FocusNode();
@@ -57,34 +73,24 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     final dateFormat = DateFormat("dd/MM/yyyy");
 
 
-    DbCeAppHelper helper = new DbCeAppHelper();
-
-    Cronograma tmpCronograma = new Cronograma();
-
-    List<String> diasList = [
-      "Segunda",
-      "Terça",
-      "Quarta",
-      "Quinta",
-      "Sexta",
-      "Sábado",
-      "Domingo"
-    ];
+//    List<String> diasList = [
+//      "Segunda",
+//      "Terça",
+//      "Quarta",
+//      "Quinta",
+//      "Sexta",
+//      "Sábado",
+//      "Domingo"
+//    ];
 
     List<String> horariosList = [
       "Manhã",
       "Tarde",
       "Noite",
     ];
-
-
-
 
 
     return Scaffold(
@@ -97,15 +103,14 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
                 color: Colors.white, fontFamily: 'OpenSans', fontSize: 20.0)),
         elevation: 0.0,
       ),
-      body: SingleChildScrollView(
-          child: Container(
-              color: Colors.indigoAccent,
+      body: ListView(
 
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Card(
-                            child: Padding(
+
+
+
+                  children: [
+                    Card(
+                        child: Padding(
                           padding: EdgeInsets.all(15.0),
                           child: Column(children: [
                             Text("Informações",
@@ -127,35 +132,27 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
                               decoration: InputDecoration(
                                 labelText: 'Nome',
                               ),
-                              onSubmitted: (term){
-
-                                _fieldFocusChange(context, _nomeFocus, _inicioFocus);
-
-
+                              onSubmitted: (term) {
+                                _fieldFocusChange(context, _nomeFocus,
+                                    _inicioFocus);
                               },
 
-                              onChanged: (inputNome){
-
+                              onChanged: (inputNome) {
                                 setState(() {
-
-                                  if(inputNome.isNotEmpty && inputNome != null){
-
+                                  if (inputNome.isNotEmpty &&
+                                      inputNome != null) {
                                     tmpCronograma.nome = inputNome;
                                     _nomeInserido = true;
-
-                                  }else{
-
+                                  } else {
                                     _nomeInserido = false;
-
                                   }
                                 });
                               },
 
 
-
                             ),
                             DateTimePickerFormField(
-                              focusNode:_inicioFocus,
+                              focusNode: _inicioFocus,
 
                               dateOnly: true,
                               format: dateFormat,
@@ -163,35 +160,27 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
                                   labelText: 'Início dos estudos'),
                               initialDate: DateTime.now(),
 
-                                onFieldSubmitted: (term){
+                              onFieldSubmitted: (term) {
+                                _fieldFocusChange(context, _inicioFocus,
+                                    _fimFocus);
+                              },
 
-                                  _fieldFocusChange(context, _inicioFocus, _fimFocus);
-
-
-                                },
-
-                              onChanged: (inputInicio){
-
-
+                              onChanged: (inputInicio) {
                                 setState(() {
-
-                                  if(inputInicio  != null){
-
-                                    tmpCronograma.dataInicio = inputInicio.toString();
+                                  if (inputInicio != null) {
+                                    tmpCronograma.dataInicio =
+                                        inputInicio.toString();
                                     _inicioInserido = true;
-
-                                  }else{
-
+                                  } else {
                                     _inicioInserido = false;
-
                                   }
                                 }
 
 
-                                );},
+                                );
+                              },
 
                             ),
-
 
 
                             DateTimePickerFormField(
@@ -200,38 +189,28 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
                               dateOnly: true,
                               format: dateFormat,
                               decoration:
-                                  InputDecoration(labelText: 'Fim dos estudos'),
+                              InputDecoration(labelText: 'Fim dos estudos'),
                               initialDate: DateTime.now(),
-                              onChanged: (inputFim){
-
-
+                              onChanged: (inputFim) {
                                 setState(() {
-
-                                  if(inputFim  != null){
-
+                                  if (inputFim != null) {
                                     tmpCronograma.dataFim = inputFim.toString();
                                     _fimInserido = true;
-
-                                  }else{
-
+                                  } else {
                                     _fimInserido = false;
-
                                   }
                                 }
 
 
                                 );
-
-
                               },
-
 
 
                             ),
                           ]),
                         )),
-                        Card(
-                            child: Padding(
+                    Card(
+                        child: Padding(
                           padding: EdgeInsets.all(12.0),
                           child: Column(children: [
                             Text("Dias disponíveis",
@@ -244,37 +223,27 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
                               color: Colors.indigo,
                             ),
                             MultiSelectChip(
-                              diasList,
+                              _listaDias,
 
                               onSelectionChanged: (selectedList) {
                                 setState(() {
-
-
                                   _diasSelecionadosList = selectedList;
 
-                                  if(_diasSelecionadosList.isNotEmpty){
-
+                                  if (_diasSelecionadosList.isNotEmpty) {
                                     _diasInserido = true;
-
-
-                                  }else{
-
+                                  } else {
                                     _diasInserido = false;
-
                                   }
-
-
                                 });
                               },
 
                             ),
 
 
-
                           ]),
                         )),
-                        Card(
-                            child: Padding(
+                    Card(
+                        child: Padding(
                           padding: EdgeInsets.all(12.0),
                           child: Column(children: [
                             Text("Horários disponíveis",
@@ -287,91 +256,120 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
                               color: Colors.indigo,
                             ),
                             MultiSelectChip(
-                              horariosList,
+                              _listaPeriodos,
                               onSelectionChanged: (selectedList) {
                                 setState(() {
                                   _horariosSelecionadosList = selectedList;
 
 
-                                  if(_horariosSelecionadosList.isNotEmpty){
-
+                                  if (_horariosSelecionadosList.isNotEmpty) {
                                     _horariosInserido = true;
-
-
-                                  }else{
-
+                                  } else {
                                     _horariosInserido = false;
-
                                   }
-
-
-
-
                                 });
                               },
                             ),
                           ]),
                         )),
-                        Padding(
-                          padding: EdgeInsets.all(5.0),
-                          child: RaisedButton(
-                            padding: const EdgeInsets.all(15.0),
-                            textColor: Colors.white,
-                            color: formIsOk(_nomeInserido,_inicioInserido, _fimInserido, _diasInserido, _horariosInserido) == true ?  Colors.orange : Colors.grey,
-                            onPressed: formIsOk(_nomeInserido,_inicioInserido, _fimInserido, _diasInserido, _horariosInserido) == true ?   () {
+                    Padding(
+                      padding: EdgeInsets.all(5.0),
+                      child: RaisedButton(
+                        padding: const EdgeInsets.all(15.0),
+                        textColor: Colors.white,
+                        color: formIsOk(
+                            _nomeInserido, _inicioInserido, _fimInserido,
+                            _diasInserido, _horariosInserido) == true ? Colors
+                            .orange : Colors.grey,
+                        onPressed: formIsOk(
+                            _nomeInserido, _inicioInserido, _fimInserido,
+                            _diasInserido, _horariosInserido) == true ? () {
+                          helper.saveCronograma(tmpCronograma);
 
 
+                          tmpCronograma.toString();
 
 
+                          // Cronograma  savedCronograma = await helper.saveCronograma(tmpCronograma);
 
 
+                          // DiaPeriodoDisciplina tmpDpd = new DiaPeriodoDisciplina();
 
 
-                                //    Cronograma  savedCronograma = await helper.saveCronograma(tmpCronograma);
+                          // DiaPeriodoDisciplina dpd = await helper.saveDiaPeriodoDisciplina(tmpDpd);
 
 
-                                  // DiaPeriodoDisciplina tmpDpd = new DiaPeriodoDisciplina();
+                        } : null,
 
-
-
-
-
-
-
-
-
-
-                                   // DiaPeriodoDisciplina dpd = await helper.saveDiaPeriodoDisciplina(tmpDpd);
-
-
-
-
-
-                              } : null,
-
-                            child: new Text("Salvar",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'OpenSans',
-                                    fontSize: 17.0)),
-                          ),
-                        ),
-                      ]))),
+                        child: new Text("Salvar",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'OpenSans',
+                                fontSize: 17.0)),
+                      ),
+                    ),
+                  ]),
     );
   }
 
-  _fieldFocusChange(BuildContext context, FocusNode currentFocus,FocusNode nextFocus) {
+  _fieldFocusChange(BuildContext context, FocusNode currentFocus,
+      FocusNode nextFocus) {
     currentFocus.unfocus();
     FocusScope.of(context).requestFocus(nextFocus);
   }
 
-  bool formIsOk(hasNome, hasInicio, hasFim, hasDia, hasHorarios){
-
-
+  bool formIsOk(hasNome, hasInicio, hasFim, hasDia, hasHorarios) {
     return hasNome && hasInicio && hasFim && hasDia && hasHorarios;
-
-
   }
+
+  void _getPeriodos() {
+
+    List<String> tmpLista = new List<String>();
+
+    helper.getPeriodos().then((list) {
+
+       for(Periodo p in list){
+
+         tmpLista.add(p.nome);
+
+       }
+
+       setState(() {
+
+         _listaPeriodos = tmpLista;
+
+
+
+       });
+    });
+  }
+
+
+  void _getDias() {
+
+    List<String> tmpLista = new List<String>();
+
+    helper.getDias().then((list) {
+
+      for(DiaSemana d in list){
+
+        tmpLista.add(d.nome);
+
+      }
+
+      setState(() {
+
+        _listaDias = tmpLista;
+
+
+
+      });
+    });
+  }
+
+
+
+
 
 
 

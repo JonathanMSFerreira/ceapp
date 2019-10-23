@@ -7,7 +7,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:ceapp/model/Cronograma.dart';
 
-import '../ui/charts/DiasSemanaChart.dart';
+
 
 /*
 
@@ -44,25 +44,33 @@ class DbCeAppHelper {
     final databasesPath = await getDatabasesPath();
     final path =  join(databasesPath,"db_ceapp.db");
 
-    return await openDatabase(path,version: 2, onCreate: (Database db, int newerVersion) async{
+    return await openDatabase(path,version: 1, onCreate: (Database db, int newerVersion) async{
 
-      //  await db.execute("CREATE TABLE $cronogramaTable( $idColumn INTEGER PRIMARY KEY, $nomeColumn TEXT NOT NULL,  $dataInicioColumn TEXT NOT NULL, $dataFimColumn TEXT NOT NULL)");
+        await db.execute("CREATE TABLE $cronogramaTable( $idColumn INTEGER PRIMARY KEY, $nomeColumn TEXT NOT NULL,  $dataInicioColumn TEXT NOT NULL, $dataFimColumn TEXT NOT NULL)");
 
-        await db.execute("CREATE TABLE $disciplinaTable( $idDColumn INTEGER PRIMARY KEY, $nomeDColumn TEXT NOT NULL, $siglaDColumn TEXT NOT NULL)");
+        db.execute("CREATE TABLE $disciplinaTable( $idDColumn INTEGER PRIMARY KEY, $nomeDColumn TEXT NOT NULL, $siglaDColumn TEXT NOT NULL)");
+
+       db.execute("CREATE TABLE $periodoTable( $idPColumn INTEGER PRIMARY KEY, $nomePColumn TEXT NOT NULL)");
+
+        db.execute("CREATE TABLE $diaSemanaTable( $idDSColumn INTEGER PRIMARY KEY, $nomeDSColumn TEXT NOT NULL)");
+
+       db.execute("CREATE TABLE $diaPeriodoDisciplinaTable( $idDPDColumn INTEGER PRIMARY KEY, $fkDColumn INTEGER NOT NULL"", $diaColumn TEXT NOT NULL, $periodoColumn TEXT NOT NULL,  $horasColumn INTEGER NOT NULL)");
+
+       db.execute("INSERT INTO $diaSemanaTable($nomeDSColumn) VALUES('Segunda')");
+       db.execute("INSERT INTO $diaSemanaTable($nomeDSColumn) VALUES('Terça')");
+       db.execute("INSERT INTO $diaSemanaTable($nomeDSColumn) VALUES('Quarta')");
+       db.execute("INSERT INTO $diaSemanaTable($nomeDSColumn) VALUES('Quinta')");
+       db.execute("INSERT INTO $diaSemanaTable($nomeDSColumn) VALUES('Sexta')");
+       db.execute("INSERT INTO $diaSemanaTable($nomeDSColumn) VALUES('Sábado')");
+       db.execute("INSERT INTO $diaSemanaTable($nomeDSColumn) VALUES('Domingo')");
+
+       db.execute("INSERT INTO $periodoTable ($nomePColumn) VALUES('Manhã')");
+       db.execute("INSERT INTO $periodoTable ($nomePColumn) VALUES('Tarde')");
+       db.execute("INSERT INTO $periodoTable ($nomePColumn) VALUES('Noite')");
 
 
-     //   await db.execute("CREATE TABLE $periodoTable( $idPColumn INTEGER PRIMARY KEY, $nomePColumn TEXT NOT NULL)");
 
-
-
-
-
-
-    //    await db.execute("CREATE TABLE $diaSemanaTable( $idDSColumn INTEGER PRIMARY KEY, $nomeDSColumn TEXT NOT NULL)");
-
-
-     //   await db.execute("CREATE TABLE $diaPeriodoDisciplinaTable( $idDPDColumn INTEGER PRIMARY KEY, $fkDColumn INTEGER NOT NULL"
-     //     ", $diaColumn TEXT NOT NULL, $periodoColumn TEXT NOT NULL,  $horasColumn INTEGER NOT NULL)");
+        print("DATABASE CREATED");
 
 
 
@@ -188,6 +196,40 @@ class DbCeAppHelper {
 
   }
 
+
+
+
+  Future<List> getPeriodos() async {
+
+    Database dbPeriodo = await db;
+    List listMap = await dbPeriodo.rawQuery("SELECT * FROM $periodoTable" );
+    List<Periodo> listPeriodo =  List();
+    for(Map m in listMap){
+
+      listPeriodo.add(Periodo.fromMap(m));
+
+    }
+
+    return listPeriodo;
+
+  }
+
+
+
+  Future<List> getDias() async {
+
+    Database dbDias = await db;
+    List listMap = await dbDias.rawQuery("SELECT * FROM $diaSemanaTable" );
+    List<DiaSemana> listDiaSemana =  List();
+    for(Map m in listMap){
+
+      listDiaSemana.add(DiaSemana.fromMap(m));
+
+    }
+
+    return listDiaSemana;
+
+  }
 
 
 

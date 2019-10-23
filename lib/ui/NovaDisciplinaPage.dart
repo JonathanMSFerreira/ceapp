@@ -1,4 +1,6 @@
 import 'package:ceapp/fragments/MultiSelectChip.dart';
+import 'package:ceapp/helper/DbCeAppHelper.dart';
+import 'package:ceapp/model/DiaSemana.dart';
 import 'package:ceapp/model/Disciplina.dart';
 import 'package:flutter/material.dart';
 
@@ -21,38 +23,24 @@ class DialogNovaDisciplina extends StatefulWidget {
 
 class _DialogNovaDisciplinaState extends State<DialogNovaDisciplina> {
 
-/*
-  List<Color> coresList = [
-    Colors.red,
-    Colors.redAccent,
-    Colors.indigo,
-    Colors.indigoAccent,
-    Colors.orange,
-    Colors.orangeAccent,
-    Colors.purple,
-    Colors.purpleAccent,
-    Colors.deepPurple,
-    Colors.deepPurpleAccent,
-    Colors.grey,
-    Colors.yellow,
-    Colors.yellowAccent,
-    Colors.green,
-    Colors.greenAccent,
-    Colors.lightGreenAccent,
-    Colors.pink,
-    Colors.pinkAccent,
-    Colors.blue,
-    Colors.blueAccent,
-    Colors.lightBlue,
-    Colors.cyanAccent,
-    Colors.amber,
-    Colors.amberAccent,
 
-  ];
-*/
+
+  List<String> _listaDias = new List<String>();
+
+  DbCeAppHelper helper;
+
+
+  @override
+  void initState() {
+
+    helper = new DbCeAppHelper();
+    _getDias();
+    super.initState();
 
 
 
+
+  }
 
   List<Color> coresList = [
     Colors.red,
@@ -196,7 +184,7 @@ class _DialogNovaDisciplinaState extends State<DialogNovaDisciplina> {
                                   color: Colors.indigoAccent,
                                   fontFamily: 'OpenSans')),
                               MultiSelectChip(
-                                diasList,
+                                _listaDias,
                                 onSelectionChanged: (selectedList) {
                                   setState(() {
                                     diasSelecionadosList = selectedList;
@@ -209,7 +197,7 @@ class _DialogNovaDisciplinaState extends State<DialogNovaDisciplina> {
                                   color: Colors.indigoAccent,
                                   fontFamily: 'OpenSans')),
                               MultiSelectChip(
-                                diasList,
+                                _listaDias,
                                 onSelectionChanged: (selectedList) {
                                   setState(() {
                                     diasSelecionadosList = selectedList;
@@ -221,7 +209,7 @@ class _DialogNovaDisciplinaState extends State<DialogNovaDisciplina> {
                                   color: Colors.indigoAccent,
                                   fontFamily: 'OpenSans')),
                               MultiSelectChip(
-                                diasList,
+                                _listaDias,
                                 onSelectionChanged: (selectedList) {
                                   setState(() {
                                     diasSelecionadosList = selectedList;
@@ -272,6 +260,38 @@ class _DialogNovaDisciplinaState extends State<DialogNovaDisciplina> {
             },
           );
         });
+  }
+
+
+
+
+  void _getDias() {
+
+    List<String> tmpLista = new List<String>();
+
+    helper.getDias().then((list) {
+
+      for(DiaSemana d in list){
+
+        tmpLista.add(d.nome);
+
+      }
+
+      setState(() {
+
+        _listaDias = tmpLista;
+
+
+
+      });
+    });
+  }
+
+
+  @override
+  void dispose() {
+    helper.closeDb();
+    super.dispose();
   }
 
 }

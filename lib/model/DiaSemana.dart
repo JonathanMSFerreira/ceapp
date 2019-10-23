@@ -4,14 +4,14 @@ final String nomeDSColumn = "nomeDSColumn";
 
 
 
-class Periodo {
+class DiaSemana {
 
   int id;
   String nome;
 
-  Periodo();
+  DiaSemana();
 
-  Periodo.fromMap(Map map) {
+  DiaSemana.fromMap(Map map) {
 
     id = map[idDSColumn];
     nome = map[nomeDSColumn];
@@ -37,7 +37,7 @@ class Periodo {
   @override
   String toString() {
 
-    return "Periodo(id: $id, nome: $nome)";
+    return "DiaSemana(id: $id, nome: $nome)";
 
   }
 
