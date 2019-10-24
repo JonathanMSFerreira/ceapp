@@ -1,5 +1,6 @@
 import 'package:ceapp/ui/CeAppPage.dart';
 import 'package:ceapp/ui/CronogramaPage.dart';
+import 'package:ceapp/ui/SplashPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -18,12 +19,12 @@ class MyApp extends StatelessWidget {
       supportedLocales: [
         const Locale('pt', 'BR'), ],
       theme: ThemeData(
-        backgroundColor: Colors.indigoAccent,
+        backgroundColor: Colors.white,
         primaryColor: Colors.indigoAccent,
 
       ),
-  //  home: CeAppPage(),
-      home: CronogramaPage(),
+
+      home: SplashPage(),
 
     );
   }

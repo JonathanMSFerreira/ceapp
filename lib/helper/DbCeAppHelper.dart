@@ -42,7 +42,7 @@ class DbCeAppHelper {
   Future<Database> initDb() async{
 
     final databasesPath = await getDatabasesPath();
-    final path =  join(databasesPath,"db_ceaap.db");
+    final path =  join(databasesPath,"db_ceapp.db");
 
     return await openDatabase(path, version: 2, onCreate: (Database db, int newerVersion) async{
 
@@ -196,11 +196,11 @@ class DbCeAppHelper {
   Future<Disciplina> saveDisciplina(Disciplina disciplina) async {
 
     Database dbDisciplina = await db;
+
+    disciplina.toString();
+
+
     disciplina.id = await dbDisciplina.insert(disciplinaTable, disciplina.toMap());
-
-    print("INSERT OK");
-
-
     return disciplina;
 
 

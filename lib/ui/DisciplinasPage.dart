@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:ceapp/ui/NovaDisciplinaPage.dart';
 
 class DisciplinasPage extends StatefulWidget {
-
-
   @override
   _DisciplinasPageState createState() => _DisciplinasPageState();
 }
@@ -27,28 +25,16 @@ class _DisciplinasPageState extends State<DisciplinasPage> {
 
 
   @override
-  void dispose() {
-    helper.closeDb();
-    super.dispose();
-  }
-
-
-
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.indigoAccent,
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.orange,
           onPressed: () {
-
-
-            Navigator.pushReplacement(context,
-                new MaterialPageRoute(builder: (context) => NovaDisciplinaPage()));
-
-
-
+            Navigator.pushReplacement(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => NovaDisciplinaPage()));
           },
           child: Icon(Icons.add),
         ),
@@ -63,36 +49,20 @@ class _DisciplinasPageState extends State<DisciplinasPage> {
         body: Column(
           children: <Widget>[
             Expanded(
-             child: _cardsDisciplinas(_listDisciplinas),
+              child: _cardsDisciplinas(_listDisciplinas),
             ),
           ],
         ));
   }
 
   void _getListaDisciplinas() {
-
-
-    helper.getDisciplinas().then((lista){
-
-
+    helper.getDisciplinas().then((lista) {
       setState(() {
-
-
         _listDisciplinas = lista;
-
-
       });
-
-
     });
-
-
-
   }
 }
-
-
-
 
 Widget _cardsDisciplinas(List<Disciplina> disciplinas) {
   return ListView.builder(
@@ -115,15 +85,10 @@ Widget _cardsDisciplinas(List<Disciplina> disciplinas) {
           ),
           title: Text(
             disciplinas[index].nome ?? '',
-            style: TextStyle(color: Color(disciplinas[index].cor), fontSize: 20.0),
+            style:
+                TextStyle(color: Color(disciplinas[index].cor), fontSize: 20.0),
           ),
           onTap: () {},
         ));
       });
-
-
-
-
-
-
 }

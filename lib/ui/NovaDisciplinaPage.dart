@@ -2,6 +2,7 @@ import 'package:ceapp/fragments/MultiSelectChip.dart';
 import 'package:ceapp/helper/DbCeAppHelper.dart';
 import 'package:ceapp/model/DiaSemana.dart';
 import 'package:ceapp/model/Disciplina.dart';
+import 'package:ceapp/ui/DisciplinasPage.dart';
 import 'package:flutter/material.dart';
 
 class NovaDisciplinaPage extends StatefulWidget {
@@ -185,7 +186,13 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
               color: Colors.orange,
               onPressed: formIsOk(_nomeInserido, _siglaInserido, _corInserido) == true ? () {
 
+
+                tmpDisciplina.toString();
+
                 helper.saveDisciplina(tmpDisciplina);
+
+                Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => DisciplinasPage()));
+
 
     } : null,
            child: new Text("Salvar",
@@ -300,9 +307,4 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
     });
   }
 
-  @override
-  void dispose() {
-    helper.closeDb();
-    super.dispose();
-  }
 }
