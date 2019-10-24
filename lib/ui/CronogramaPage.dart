@@ -1,4 +1,6 @@
 import 'package:ceapp/fragments/CeBottomNavigation.dart';
+import 'package:ceapp/helper/DbCeAppHelper.dart';
+import 'package:ceapp/model/Disciplina.dart';
 import 'package:ceapp/ui/NovoCronogramaPage.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -24,62 +26,84 @@ class CronogramaPage extends StatefulWidget {
   _CronogramaPageState createState() => _CronogramaPageState();
 }
 
-class _CronogramaPageState extends State<CronogramaPage>
-    with TickerProviderStateMixin {
+class _CronogramaPageState extends State<CronogramaPage>  with TickerProviderStateMixin {
+
+
+  List<Disciplina> _listDisciplinas = new List<Disciplina>();
+  DbCeAppHelper _helper;
   bool down = false;
   Map<DateTime, List> _events;
   List _selectedEvents;
   AnimationController _animationController;
   CalendarController _calendarController;
 
+
+
+
   @override
   void initState() {
+
+    _helper = new DbCeAppHelper();
+
+
+
+    _loadListaDisciplinas();
+
+
     super.initState();
-    final _selectedDay = DateTime.now();
-
-    _events = {
-      _selectedDay.subtract(Duration(days: 30)): [
-        'História',
-        'Direito Administrativo',
-        'Direito Penal'
-      ],
-      _selectedDay.subtract(Duration(days: 27)): ['Event A1'],
-      _selectedDay: [
-        'História',
-        'Geografia',
-        'Português',
-        'Inglês',
-        'Artes',
-        'Filosofia',
-        'Matemática',
-        'Física'
-      ],
-      _selectedDay.add(Duration(days: 1)): [
-        'Event A8',
-        'Event B8',
-        'Event C8',
-        'Event D8'
-      ],
-      _selectedDay.add(Duration(days: 3)):
-          Set.from(['Direito Adm', 'Direito Penal', 'RLM']).toList(),
-      _selectedDay.add(Duration(days: 7)): [
-        'Event A10',
-        'Event B10',
-        'Event C10'
-      ],
-    };
-
-    _selectedEvents = _events[_selectedDay] ?? [];
 
     _calendarController = CalendarController();
-
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
 
     _animationController.forward();
+
+
+
+
+
+
+
+
   }
+
+
+  _loadListaDisciplinas() async{
+
+
+    List<Disciplina> disciplinas = await _helper.getDisciplinas();
+
+    setState(() {
+
+      _listDisciplinas = disciplinas;
+
+      final   selectedDay = DateTime.now();
+
+      _events = {
+        selectedDay: _listDisciplinas
+      };
+
+      _selectedEvents = _events[selectedDay] ?? [];
+
+    });
+
+
+
+
+  }
+
+  void _getListaDisciplinas() {
+    _helper.getDisciplinas().then((lista) {
+      setState(() {
+
+        _listDisciplinas = lista;
+
+      });
+    });
+  }
+
 
   @override
   void dispose() {
@@ -88,13 +112,24 @@ class _CronogramaPageState extends State<CronogramaPage>
     super.dispose();
   }
 
+
+  /*
+
+    MÉTODO QUE SELECIONA O DIA NO CALENDÁRIO E CARREGA AS DISCIPLINAS
+
+   */
   void _onDaySelected(DateTime day, List events) {
     //TODO
 
     print('CALLBACK: _onDaySelected');
 
+
     setState(() {
-      _selectedEvents = events;
+
+     _selectedEvents = events;
+
+
+
     });
   }
 
@@ -109,6 +144,10 @@ class _CronogramaPageState extends State<CronogramaPage>
 
   @override
   Widget build(BuildContext context) {
+
+
+
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -119,11 +158,6 @@ class _CronogramaPageState extends State<CronogramaPage>
                 color: Colors.white, fontFamily: 'OpenSans', fontSize: 20.0),
           ),
           actions: <Widget>[
-            /*    IconButton(
-              icon: Icon(Icons.clear),
-              onPressed: () {
-                _showDialog(context);
-              }),*/
 
             _menuPopUp(),
 
@@ -165,16 +199,6 @@ class _CronogramaPageState extends State<CronogramaPage>
                                   fontWeight: FontWeight.bold),
                             )),
 
-                        /*       Padding(
-                          padding: EdgeInsets.all( 12.0),
-                          child:      Text(
-                            dataFormatada(DateTime.now()),
-                            style: TextStyle(color: Colors.indigoAccent),
-                          )
-
-
-
-                        )*/
                       ],
                     ),
                     Divider(
@@ -320,6 +344,7 @@ class _CronogramaPageState extends State<CronogramaPage>
         centerHeaderTitle: true,
         formatButtonVisible: false,
         titleTextStyle: TextStyle().copyWith(
+
           color: Colors.orange,
           fontFamily: 'OpenSans',
           fontSize: 18,
@@ -383,9 +408,12 @@ class _CronogramaPageState extends State<CronogramaPage>
         },
       ),
       onDaySelected: (date, events) {
+
         _onDaySelected(date, events);
         _animationController.forward(from: 0.0);
-      },
+
+
+        },
       onVisibleDaysChanged: _onVisibleDaysChanged,
     );
   }
@@ -531,19 +559,21 @@ class _CronogramaPageState extends State<CronogramaPage>
 
 
 
-
   Widget _buildEventList() {
+
+
+
+
     return ListView.separated(
         itemCount: _selectedEvents.length,
-        separatorBuilder: (context, index) =>
-            Divider(height: 1.0, color: Colors.grey),
+        separatorBuilder: (context, index) => Divider(height: 1.0, color: Colors.grey),
         itemBuilder: (context, index) {
           return ListTile(
             leading: CircleAvatar(
-              backgroundColor: Colors.indigo,
+              backgroundColor: Color(_selectedEvents[index].cor),
               child: Center(
                 child: Text(
-                  "HST",
+                  _selectedEvents[index].sigla,
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -553,7 +583,7 @@ class _CronogramaPageState extends State<CronogramaPage>
               color: Colors.black26,
             ),
             title: Text(
-              _selectedEvents[index].toString() ?? '',
+              _selectedEvents[index].nome ?? '',
               style: TextStyle(color: Colors.indigo, fontSize: 20.0),
             ),
             onTap: () {

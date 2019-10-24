@@ -49,7 +49,7 @@ class _DisciplinasPageState extends State<DisciplinasPage> {
         body: Column(
           children: <Widget>[
             Expanded(
-              child: _cardsDisciplinas(_listDisciplinas),
+              child: _listDisciplinas != null ?  _cardsDisciplinas(_listDisciplinas):  Container(),
             ),
           ],
         ));
@@ -65,6 +65,7 @@ class _DisciplinasPageState extends State<DisciplinasPage> {
 }
 
 Widget _cardsDisciplinas(List<Disciplina> disciplinas) {
+
   return ListView.builder(
       itemCount: disciplinas.length,
       itemBuilder: (context, index) {

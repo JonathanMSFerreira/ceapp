@@ -16,12 +16,9 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
 
-
     Future futureDb = _dbCeAppHelper.initDb();
-
     Future futureTimer = Future.delayed(Duration(seconds: 3));
-
-    Future.wait([futureDb,futureTimer]).then((List values){
+    Future.wait([futureTimer, futureDb]).then((List values){
 
       Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => CronogramaPage()));
 
