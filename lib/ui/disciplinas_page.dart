@@ -1,9 +1,9 @@
-import 'package:ceapp/fragments/CeBottomNavigation.dart';
-import 'package:ceapp/helper/DbCeAppHelper.dart';
-import 'package:ceapp/model/Disciplina.dart';
+import 'package:ceapp/fragments/bottom_navigation.dart';
+import 'package:ceapp/helper/db_ceapp.dart';
+import 'package:ceapp/model/disciplina.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ceapp/ui/NovaDisciplinaPage.dart';
+import 'package:ceapp/ui/nova_disciplina_page.dart';
 
 class DisciplinasPage extends StatefulWidget {
   @override
@@ -27,17 +27,31 @@ class _DisciplinasPageState extends State<DisciplinasPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.indigoAccent,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.orange,
-          onPressed: () {
-            Navigator.pushReplacement(
+        backgroundColor: Colors.white,
+
+
+
+
+        floatingActionButton: Container(
+          height: 170.0,
+          width: 65.0,
+          child: FittedBox(
+            child: FloatingActionButton(
+
+                backgroundColor: Colors.indigoAccent,
+                child: Icon(Icons.add),
+
+                onPressed: () {
+                  Navigator.push(
                 context,
-                new MaterialPageRoute(
+              new MaterialPageRoute(
                     builder: (context) => NovaDisciplinaPage()));
-          },
-          child: Icon(Icons.add),
+
+
+                }),
+          ),
         ),
+
         appBar: AppBar(
           elevation: 0.0,
           centerTitle: true,
@@ -51,6 +65,10 @@ class _DisciplinasPageState extends State<DisciplinasPage> {
             Expanded(
               child: _listDisciplinas != null ?  _cardsDisciplinas(_listDisciplinas):  Container(),
             ),
+
+            CeBottomNavigation(),
+
+
           ],
         ));
   }

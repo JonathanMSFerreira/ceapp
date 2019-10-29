@@ -1,9 +1,9 @@
-import 'package:ceapp/fragments/MultiSelectChip.dart';
-import 'package:ceapp/helper/DbCeAppHelper.dart';
-import 'package:ceapp/model/Cronograma.dart';
-import 'package:ceapp/model/DiaPeriodoDisciplina.dart';
-import 'package:ceapp/model/DiaSemana.dart';
-import 'package:ceapp/model/Periodo.dart';
+import 'package:ceapp/fragments/multi_select_chip.dart';
+import 'package:ceapp/helper/db_ceapp.dart';
+import 'package:ceapp/model/cronograma.dart';
+import 'package:ceapp/model/dia_periodo_disciplina.dart';
+import 'package:ceapp/model/dia_semana.dart';
+import 'package:ceapp/model/periodo.dart';
 import 'package:flutter/material.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
@@ -85,9 +85,6 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
         elevation: 0.0,
       ),
       body: ListView(
-
-
-
 
                   children: [
                     Card(
@@ -257,11 +254,12 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
                       padding: EdgeInsets.all(5.0),
                       child: RaisedButton(
                         padding: const EdgeInsets.all(15.0),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(30.0)),
                         textColor: Colors.white,
                         color: formIsOk(
                             _nomeInserido, _inicioInserido, _fimInserido,
-                            _diasInserido, _horariosInserido) == true ? Colors
-                            .orange : Colors.grey,
+                            _diasInserido, _horariosInserido) == true ? Colors.orange : Colors.grey,
                         onPressed: formIsOk(_nomeInserido, _inicioInserido, _fimInserido,
                             _diasInserido, _horariosInserido) == true ?
 
@@ -271,14 +269,6 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
 
                           tmpCronograma.toString();
 
-
-                          // Cronograma  savedCronograma = await helper.saveCronograma(tmpCronograma);
-
-
-                          // DiaPeriodoDisciplina tmpDpd = new DiaPeriodoDisciplina();
-
-
-                          // DiaPeriodoDisciplina dpd = await helper.saveDiaPeriodoDisciplina(tmpDpd);
 
 
                         } : null,

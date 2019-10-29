@@ -1,16 +1,56 @@
+
+import 'package:ceapp/model/disciplina.dart';
+import 'package:ceapp/model/disciplina_view.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 class CronometroPage extends StatefulWidget {
+
+  DisciplinaView disciplina;
+
+
+  CronometroPage(selectedEvent){
+
+
+    this.disciplina = selectedEvent;
+
+
+  }
+
+
   @override
-  _CronometroPageState createState() => _CronometroPageState();
+  _CronometroPageState createState() => _CronometroPageState(this.disciplina);
 }
 
 class _CronometroPageState extends State<CronometroPage> {
+
+
   bool _isStart = true;
   String _stopwatchText = '00:00:00';
   final _stopWatch = new Stopwatch();
   final _timeout = const Duration(seconds: 1);
+  DisciplinaView disciplina;
+
+
+
+  _CronometroPageState(disciplina){
+
+   this.disciplina = disciplina;
+
+  }
+
+
+
+  @override
+  void initState() {
+
+
+
+
+    super.initState();
+  }
+
+
 
   void _startTimeout() {
     new Timer(_timeout, _handleTimeout);
@@ -61,8 +101,10 @@ class _CronometroPageState extends State<CronometroPage> {
     return Scaffold(
       backgroundColor: Colors.indigoAccent,
       appBar: AppBar(
+
+        backgroundColor: Colors.indigoAccent,
         title: Text(
-          "História",
+          disciplina.nome,
           style: TextStyle(color: Colors.white, fontFamily: 'OpenSans'),
         ),
         elevation: 0.0,

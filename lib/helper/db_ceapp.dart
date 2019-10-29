@@ -1,11 +1,12 @@
 
-import 'package:ceapp/model/DiaPeriodoDisciplina.dart';
-import 'package:ceapp/model/DiaSemana.dart';
-import 'package:ceapp/model/Disciplina.dart';
-import 'package:ceapp/model/Periodo.dart';
+import 'package:ceapp/model/dia_periodo_disciplina.dart';
+import 'package:ceapp/model/dia_semana.dart';
+import 'package:ceapp/model/disciplina.dart';
+import 'package:ceapp/model/disciplina_view.dart';
+import 'package:ceapp/model/periodo.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:ceapp/model/Cronograma.dart';
+import 'package:ceapp/model/cronograma.dart';
 
 
 
@@ -46,21 +47,21 @@ class DbCeAppHelper {
 
     return await openDatabase(path, version: 1, onCreate: (Database db, int newerVersion) async{
 
-        await db.execute("CREATE TABLE $cronogramaTable( $idColumn INTEGER PRIMARY KEY, $nomeColumn TEXT NOT NULL,  $dataInicioColumn TEXT NOT NULL, $dataFimColumn TEXT NOT NULL)");
+        await db.execute("CREATE TABLE $cronogramaTable( $idColumn INTEGER PRIMARY KEY AUTOINCREMENT, $nomeColumn TEXT NOT NULL,  $dataInicioColumn TEXT NOT NULL, $dataFimColumn TEXT NOT NULL)");
 
-        db.execute("CREATE TABLE $disciplinaTable( $idDColumn INTEGER PRIMARY KEY, $nomeDColumn TEXT NOT NULL, $siglaDColumn TEXT NOT NULL, $corDColumn INTEGER NOT NULL)");
+        db.execute("CREATE TABLE $disciplinaTable( $idDColumn INTEGER PRIMARY KEY AUTOINCREMENT, $nomeDColumn TEXT NOT NULL, $siglaDColumn TEXT NOT NULL, $corDColumn INTEGER NOT NULL)");
 
-        db.execute("CREATE TABLE $periodoTable( $idPColumn INTEGER PRIMARY KEY, $nomePColumn TEXT NOT NULL)");
+        db.execute("CREATE TABLE $periodoTable( $idPColumn INTEGER PRIMARY KEY AUTOINCREMENT, $nomePColumn TEXT NOT NULL)");
 
-        db.execute("CREATE TABLE $diaSemanaTable( $idDSColumn INTEGER PRIMARY KEY, $nomeDSColumn TEXT NOT NULL, $siglaDSColumn TEXT NOT NULL)");
+        db.execute("CREATE TABLE $diaSemanaTable( $idDSColumn INTEGER PRIMARY KEY AUTOINCREMENT, $nomeDSColumn TEXT NOT NULL, $siglaDSColumn TEXT NOT NULL)");
 
-        db.execute("CREATE TABLE $diaPeriodoDisciplinaTable( $idDPDColumn INTEGER PRIMARY KEY, $fkDColumn INTEGER NOT NULL"", $diaColumn TEXT NOT NULL, $periodoColumn TEXT NOT NULL,  $horasColumn INTEGER NOT NULL)");
+        db.execute("CREATE TABLE $diaPeriodoDisciplinaTable( $idDPDColumn INTEGER PRIMARY KEY AUTOINCREMENT, $fkDiaColumn INTEGER NOT NULL, $fkDiscColumn INTEGER NOT NULL, $fkPerColumn INTEGER NOT NULL)");
+
+        db.execute("CREATE VIEW  $disciplinaView AS SELECT DISTINCT $idDColumn , $nomeColumn  , $siglaDColumn , $corDColumn , $fkPerColumn FROM $disciplinaTable JOIN $diaPeriodoDisciplinaTable ON $idDColumn = $fkDiscColumn ORDER BY $fkPerColumn ASC");
 
         db.execute("INSERT INTO $diaSemanaTable($nomeDSColumn, $siglaDSColumn) VALUES ('Segunda','SEG'), ('Terça','TER'), ('Quarta','QUA'), ('Quinta','QUI'), ('Sexta','SEX'),('Sábado','SAB'),('Domingo','DOM')");
 
         db.execute("INSERT INTO $periodoTable ($nomePColumn) VALUES('Manhã'), ('Tarde'),('Noite')");
-
-        print("DATABASE CREATED");
 
 
 
@@ -101,14 +102,17 @@ class DbCeAppHelper {
   }
 
 
+
+
+
+
+
   /*
      DELETA  UM  CRONOGRAMA PELO ID
    */
   Future<int> deleteCronograma(int id) async{
 
     Database dbCronograma = await db;
-
-
     return await dbCronograma.delete(cronogramaTable, where: "$idColumn = ?",whereArgs: [id]);
 
 
@@ -133,6 +137,7 @@ class DbCeAppHelper {
    */
   Future<DiaPeriodoDisciplina> saveDiaPeriodoDisciplina(DiaPeriodoDisciplina diaPeriodoDisciplina) async {
 
+
     Database dbDiaPeriodoDisciplina = await db;
     diaPeriodoDisciplina.id = await dbDiaPeriodoDisciplina.insert(diaPeriodoDisciplinaTable, diaPeriodoDisciplina.toMap());
     return diaPeriodoDisciplina;
@@ -140,26 +145,27 @@ class DbCeAppHelper {
 
   }
 
+
   /*
       MÉTODO PARA BUSCAR UM CRONOGRAMA PELO ID
    */
-  Future<DiaPeriodoDisciplina> getDiaPeriodoDisciplina(int id) async {
-
-    Database dbDiaPeriodoDisciplina = await db;
-
-    List<Map> maps = await dbDiaPeriodoDisciplina.query(diaPeriodoDisciplinaTable,
-        columns: [idDPDColumn,fkDColumn,periodoColumn, diaColumn, horasColumn],
-        where: "$idDPDColumn = ?",
-        whereArgs: [id]);
-
-    if(maps.length > 0){
-      return DiaPeriodoDisciplina.fromMap(maps.first);
-    }else{
-
-      return null;
-    }
-
-  }
+//  Future<DiaPeriodoDisciplina> getDiaPeriodoDisciplina(int id) async {
+//
+//    Database dbDiaPeriodoDisciplina = await db;
+//
+//    List<Map> maps = await dbDiaPeriodoDisciplina.query(diaPeriodoDisciplinaTable,
+//        columns: [idDPDColumn,fkDColumn,periodoColumn, diaColumn, horasColumn],
+//        where: "$idDPDColumn = ?",
+//        whereArgs: [id]);
+//
+//    if(maps.length > 0){
+//      return DiaPeriodoDisciplina.fromMap(maps.first);
+//    }else{
+//
+//      return null;
+//    }
+//
+//  }
 
 
   /*
@@ -223,6 +229,40 @@ class DbCeAppHelper {
 
 
 
+  Future<List<DisciplinaView>> getDisciplinasPorDiaSemana(int diaSemana) async {
+
+    Database dbDisciplinas = await db;
+    List listMap = await dbDisciplinas.rawQuery("SELECT * FROM $disciplinaView where $idColumn in (SELECT $fkDiscColumn FROM  $diaPeriodoDisciplinaTable where $fkDiaColumn = $diaSemana) " );
+    List<DisciplinaView> listDisciplina =  List();
+    for(Map m in listMap){
+
+      listDisciplina.add(DisciplinaView.fromMap(m));
+
+    }
+
+    return listDisciplina;
+
+  }
+
+
+
+
+/*  Future<List<Disciplina>> getDisciplinasPorDiaSemana(int diaSemana) async {
+
+    Database dbDisciplinas = await db;
+    List listMap = await dbDisciplinas.rawQuery("SELECT * FROM $disciplinaTable where $idDColumn in (SELECT $fkDiscColumn FROM  $diaPeriodoDisciplinaTable where $fkDiaColumn = $diaSemana) " );
+    List<Disciplina> listDisciplina =  List();
+    for(Map m in listMap){
+
+      listDisciplina.add(Disciplina.fromMap(m));
+
+    }
+
+    return listDisciplina;
+
+  }*/
+
+
   Future<List> getPeriodos() async {
 
     Database dbPeriodo = await db;
@@ -272,10 +312,6 @@ class DbCeAppHelper {
 
 
   }
-
-
-
-
 
 
 /*

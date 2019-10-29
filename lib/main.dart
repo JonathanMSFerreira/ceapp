@@ -1,6 +1,6 @@
-import 'package:ceapp/ui/CeAppPage.dart';
-import 'package:ceapp/ui/CronogramaPage.dart';
-import 'package:ceapp/ui/SplashPage.dart';
+import 'package:ceapp/ui/estatisticas_page.dart';
+import 'package:ceapp/ui/cronograma_page.dart';
+import 'package:ceapp/ui/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 

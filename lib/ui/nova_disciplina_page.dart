@@ -1,40 +1,39 @@
-import 'package:ceapp/fragments/MultiSelectChip.dart';
-import 'package:ceapp/helper/DbCeAppHelper.dart';
-import 'package:ceapp/model/DiaSemana.dart';
-import 'package:ceapp/model/Disciplina.dart';
-import 'package:ceapp/ui/DisciplinasPage.dart';
+import 'package:ceapp/fragments/multi_select_chip.dart';
+import 'package:ceapp/helper/db_ceapp.dart';
+import 'package:ceapp/model/dia_periodo_disciplina.dart';
+import 'package:ceapp/model/dia_semana.dart';
+import 'package:ceapp/model/disciplina.dart';
+import 'package:ceapp/ui/disciplinas_page.dart';
 import 'package:flutter/material.dart';
 
 class NovaDisciplinaPage extends StatefulWidget {
-
   @override
   _NovaDisciplinaPageState createState() => _NovaDisciplinaPageState();
 }
 
 class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
-
-
   List<String> _listaDias = new List<String>();
   DbCeAppHelper helper;
   int _corSelecionada;
   Disciplina tmpDisciplina;
+  DiaPeriodoDisciplina diaPeriodoDisciplina;
   bool _nomeInserido = false;
   bool _siglaInserido = false;
   bool _corInserido = false;
   Disciplina disciplina;
   List<String> horariosSelecionadosList = List();
-  List<String> diasSelecionadosList = List();
-
+  List<String> _manhaSelecionadosList = List();
+  List<String> _tardeSelecionadosList = List();
+  List<String> _noiteSelecionadosList = List();
 
   @override
   void initState() {
     helper = new DbCeAppHelper();
     tmpDisciplina = new Disciplina();
+    diaPeriodoDisciplina = new DiaPeriodoDisciplina();
     _getDias();
     super.initState();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -64,51 +63,39 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
                 color: Colors.indigo,
               ),
               TextField(
-                style: TextStyle(
-                    color: Colors.indigoAccent,
-                    fontFamily: 'OpenSans',
-                    fontSize: 15.0),
-                decoration: InputDecoration(
-                  labelText: 'Nome',
-                ),
-
-
+                  style: TextStyle(
+                      color: Colors.indigoAccent,
+                      fontFamily: 'OpenSans',
+                      fontSize: 15.0),
+                  decoration: InputDecoration(
+                    labelText: 'Nome',
+                  ),
                   onChanged: (inputNome) {
                     setState(() {
-                      if (inputNome.isNotEmpty &&  inputNome != null) {
+                      if (inputNome.isNotEmpty && inputNome != null) {
                         tmpDisciplina.nome = inputNome;
                         _nomeInserido = true;
                       } else {
                         _nomeInserido = false;
                       }
                     });
-                  }
-
-
-
-              ),
+                  }),
               TextField(
-                style: TextStyle(
-                    color: Colors.indigoAccent,
-                    fontFamily: 'OpenSans',
-                    fontSize: 15.0),
-                decoration: InputDecoration(labelText: 'Sigla'),
-
+                  style: TextStyle(
+                      color: Colors.indigoAccent,
+                      fontFamily: 'OpenSans',
+                      fontSize: 15.0),
+                  decoration: InputDecoration(labelText: 'Sigla'),
                   onChanged: (inputSigla) {
                     setState(() {
-                      if (inputSigla.isNotEmpty &&  inputSigla != null) {
+                      if (inputSigla.isNotEmpty && inputSigla != null) {
                         tmpDisciplina.sigla = inputSigla;
                         _siglaInserido = true;
                       } else {
                         _siglaInserido = false;
                       }
                     });
-                  }
-
-
-
-
-              ),
+                  }),
             ]),
           )),
           Card(
@@ -148,7 +135,7 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
                 _listaDias,
                 onSelectionChanged: (selectedList) {
                   setState(() {
-                    diasSelecionadosList = selectedList;
+                    _manhaSelecionadosList = selectedList;
                   });
                 },
               ),
@@ -160,7 +147,7 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
                 _listaDias,
                 onSelectionChanged: (selectedList) {
                   setState(() {
-                    diasSelecionadosList = selectedList;
+                    _tardeSelecionadosList = selectedList;
                   });
                 },
               ),
@@ -172,7 +159,7 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
                 _listaDias,
                 onSelectionChanged: (selectedList) {
                   setState(() {
-                    diasSelecionadosList = selectedList;
+                    _noiteSelecionadosList = selectedList;
                   });
                 },
               ),
@@ -183,19 +170,76 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
             child: RaisedButton(
               padding: const EdgeInsets.all(15.0),
               textColor: Colors.white,
+              shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(30.0)),
               color: Colors.orange,
-              onPressed: formIsOk(_nomeInserido, _siglaInserido, _corInserido) == true ? () {
+              onPressed:
+                  formIsOk(_nomeInserido, _siglaInserido, _corInserido) == true
+                      ? () {
+                          helper.saveDisciplina(tmpDisciplina).then((result) {
+                            diaPeriodoDisciplina.fkDisciplina = result.id;
+
+                            if (_manhaSelecionadosList.isNotEmpty) {
+                              for (String s in _manhaSelecionadosList) {
+                                DiaPeriodoDisciplina dpd =
+                                    new DiaPeriodoDisciplina();
+
+                                dpd.fkDisciplina = result.id;
+                                dpd.fkPeriodo = 1;
+                                dpd.fkDia = _convertDia(s);
+
+                                helper
+                                    .saveDiaPeriodoDisciplina(dpd)
+                                    .then((result) {});
+                              }
+                            }
 
 
-                tmpDisciplina.toString();
 
-                helper.saveDisciplina(tmpDisciplina);
+                            if (_tardeSelecionadosList.isNotEmpty) {
+                              for (String s in _tardeSelecionadosList) {
+                                DiaPeriodoDisciplina dpd =
+                                new DiaPeriodoDisciplina();
 
-                Navigator.pushReplacement(context, new MaterialPageRoute(builder: (context) => DisciplinasPage()));
+                                dpd.fkDisciplina = result.id;
+                                dpd.fkPeriodo = 2;
+                                dpd.fkDia = _convertDia(s);
+
+                                helper
+                                    .saveDiaPeriodoDisciplina(dpd)
+                                    .then((result) {});
+                              }
+                            }
 
 
-    } : null,
-           child: new Text("Salvar",
+                            if (_noiteSelecionadosList.isNotEmpty) {
+                              for (String s in _noiteSelecionadosList) {
+                                DiaPeriodoDisciplina dpd =
+                                new DiaPeriodoDisciplina();
+
+                                dpd.fkDisciplina = result.id;
+                                dpd.fkPeriodo = 3;
+                                dpd.fkDia = _convertDia(s);
+
+                                helper
+                                    .saveDiaPeriodoDisciplina(dpd)
+                                    .then((result) {});
+                              }
+                            }
+
+
+
+
+
+                          });
+
+                          Navigator.pushReplacement(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => DisciplinasPage()));
+                        }
+                      : null,
+              child: new Text("Salvar",
                   style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'OpenSans',
@@ -205,11 +249,33 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
         ]));
   }
 
+  int _convertDia(String strDia) {
+    switch (strDia) {
+      case "Segunda":
+        return 1;
 
+      case "Terça":
+        return 2;
 
-  List<Color>  _listaCores(){
+      case "Quarta":
+        return 3;
 
-   return    [
+      case "Quinta":
+        return 4;
+
+      case "Sexta":
+        return 5;
+
+      case "Sábado":
+        return 6;
+
+      case "Domingo":
+        return 7;
+    }
+  }
+
+  List<Color> _listaCores() {
+    return [
       Colors.red,
       Colors.redAccent,
       Colors.indigo,
@@ -235,12 +301,7 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
       Colors.amber,
       Colors.amberAccent,
     ];
-
-
- }
-
-
-
+  }
 
   Widget carregaCores(List<Color> cores) {
     return GridView.builder(
@@ -278,20 +339,15 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
                     _corSelecionada = cores[index].value;
                     tmpDisciplina.cor = cores[index].value;
                     _corInserido = true;
-
-
                   });
                 },
               ));
         });
   }
 
-
-
   bool formIsOk(hasNome, hasSigla, hasCor) {
     return hasNome && hasSigla && hasCor;
   }
-
 
   void _getDias() {
     List<String> tmpLista = new List<String>();
@@ -306,5 +362,4 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
       });
     });
   }
-
 }

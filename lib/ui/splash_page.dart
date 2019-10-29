@@ -1,5 +1,5 @@
-import 'package:ceapp/helper/DbCeAppHelper.dart';
-import 'package:ceapp/ui/CronogramaPage.dart';
+import 'package:ceapp/helper/db_ceapp.dart';
+import 'package:ceapp/ui/cronograma_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {

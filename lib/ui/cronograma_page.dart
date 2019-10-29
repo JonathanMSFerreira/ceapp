@@ -1,35 +1,22 @@
-import 'package:ceapp/fragments/CeBottomNavigation.dart';
-import 'package:ceapp/helper/DbCeAppHelper.dart';
-import 'package:ceapp/model/Disciplina.dart';
-import 'package:ceapp/ui/NovoCronogramaPage.dart';
+import 'package:ceapp/fragments/bottom_navigation.dart';
+import 'package:ceapp/helper/db_ceapp.dart';
+import 'package:ceapp/model/disciplina.dart';
+import 'package:ceapp/model/disciplina_view.dart';
+import 'package:ceapp/ui/novo_cronograma_page.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import 'CronometroPage.dart';
-
-final Map<DateTime, List> _holidays = {
-  DateTime(2019, 1, 1): ['Ano novo'],
-  DateTime(2019, 1, 6): ['Epiphany'],
-  DateTime(2019, 2, 14): ['Valentine\'s Day'],
-  DateTime(2019, 4, 21): ['Easter Sunday'],
-  DateTime(2019, 4, 22): ['Easter Monday'],
-};
+import 'cronometro_page.dart';
 
 class CronogramaPage extends StatefulWidget {
-
-
-  final String title;
-
-  CronogramaPage({Key key, this.title}) : super(key: key);
-
   @override
   _CronogramaPageState createState() => _CronogramaPageState();
 }
 
-class _CronogramaPageState extends State<CronogramaPage>  with TickerProviderStateMixin {
+class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStateMixin {
 
-
-  List<Disciplina> _listDisciplinas = new List<Disciplina>();
+ // List<Disciplina> _listDisciplinas = new List<Disciplina>();
+  List<DisciplinaView> _listDisciplinasView = new List<DisciplinaView>();
   DbCeAppHelper _helper;
   bool down = false;
   Map<DateTime, List> _events;
@@ -37,73 +24,40 @@ class _CronogramaPageState extends State<CronogramaPage>  with TickerProviderSta
   AnimationController _animationController;
   CalendarController _calendarController;
 
-
-
-
   @override
   void initState() {
 
     _helper = new DbCeAppHelper();
-
-
-
-    _loadListaDisciplinas();
-
-
-    super.initState();
-
     _calendarController = CalendarController();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 400),
+    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 400),
     );
 
     _animationController.forward();
 
+    final selectedDay = DateTime.now();
 
 
+    _loadListaDisciplinas(selectedDay);
 
-
-
-
-
+    super.initState();
   }
 
+  _loadListaDisciplinas(DateTime selectedDay) {
 
-  _loadListaDisciplinas() async{
-
-
-    List<Disciplina> disciplinas = await _helper.getDisciplinas();
-
-    setState(() {
-
-      _listDisciplinas = disciplinas;
-
-      final   selectedDay = DateTime.now();
-
-      _events = {
-        selectedDay: _listDisciplinas
-      };
-
-      _selectedEvents = _events[selectedDay] ?? [];
-
-    });
-
-
-
-
-  }
-
-  void _getListaDisciplinas() {
-    _helper.getDisciplinas().then((lista) {
+    _helper.getDisciplinasPorDiaSemana(selectedDay.weekday).then((disciplinas) {
       setState(() {
+        _listDisciplinasView = disciplinas;
 
-        _listDisciplinas = lista;
+        _events = {selectedDay: _listDisciplinasView};
+
+        _selectedEvents = _events[selectedDay] ?? [];
+
+
+
 
       });
     });
   }
-
 
   @override
   void dispose() {
@@ -112,31 +66,15 @@ class _CronogramaPageState extends State<CronogramaPage>  with TickerProviderSta
     super.dispose();
   }
 
-
   /*
-
     MÉTODO QUE SELECIONA O DIA NO CALENDÁRIO E CARREGA AS DISCIPLINAS
-
    */
   void _onDaySelected(DateTime day, List events) {
-    //TODO
-
-    print('CALLBACK: _onDaySelected');
-
-
-    setState(() {
-
-     _selectedEvents = events;
-
-
-
-    });
+    _loadListaDisciplinas(day);
   }
 
   void _onVisibleDaysChanged(
       DateTime first, DateTime last, CalendarFormat format) {
-    print('CALLBACK: _onVisibleDaysChanged');
-
     setState(() {
       down == true ? down = false : down = true;
     });
@@ -144,10 +82,6 @@ class _CronogramaPageState extends State<CronogramaPage>  with TickerProviderSta
 
   @override
   Widget build(BuildContext context) {
-
-
-
-
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -158,10 +92,7 @@ class _CronogramaPageState extends State<CronogramaPage>  with TickerProviderSta
                 color: Colors.white, fontFamily: 'OpenSans', fontSize: 20.0),
           ),
           actions: <Widget>[
-
             _menuPopUp(),
-
-
           ],
         ),
         drawer: _ceDrawer(),
@@ -189,7 +120,7 @@ class _CronogramaPageState extends State<CronogramaPage>  with TickerProviderSta
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Padding(
-                            padding: EdgeInsets.all(12.0),
+                            padding: EdgeInsets.all(16.0),
                             child: Text(
                               'Disciplinas de hoje',
                               style: TextStyle(
@@ -198,14 +129,31 @@ class _CronogramaPageState extends State<CronogramaPage>  with TickerProviderSta
                                   fontSize: 22.0,
                                   fontWeight: FontWeight.bold),
                             )),
-
                       ],
                     ),
                     Divider(
                       height: 5.0,
                       color: Colors.orange,
                     ),
-                    Expanded(child: _buildEventList()),
+                    Expanded(
+                        child:  _selectedEvents.isNotEmpty  ?   _buildEventList():
+                         Column(
+
+                           mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+
+                                  Icon(Icons.local_hotel,size: 70,color: Colors.grey,),
+
+                                 Center(
+                                   child: Text('Sem estudos para hoje!',
+                                   style: TextStyle(
+                                       color: Colors.grey,
+                                       fontFamily: 'OpenSans',
+                                       fontSize: 20.0)),
+                                 )
+                                ],
+                            )
+                    ),
                   ],
                 ))),
                 CeBottomNavigation(),
@@ -224,9 +172,8 @@ class _CronogramaPageState extends State<CronogramaPage>  with TickerProviderSta
             padding: EdgeInsets.zero,
             children: <Widget>[
               UserAccountsDrawerHeader(
-                accountName: Text(
-                  "Jonathan Ferreira",
-                  style: TextStyle(
+                accountName: Text("Jonathan Ferreira",
+                      style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'OpenSans',
                       fontSize: 20.0),
@@ -313,7 +260,6 @@ class _CronogramaPageState extends State<CronogramaPage>  with TickerProviderSta
       locale: 'pt_br',
       calendarController: _calendarController,
       events: _events,
-      holidays: _holidays,
       initialCalendarFormat: CalendarFormat.week,
       formatAnimation: FormatAnimation.slide,
       startingDayOfWeek: StartingDayOfWeek.sunday,
@@ -344,7 +290,6 @@ class _CronogramaPageState extends State<CronogramaPage>  with TickerProviderSta
         centerHeaderTitle: true,
         formatButtonVisible: false,
         titleTextStyle: TextStyle().copyWith(
-
           color: Colors.orange,
           fontFamily: 'OpenSans',
           fontSize: 18,
@@ -408,12 +353,9 @@ class _CronogramaPageState extends State<CronogramaPage>  with TickerProviderSta
         },
       ),
       onDaySelected: (date, events) {
-
         _onDaySelected(date, events);
         _animationController.forward(from: 0.0);
-
-
-        },
+      },
       onVisibleDaysChanged: _onVisibleDaysChanged,
     );
   }
@@ -425,13 +367,15 @@ class _CronogramaPageState extends State<CronogramaPage>  with TickerProviderSta
         shape: BoxShape.circle,
         color: _calendarController.isSelected(date)
             ? Colors.orange
-            : _calendarController.isToday(date) ? Colors.black : Colors.black54,
+            : _calendarController.isToday(date)
+                ? Colors.black54
+                : Colors.black12,
       ),
       width: 16.0,
       height: 16.0,
       child: Center(
         child: Text(
-          '${events.length}' ?? '',
+          '${_selectedEvents.length}' ?? '',
           style: TextStyle().copyWith(
             color: Colors.white,
             fontSize: 12.0,
@@ -441,133 +385,90 @@ class _CronogramaPageState extends State<CronogramaPage>  with TickerProviderSta
     );
   }
 
-/*
-  Widget _buildHolidaysMarker() {
-    return Icon(
-      Icons.add_box,
-      size: 20.0,
-      color: Colors.blueGrey[800],
-    );
-  }
-*/
-
-  String dataFormatada(DateTime data) {
-    String mes;
-
-    switch (data.month) {
-      case 1:
-        mes = "janeiro";
-        break;
-      case 2:
-        mes = "fevereiro";
-        break;
-      case 3:
-        mes = "março";
-        break;
-      case 4:
-        mes = "abril";
-        break;
-      case 5:
-        mes = "maio";
-        break;
-      case 6:
-        mes = "junho";
-        break;
-      case 7:
-        mes = "julho";
-        break;
-      case 8:
-        mes = "agosto";
-        break;
-      case 9:
-        mes = "setembro";
-        break;
-      case 10:
-        mes = "outubro";
-        break;
-      case 11:
-        mes = "novembro";
-        break;
-      case 12:
-        mes = "dezembro";
-        break;
-    }
-
-    return data.day.toString() + ' de ' + mes + ' de ' + data.year.toString();
-  }
-
-
   Widget _menuPopUp() {
-
-
-
     return PopupMenuButton<int>(
-
-
-      itemBuilder: (context) =>
-      [
+      itemBuilder: (context) => [
         PopupMenuItem(
             value: 1,
-            child: FlatButton.icon(onPressed: () {
-
-              Navigator.pushReplacement(context,
-                  new MaterialPageRoute(builder: (context) => NovoCronogramaPage()));
-
-
-            }, icon: Icon(Icons.edit, color: Colors.indigoAccent,), label: Text("Editar", style: TextStyle(
-                color: Colors.indigoAccent, fontFamily: 'OpenSans')))
-        ),
-
-
-
+            child: FlatButton.icon(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => NovoCronogramaPage()));
+                },
+                icon: Icon(
+                  Icons.edit,
+                  color: Colors.indigoAccent,
+                ),
+                label: Text("Editar",
+                    style: TextStyle(
+                        color: Colors.indigoAccent, fontFamily: 'OpenSans')))),
         PopupMenuItem(
             value: 2,
-            child: FlatButton.icon(onPressed: () {
-
-              Navigator.pop(context);
-            },
-                icon: Icon(Icons.file_upload, color: Colors.indigoAccent,), label: Text("Exportar", style: TextStyle(
-                    color: Colors.indigoAccent, fontFamily: 'OpenSans')))
-        ),
+            child: FlatButton.icon(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  Icons.file_upload,
+                  color: Colors.indigoAccent,
+                ),
+                label: Text("Exportar",
+                    style: TextStyle(
+                        color: Colors.indigoAccent, fontFamily: 'OpenSans')))),
         PopupMenuItem(
             value: 2,
-            child: FlatButton.icon(onPressed: () {
-
-              Navigator.pop(context);
-            }, icon: Icon(Icons.print, color: Colors.indigoAccent,), label: Text("Imprimir", style: TextStyle(
-                color: Colors.indigoAccent, fontFamily: 'OpenSans')))
-        ),
-
+            child: FlatButton.icon(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  Icons.print,
+                  color: Colors.indigoAccent,
+                ),
+                label: Text("Imprimir",
+                    style: TextStyle(
+                        color: Colors.indigoAccent, fontFamily: 'OpenSans')))),
         PopupMenuDivider(),
-
         PopupMenuItem(
             value: 2,
-            child: FlatButton.icon(onPressed: () {
-
-            }, icon: Icon(Icons.delete, color: Colors.indigoAccent,), label: Text("Deletar", style: TextStyle(
-    color: Colors.indigoAccent, fontFamily: 'OpenSans')))
-        ),
-
-
-
+            child: FlatButton.icon(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.delete,
+                  color: Colors.indigoAccent,
+                ),
+                label: Text("Deletar",
+                    style: TextStyle(
+                        color: Colors.indigoAccent, fontFamily: 'OpenSans')))),
       ],
     );
   }
 
 
 
-
+  _convertPeriodo(periodo){
+    switch (periodo){
+      case 1:
+        return 'Manhã';
+      case 2:
+        return 'Tarde';
+      case 3:
+        return 'Noite';
+    }
+  }
 
 
   Widget _buildEventList() {
 
 
-
-
     return ListView.separated(
+
         itemCount: _selectedEvents.length,
         separatorBuilder: (context, index) => Divider(height: 1.0, color: Colors.grey),
         itemBuilder: (context, index) {
+
           return ListTile(
             leading: CircleAvatar(
               backgroundColor: Color(_selectedEvents[index].cor),
@@ -578,6 +479,7 @@ class _CronogramaPageState extends State<CronogramaPage>  with TickerProviderSta
                 ),
               ),
             ),
+            subtitle: Text(_convertPeriodo(_selectedEvents[index].periodo)),
             trailing: Icon(
               Icons.access_alarms,
               color: Colors.black26,
@@ -590,7 +492,7 @@ class _CronogramaPageState extends State<CronogramaPage>  with TickerProviderSta
               Navigator.push(
                   context,
                   new MaterialPageRoute(
-                      builder: (context) => new CronometroPage()));
+                      builder: (context) => new CronometroPage(_selectedEvents[index])));
             },
           );
         });

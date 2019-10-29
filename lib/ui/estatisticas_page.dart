@@ -1,18 +1,18 @@
-import 'package:ceapp/fragments/CeBottomNavigation.dart';
+import 'package:ceapp/fragments/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'charts/DiasSemanaChart.dart';
-import 'charts/DisciplinasChart.dart';
-import 'charts/PeriodoChart.dart';
+import 'charts/dias_semana_chart.dart';
+import 'charts/disciplinas_chart.dart';
+import 'charts/periodo_chart.dart';
 
 
 
-class CeAppPage extends StatefulWidget {
+class EstatisticasPage extends StatefulWidget {
   @override
-  _CeAppPageState createState() => _CeAppPageState();
+  _EstatisticasPageState createState() => _EstatisticasPageState();
 }
 
-class _CeAppPageState extends State<CeAppPage> {
+class _EstatisticasPageState extends State<EstatisticasPage> {
   DateTime date1;
   DateTime date2;
   DateTime date3;
@@ -44,7 +44,7 @@ class _CeAppPageState extends State<CeAppPage> {
         elevation: 0.0,
         centerTitle: true,
         title: Text(
-          "Receita Federal",
+          "Estatísticas",
           style: TextStyle(color: Colors.white, fontFamily: 'OpenSans'),
         ),
 
