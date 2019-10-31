@@ -38,14 +38,15 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.indigoAccent,
+        backgroundColor: Colors.grey[350],
         appBar: AppBar(
+          backgroundColor:  Colors.grey[350],
           elevation: 0.0,
-          centerTitle: true,
+
           title: new Text(
             "Nova disciplina",
             style: TextStyle(
-                color: Colors.white, fontFamily: 'OpenSans', fontSize: 20.0),
+                color: Colors.white, fontFamily: 'OpenSans', fontWeight: FontWeight.bold, fontSize: 22.0),
           ),
         ),
         body: ListView(children: [
@@ -55,7 +56,7 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
             child: Column(children: [
               Text("Informações",
                   style: TextStyle(
-                      color: Colors.orange,
+                      color: Colors.indigoAccent,
                       fontFamily: 'OpenSans',
                       fontSize: 17.0)),
               Divider(
@@ -104,7 +105,7 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
             child: Column(children: [
               Text("Selecione uma cor",
                   style: TextStyle(
-                      color: Colors.orange,
+                      color: Colors.indigoAccent,
                       fontFamily: 'OpenSans',
                       fontSize: 17.0)),
               Divider(
@@ -120,7 +121,7 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
             child: Column(children: [
               Text("Horários de estudo",
                   style: TextStyle(
-                    color: Colors.orange,
+                    color: Colors.indigoAccent,
                     fontFamily: 'OpenSans',
                     fontSize: 17.0,
                   )),
@@ -172,7 +173,7 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
               textColor: Colors.white,
               shape: new RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(30.0)),
-              color: Colors.orange,
+              color: Colors.indigoAccent,
               onPressed:
                   formIsOk(_nomeInserido, _siglaInserido, _corInserido) == true
                       ? () {

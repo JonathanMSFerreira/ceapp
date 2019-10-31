@@ -33,7 +33,7 @@ class _SplashPageState extends State<SplashPage> {
     return Container(
 
 
-      color: Colors.indigoAccent,
+      color: Colors.grey[350],
 
       child: Center(
 

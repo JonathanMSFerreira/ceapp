@@ -12,18 +12,17 @@ class CeBottomNavigation extends StatefulWidget {
 class _CeBottomNavigationState extends State<CeBottomNavigation> {
   @override
   Widget build(BuildContext context) {
-    return  Container(
-        color: Colors.indigoAccent,
-        // height: 60.0,
-        padding: EdgeInsets.only(left: 10,right: 10),
-
+    return  Card(
+        color: Colors.white,
+        shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(30.0)),
 
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
 
 
-            FlatButton(
+            IconButton(
               onPressed: () {
                 Navigator.pushReplacement(
                     context,
@@ -31,20 +30,14 @@ class _CeBottomNavigationState extends State<CeBottomNavigation> {
                         builder: (context) => CronogramaPage()));
               },
 
-              padding: EdgeInsets.all(8.0),
-              child: Column( // Replace with a Row for horizontal icon + text
-                children: <Widget>[
-                  Icon(Icons.home, color: Colors.white,),
-                  Text("Início", style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'OpenSans',
-                      fontSize: 15.0))
-                ],
-              ),
+
+           icon:       Icon(Icons.home, color: Colors.indigoAccent,),
+
+
             ),
 
 
-            FlatButton(
+            IconButton(
               onPressed: () {
                 Navigator.pushReplacement(
                     context,
@@ -52,21 +45,14 @@ class _CeBottomNavigationState extends State<CeBottomNavigation> {
                         builder: (context) => DisciplinasPage()));
               },
 
-              padding: EdgeInsets.all(8.0),
-              child: Column( // Replace with a Row for horizontal icon + text
-                children: <Widget>[
-                  Icon(Icons.school, color: Colors.white,),
-                  Text("Disciplinas", style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'OpenSans',
-                      fontSize: 15.0),)
-                ],
-              ),
+
+            icon: Icon(Icons.school, color: Colors.indigoAccent,),
+
             ),
 
 
 
-            FlatButton(
+            IconButton(
               onPressed: () {
                 Navigator.pushReplacement(
                     context,
@@ -74,16 +60,10 @@ class _CeBottomNavigationState extends State<CeBottomNavigation> {
                         builder: (context) => EstatisticasPage()));
               },
 
-              padding: EdgeInsets.all(8.0),
-              child: Column( // Replace with a Row for horizontal icon + text
-                children: <Widget>[
-                  Icon(Icons.pie_chart, color: Colors.white,),
-                  Text("Estatísticas", style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'OpenSans',
-                      fontSize: 15.0),)
-                ],
-              ),
+
+
+                icon: Icon(Icons.show_chart, color: Colors.indigoAccent,),
+
             ),
 
 

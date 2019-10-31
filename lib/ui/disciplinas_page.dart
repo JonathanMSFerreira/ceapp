@@ -11,8 +11,6 @@ class DisciplinasPage extends StatefulWidget {
 }
 
 class _DisciplinasPageState extends State<DisciplinasPage> {
-
-
   List<Disciplina> _listDisciplinas = new List<Disciplina>();
   DbCeAppHelper helper;
 
@@ -23,54 +21,48 @@ class _DisciplinasPageState extends State<DisciplinasPage> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-
-
-
-
-        floatingActionButton: Container(
-          height: 170.0,
-          width: 65.0,
-          child: FittedBox(
-            child: FloatingActionButton(
-
+        backgroundColor: Colors.grey[350],
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton:  FloatingActionButton(
                 backgroundColor: Colors.indigoAccent,
-                child: Icon(Icons.add),
-
+                child: Icon(Icons.add, color: Colors.white, size: 36.0,),
                 onPressed: () {
                   Navigator.push(
-                context,
-              new MaterialPageRoute(
-                    builder: (context) => NovaDisciplinaPage()));
-
-
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => NovaDisciplinaPage()));
                 }),
-          ),
-        ),
 
         appBar: AppBar(
+          backgroundColor: Colors.grey[350],
           elevation: 0.0,
-          centerTitle: true,
+
           title: Text(
             "Disciplinas",
-            style: TextStyle(color: Colors.white, fontFamily: 'OpenSans'),
+            style: TextStyle(color: Colors.white, fontWeight:FontWeight.bold, fontFamily: 'OpenSans', fontSize: 22.0),
           ),
         ),
-        body: Column(
-          children: <Widget>[
-            Expanded(
-              child: _listDisciplinas != null ?  _cardsDisciplinas(_listDisciplinas):  Container(),
-            ),
+        body: Container(
+            color: Colors.grey[350],
+            child: Column(
+              children: <Widget>[
+                CeBottomNavigation(),
+                Expanded(
+                  child: _listDisciplinas != null ?
 
-            CeBottomNavigation(),
+                  Card(
 
+                   child: _cardsDisciplinas(_listDisciplinas),
 
-          ],
-        ));
+                  )
+
+                   : Container(),
+                ),
+              ],
+            )));
   }
 
   void _getListaDisciplinas() {
@@ -83,12 +75,11 @@ class _DisciplinasPageState extends State<DisciplinasPage> {
 }
 
 Widget _cardsDisciplinas(List<Disciplina> disciplinas) {
-
-  return ListView.builder(
+  return ListView.separated(
       itemCount: disciplinas.length,
+      separatorBuilder: (context, index) => Divider(height: 1.0, color: Colors.grey),
       itemBuilder: (context, index) {
-        return Card(
-            child: ListTile(
+        return ListTile(
           leading: CircleAvatar(
             backgroundColor: Color(disciplinas[index].cor),
             child: Center(
@@ -108,6 +99,6 @@ Widget _cardsDisciplinas(List<Disciplina> disciplinas) {
                 TextStyle(color: Color(disciplinas[index].cor), fontSize: 20.0),
           ),
           onTap: () {},
-        ));
+        );
       });
 }

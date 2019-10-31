@@ -83,13 +83,18 @@ class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[350],
         appBar: AppBar(
-          centerTitle: true,
+
+
+          backgroundColor: Colors.grey[350],
+
+
           elevation: 0.0,
           title: Text(
             "Cronograma",
             style: TextStyle(
-                color: Colors.white, fontFamily: 'OpenSans', fontSize: 20.0),
+                color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'OpenSans', fontSize: 22.0),
           ),
           actions: <Widget>[
             _menuPopUp(),
@@ -97,9 +102,12 @@ class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStat
         ),
         drawer: _ceDrawer(),
         body: Container(
-            color: Colors.indigoAccent,
+            color: Colors.grey[350],
             child: Column(
               children: <Widget>[
+
+                CeBottomNavigation(),
+
                 Card(
                     elevation: 6.0,
                     child: Column(
@@ -112,6 +120,7 @@ class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStat
                       ],
                     )),
                 Expanded(
+
                     child: Card(
                         child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -120,11 +129,11 @@ class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStat
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Padding(
-                            padding: EdgeInsets.all(16.0),
+                            padding: EdgeInsets.all(10.0),
                             child: Text(
                               'Disciplinas de hoje',
                               style: TextStyle(
-                                  color: Colors.orange,
+                                  color: Colors.indigoAccent,
                                   fontFamily: 'OpenSans',
                                   fontSize: 22.0,
                                   fontWeight: FontWeight.bold),
@@ -133,10 +142,10 @@ class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStat
                     ),
                     Divider(
                       height: 5.0,
-                      color: Colors.orange,
+                      color: Colors.indigoAccent,
                     ),
                     Expanded(
-                        child:  _selectedEvents.isNotEmpty  ?   _buildEventList():
+                        child:  _selectedEvents.isNotEmpty  ?  _buildEventList():
                          Column(
 
                            mainAxisAlignment: MainAxisAlignment.center,
@@ -144,7 +153,7 @@ class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStat
 
                                   Icon(Icons.local_hotel,size: 70,color: Colors.grey,),
 
-                                 Center(
+                                  Center(
                                    child: Text('Sem estudos para hoje!',
                                    style: TextStyle(
                                        color: Colors.grey,
@@ -156,7 +165,7 @@ class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStat
                     ),
                   ],
                 ))),
-                CeBottomNavigation(),
+
               ],
             )));
   }
@@ -281,18 +290,19 @@ class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStat
       headerStyle: HeaderStyle(
         leftChevronIcon: Icon(
           Icons.arrow_back_ios,
-          color: Colors.orange,
+          color: Colors.indigoAccent,
         ),
         rightChevronIcon: Icon(
           Icons.arrow_forward_ios,
-          color: Colors.orange,
+          color: Colors.indigoAccent,
         ),
         centerHeaderTitle: true,
         formatButtonVisible: false,
         titleTextStyle: TextStyle().copyWith(
-          color: Colors.orange,
+          color: Colors.indigoAccent,
           fontFamily: 'OpenSans',
           fontSize: 18,
+
         ),
       ),
       builders: CalendarBuilders(

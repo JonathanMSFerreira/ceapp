@@ -99,19 +99,20 @@ class _CronometroPageState extends State<CronometroPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.indigoAccent,
+      backgroundColor: Colors.grey[350],
       appBar: AppBar(
 
-        backgroundColor: Colors.indigoAccent,
+        backgroundColor: Colors.grey[350],
         title: Text(
           disciplina.nome,
-          style: TextStyle(color: Colors.white, fontFamily: 'OpenSans'),
+          style: TextStyle(color: Colors.white, fontSize: 22.0,  fontWeight: FontWeight.bold,  fontFamily: 'OpenSans'),
         ),
         elevation: 0.0,
-        centerTitle: true,
+
       ),
 
       body: Container(
+        color: Colors.grey[350],
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -125,8 +126,13 @@ class _CronometroPageState extends State<CronometroPage> {
 
   Widget cronometro(BuildContext context) {
     return Center(
+      
         child: Card(
             color: Colors.white,
+
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
+            margin: EdgeInsets.all(16.0),
+
             elevation: 5.0,
             child: Column(
               children: <Widget>[
@@ -161,17 +167,19 @@ class _CronometroPageState extends State<CronometroPage> {
                           color: Colors.indigoAccent,
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(30.0)),
-                          child: Text('Reiniciar'),
+                          child: Text('Reiniciar', style: TextStyle(fontFamily: 'OpenSans'),),
                           onPressed: _resetButtonPressed,
                         ),
                       ],
                     )),
+
+
                 RaisedButton(
                   textColor: Colors.white,
                   color: Colors.orange,
                   shape: new RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(30.0)),
-                  child: Text('Salvar progresso'),
+                  child: Text('Salvar progresso',style: TextStyle(fontFamily: 'OpenSans'),),
                   onPressed: _resetButtonPressed,
                 ),
               ],

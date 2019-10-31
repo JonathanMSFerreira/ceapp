@@ -13,6 +13,7 @@ class EstatisticasPage extends StatefulWidget {
 }
 
 class _EstatisticasPageState extends State<EstatisticasPage> {
+
   DateTime date1;
   DateTime date2;
   DateTime date3;
@@ -40,20 +41,24 @@ class _EstatisticasPageState extends State<EstatisticasPage> {
     ];
 
     return Scaffold(
+      backgroundColor: Colors.grey[350],
       appBar: AppBar(
+        backgroundColor: Colors.grey[350],
         elevation: 0.0,
-        centerTitle: true,
         title: Text(
           "Estatísticas",
-          style: TextStyle(color: Colors.white, fontFamily: 'OpenSans'),
+          style: TextStyle(color: Colors.white, fontWeight:FontWeight.bold, fontSize: 22.0,  fontFamily: 'OpenSans'),
         ),
 
       ),
       //drawer: _ceDrawer(),
       body: Container(
-          color: Colors.indigoAccent,
+          color: Colors.grey[350],
           constraints: BoxConstraints.expand(),
           child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+
+            CeBottomNavigation(),
+
             /* Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -101,7 +106,7 @@ class _EstatisticasPageState extends State<EstatisticasPage> {
               crossAxisSpacing: 4.0,
               padding: const EdgeInsets.all(10.0),
             )),
-            CeBottomNavigation()
+
           ])),
     );
   }
@@ -125,7 +130,7 @@ class _EstatisticasPageState extends State<EstatisticasPage> {
             padding: EdgeInsets.only(top: 5.0, left: 5.0),
             child: Text("Períodos do dia",
                 style: TextStyle(
-                    color: Colors.orange,
+                    color: Colors.indigoAccent,
                     fontFamily: 'OpenSans',
                     fontSize: 15.0)),
           ),
@@ -155,7 +160,7 @@ class _EstatisticasPageState extends State<EstatisticasPage> {
             padding: EdgeInsets.only(left: 5.0),
             child: Text("Dias da semana",
                 style: TextStyle(
-                    color: Colors.orange,
+                    color: Colors.indigoAccent,
                     fontFamily: 'OpenSans',
                     fontSize: 15.0)),
           ),
@@ -189,7 +194,7 @@ class _EstatisticasPageState extends State<EstatisticasPage> {
             padding: EdgeInsets.only(left: 5.0),
             child: Text("Disciplinas",
                 style: TextStyle(
-                    color: Colors.orange,
+                    color: Colors.indigoAccent,
                     fontFamily: 'OpenSans',
                     fontSize: 15.0)),
           ),

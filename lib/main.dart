@@ -12,15 +12,17 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       title: 'Cronograma de Estudos',
+
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,  ],
       supportedLocales: [
         const Locale('pt', 'BR'), ],
-      theme: ThemeData(
+      darkTheme: ThemeData(
+
         backgroundColor: Colors.white,
-        primaryColor: Colors.indigoAccent,
+        primaryColor: Colors.white,
 
       ),
 
