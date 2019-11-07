@@ -5,11 +5,35 @@ import 'package:ceapp/ui/disciplinas_page.dart';
 import 'package:flutter/material.dart';
 
 class CeBottomNavigation extends StatefulWidget {
+
+
+   int option;
+  CeBottomNavigation(int option){
+
+    this.option = option;
+
+  }
+
   @override
-  _CeBottomNavigationState createState() => _CeBottomNavigationState();
+  _CeBottomNavigationState createState() => _CeBottomNavigationState(option);
+
+
 }
 
 class _CeBottomNavigationState extends State<CeBottomNavigation> {
+
+  int  option;
+
+  _CeBottomNavigationState(option){
+
+    this.option = option;
+
+  }
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return  Card(
@@ -22,23 +46,25 @@ class _CeBottomNavigationState extends State<CeBottomNavigation> {
           children: <Widget>[
 
 
+
+
             IconButton(
-              onPressed: () {
+              onPressed: this.option == 1 ? null: ()  {
                 Navigator.pushReplacement(
                     context,
                     new MaterialPageRoute(
                         builder: (context) => CronogramaPage()));
-              },
+              } ,
 
 
-           icon:       Icon(Icons.home, color: Colors.indigoAccent,),
+           icon:   Icon(Icons.home, color:  this.option == 1 ? Colors.grey[350]: Colors.indigoAccent),
 
 
             ),
 
 
             IconButton(
-              onPressed: () {
+              onPressed: this.option == 2 ? null : () {
                 Navigator.pushReplacement(
                     context,
                     new MaterialPageRoute(
@@ -46,14 +72,14 @@ class _CeBottomNavigationState extends State<CeBottomNavigation> {
               },
 
 
-            icon: Icon(Icons.school, color: Colors.indigoAccent,),
+            icon: Icon(Icons.school, color: this.option == 2 ? Colors.grey[350] : Colors.indigoAccent),
 
             ),
 
 
 
             IconButton(
-              onPressed: () {
+              onPressed:this.option == 3 ? null : () {
                 Navigator.pushReplacement(
                     context,
                     new MaterialPageRoute(
@@ -62,7 +88,7 @@ class _CeBottomNavigationState extends State<CeBottomNavigation> {
 
 
 
-                icon: Icon(Icons.show_chart, color: Colors.indigoAccent,),
+                icon: Icon(Icons.show_chart, color: this.option == 3 ? Colors.grey[350] : Colors.indigoAccent),
 
             ),
 

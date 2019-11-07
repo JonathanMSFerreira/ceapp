@@ -1,4 +1,5 @@
 
+import 'package:ceapp/helper/db_ceapp.dart';
 import 'package:ceapp/model/disciplina.dart';
 import 'package:ceapp/model/disciplina_view.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,8 @@ class _CronometroPageState extends State<CronometroPage> {
   final _timeout = const Duration(seconds: 1);
   DisciplinaView disciplina;
 
+  DbCeAppHelper helper;
+
 
 
   _CronometroPageState(disciplina){
@@ -43,12 +46,11 @@ class _CronometroPageState extends State<CronometroPage> {
 
   @override
   void initState() {
-
-
-
+   helper = DbCeAppHelper();
 
     super.initState();
   }
+
 
 
 
@@ -66,10 +68,17 @@ class _CronometroPageState extends State<CronometroPage> {
   }
 
   void _startStopButtonPressed() {
+
+
     setState(() {
       if (_stopWatch.isRunning) {
         _isStart = true;
         _stopWatch.stop();
+
+
+        _salvarProgresso();
+
+
       } else {
         _isStart = false;
         _stopWatch.start();
@@ -78,22 +87,47 @@ class _CronometroPageState extends State<CronometroPage> {
     });
   }
 
+
+
+
   void _resetButtonPressed() {
+
     if (_stopWatch.isRunning) {
       _startStopButtonPressed();
+
+
+
+
     }
     setState(() {
       _stopWatch.reset();
+
       _setStopwatchText();
     });
   }
 
   void _setStopwatchText() {
-    _stopwatchText = _stopWatch.elapsed.inHours.toString().padLeft(2, '0') +
-        ':' +
-        (_stopWatch.elapsed.inMinutes % 60).toString().padLeft(2, '0') +
-        ':' +
-        (_stopWatch.elapsed.inSeconds % 60).toString().padLeft(2, '0');
+    _stopwatchText = _stopWatch.elapsed.inHours.toString().padLeft(2, '0') + ':' + (_stopWatch.elapsed.inMinutes % 60).toString().padLeft(2, '0') + ':' + (_stopWatch.elapsed.inSeconds % 60).toString().padLeft(2, '0');
+
+
+
+
+
+  }
+
+  void _salvarProgresso() {
+    helper.getDiaPeriodoDisciplina(disciplina.fkDPD).then((diaDisciplinaPeriodo){
+
+      diaDisciplinaPeriodo.hora += _stopWatch.elapsed.inHours;
+      diaDisciplinaPeriodo.minuto += _stopWatch.elapsed.inMinutes;
+      diaDisciplinaPeriodo.segundo += _stopWatch.elapsed.inSeconds;
+
+
+      helper.updateDiaPeriodoDisciplina(diaDisciplinaPeriodo);
+
+
+
+    });
   }
 
   @override

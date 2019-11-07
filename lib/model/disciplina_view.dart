@@ -4,6 +4,8 @@ final String nomeDVwColumn = "nomeColumn";
 final String siglaDVwColumn = "siglaColumn";
 final String corDVwColumn = "corColumn";
 final String perDVwColumn = "fkPerColumn";
+final String diaDVwColumn = "fkDiaColumn";
+final String fkDPDDVwColumn = "idDPDColumn";
 
 
 
@@ -14,6 +16,8 @@ class DisciplinaView {
   String sigla;
   int cor;
   int periodo;
+  int dia;
+  int fkDPD;
 
   DisciplinaView();
 
@@ -24,6 +28,11 @@ class DisciplinaView {
     sigla = map[siglaDVwColumn];
     cor = map[corDVwColumn];
     periodo = map[perDVwColumn];
+    dia = map[diaDVwColumn];
+    fkDPD = map[fkDPDDVwColumn];
+
+
+
 
   }
 
@@ -32,7 +41,9 @@ class DisciplinaView {
       nomeDVwColumn: nome,
       siglaDVwColumn: sigla,
       corDVwColumn: cor,
-      perDVwColumn: periodo
+      perDVwColumn: periodo,
+      diaDVwColumn: dia,
+      fkDPDDVwColumn: fkDPD
 
     };
 
@@ -46,7 +57,7 @@ class DisciplinaView {
   @override
   String toString() {
 
-    return "DisciplinaView(id: $id, nome: $nome, sigla: $sigla, cor: $cor, periodo: $periodo)";
+    return "DisciplinaView(id: $id, nome: $nome, sigla: $sigla, cor: $cor, periodo: $periodo, dia: $dia)";
 
   }
 

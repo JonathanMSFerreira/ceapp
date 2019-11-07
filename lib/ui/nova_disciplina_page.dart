@@ -5,6 +5,7 @@ import 'package:ceapp/model/dia_semana.dart';
 import 'package:ceapp/model/disciplina.dart';
 import 'package:ceapp/ui/disciplinas_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 
 class NovaDisciplinaPage extends StatefulWidget {
   @override
@@ -49,7 +50,10 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
                 color: Colors.white, fontFamily: 'OpenSans', fontWeight: FontWeight.bold, fontSize: 22.0),
           ),
         ),
-        body: ListView(children: [
+        body: ListView(
+
+            padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 10.0),
+            children: [
           Card(
               child: Padding(
             padding: EdgeInsets.all(16.0),
@@ -221,6 +225,9 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
                                 dpd.fkDisciplina = result.id;
                                 dpd.fkPeriodo = 3;
                                 dpd.fkDia = _convertDia(s);
+                                dpd.hora = 0;
+                                dpd.minuto = 0;
+                                dpd.segundo = 0;
 
                                 helper
                                     .saveDiaPeriodoDisciplina(dpd)
@@ -228,15 +235,9 @@ class _NovaDisciplinaPageState extends State<NovaDisciplinaPage> {
                               }
                             }
 
-
-
-
-
                           });
 
-                          Navigator.pushReplacement(
-                              context,
-                              new MaterialPageRoute(
+                          Navigator.pushReplacement(context, new MaterialPageRoute(
                                   builder: (context) => DisciplinasPage()));
                         }
                       : null,

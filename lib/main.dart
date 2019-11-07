@@ -21,8 +21,8 @@ class MyApp extends StatelessWidget {
         const Locale('pt', 'BR'), ],
       darkTheme: ThemeData(
 
-        backgroundColor: Colors.white,
-        primaryColor: Colors.white,
+        backgroundColor: Colors.black26,
+        primaryColor: Colors.black26,
 
       ),
 

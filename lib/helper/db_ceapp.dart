@@ -55,14 +55,15 @@ class DbCeAppHelper {
 
         db.execute("CREATE TABLE $diaSemanaTable( $idDSColumn INTEGER PRIMARY KEY AUTOINCREMENT, $nomeDSColumn TEXT NOT NULL, $siglaDSColumn TEXT NOT NULL)");
 
-        db.execute("CREATE TABLE $diaPeriodoDisciplinaTable( $idDPDColumn INTEGER PRIMARY KEY AUTOINCREMENT, $fkDiaColumn INTEGER NOT NULL, $fkDiscColumn INTEGER NOT NULL, $fkPerColumn INTEGER NOT NULL)");
+        db.execute("CREATE TABLE $diaPeriodoDisciplinaTable( $idDPDColumn INTEGER PRIMARY KEY AUTOINCREMENT, $fkDiaColumn INTEGER NOT NULL, $fkDiscColumn INTEGER NOT NULL, $fkPerColumn INTEGER NOT NULL, $horaColumn INTEGER NOT NULL, $minutoColumn INTEGER NOT NULL, $segundoColumn INTEGER NOT NULL)");
 
-        db.execute("CREATE VIEW  $disciplinaView AS SELECT DISTINCT $idDColumn , $nomeColumn  , $siglaDColumn , $corDColumn , $fkPerColumn FROM $disciplinaTable JOIN $diaPeriodoDisciplinaTable ON $idDColumn = $fkDiscColumn ORDER BY $fkPerColumn ASC");
+        db.execute("CREATE VIEW  $disciplinaView AS SELECT DISTINCT $idDColumn, $nomeColumn, $siglaDColumn, $corDColumn, $fkPerColumn, $fkDiaColumn, $idDPDColumn FROM $disciplinaTable JOIN $diaPeriodoDisciplinaTable ON $idDColumn = $fkDiscColumn ORDER BY $fkPerColumn ASC");
 
         db.execute("INSERT INTO $diaSemanaTable($nomeDSColumn, $siglaDSColumn) VALUES ('Segunda','SEG'), ('Terça','TER'), ('Quarta','QUA'), ('Quinta','QUI'), ('Sexta','SEX'),('Sábado','SAB'),('Domingo','DOM')");
 
         db.execute("INSERT INTO $periodoTable ($nomePColumn) VALUES('Manhã'), ('Tarde'),('Noite')");
 
+        print("DATABASE CREATE");
 
 
     });
@@ -103,7 +104,27 @@ class DbCeAppHelper {
 
 
 
+  /*
+      MÉTODO PARA BUSCAR UM CRONOGRAMA PELO ID
+   */
+  Future<DiaPeriodoDisciplina> getDiaPeriodoDisciplina(int id) async {
 
+    Database dbCronograma = await db;
+
+    List<Map> maps = await dbCronograma.query(diaPeriodoDisciplinaTable,
+        columns: [idDPDColumn,fkPerColumn,fkDiscColumn, fkDiaColumn,horaColumn,minutoColumn,segundoColumn],
+        where: "$idDPDColumn = ?",
+        whereArgs: [id]);
+
+
+    if(maps.length > 0){
+      return DiaPeriodoDisciplina.fromMap(maps.first);
+    }else{
+
+      return null;
+    }
+
+  }
 
 
 
@@ -129,6 +150,20 @@ class DbCeAppHelper {
 
 
   }
+
+
+  /*
+      ATUALIZA UM CRONOGRAMA
+   */
+  Future<int> updateDiaPeriodoDisciplina(DiaPeriodoDisciplina diaPeriodoDisciplina) async {
+
+    Database dbCronograma = await db;
+    return  await dbCronograma.update(diaPeriodoDisciplinaTable, diaPeriodoDisciplina.toMap(), where: "$idDPDColumn = ?",whereArgs: [diaPeriodoDisciplina.id]);
+
+
+  }
+
+
 
 
   //////////////////////////////////////////////////////////////////////////////////////////////
@@ -184,6 +219,7 @@ class DbCeAppHelper {
   /*
       ATUALIZA UM CRONOGRAMA
    */
+/*
   Future<int> updateDiaPeriodoDisciplina(DiaPeriodoDisciplina diaPeriodoDisciplina) async {
 
     Database dbDiaPeriodoDisciplina = await db;
@@ -191,6 +227,7 @@ class DbCeAppHelper {
 
 
   }
+*/
 
 
 
@@ -200,9 +237,7 @@ class DbCeAppHelper {
   Future<Disciplina> saveDisciplina(Disciplina disciplina) async {
 
     Database dbDisciplina = await db;
-
     disciplina.toString();
-
 
     disciplina.id = await dbDisciplina.insert(disciplinaTable, disciplina.toMap());
     return disciplina;
@@ -229,10 +264,39 @@ class DbCeAppHelper {
 
 
 
+  /*
+     DELETA  UM  CRONOGRAMA PELO ID
+   */
+  Future<int> deleteDisciplina(int id) async{
+
+    Database dbDisciplina = await db;
+    return await dbDisciplina.delete(disciplinaTable, where: "$idDColumn = ?",whereArgs: [id]);
+
+
+  }
+
+
+
+  /*
+     DELETA  UM  CRONOGRAMA PELO ID
+   */
+  Future<int> deleteCronogramaPorDisciplina(int fkDisciplina) async{
+
+    Database dbDisciplina = await db;
+    return await dbDisciplina.delete(diaPeriodoDisciplinaTable, where: "$fkDiscColumn = ?",whereArgs: [fkDisciplina]);
+
+
+  }
+
+
+
+
   Future<List<DisciplinaView>> getDisciplinasPorDiaSemana(int diaSemana) async {
 
+    print("===>> $diaSemana");
+
     Database dbDisciplinas = await db;
-    List listMap = await dbDisciplinas.rawQuery("SELECT * FROM $disciplinaView where $idColumn in (SELECT $fkDiscColumn FROM  $diaPeriodoDisciplinaTable where $fkDiaColumn = $diaSemana) " );
+    List listMap = await dbDisciplinas.rawQuery("SELECT * FROM $disciplinaView where $fkDiaColumn = $diaSemana");
     List<DisciplinaView> listDisciplina =  List();
     for(Map m in listMap){
 
@@ -245,6 +309,20 @@ class DbCeAppHelper {
   }
 
 
+ Future<List<DiaPeriodoDisciplina>> getDisciplinasPorDisciplina(int fkDisciplina) async {
+
+    Database dbDisciplinas = await db;
+    List listMap = await dbDisciplinas.rawQuery("SELECT * FROM  $diaPeriodoDisciplinaTable where $fkDiscColumn = $fkDisciplina" );
+    List<DiaPeriodoDisciplina> listDisciplina =  List();
+    for(Map m in listMap){
+
+      listDisciplina.add(DiaPeriodoDisciplina.fromMap(m));
+
+    }
+
+    return listDisciplina;
+
+  }
 
 
 /*  Future<List<Disciplina>> getDisciplinasPorDiaSemana(int diaSemana) async {

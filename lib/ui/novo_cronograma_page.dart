@@ -75,17 +75,18 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
     final dateFormat = DateFormat("dd/MM/yyyy");
 
     return Scaffold(
-      backgroundColor: Colors.indigoAccent,
+      backgroundColor: Colors.grey[350],
       appBar: AppBar(
-        backgroundColor: Colors.indigoAccent,
-        centerTitle: true,
+        backgroundColor: Colors.grey[350],
+
         title: Text("Cronograma",
             style: TextStyle(
-                color: Colors.white, fontFamily: 'OpenSans', fontSize: 20.0)),
+                color: Colors.white, fontFamily: 'OpenSans', fontWeight: FontWeight.bold, fontSize: 22.0)),
         elevation: 0.0,
       ),
       body: ListView(
 
+        padding: EdgeInsets.only(left: 16.0, bottom: 10.0, right: 16.0),
                   children: [
                     Card(
                         child: Padding(
@@ -93,7 +94,7 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
                           child: Column(children: [
                             Text("Informações",
                                 style: TextStyle(
-                                    color: Colors.orange,
+                                    color: Colors.indigoAccent,
                                     fontFamily: 'OpenSans',
                                     fontSize: 17.0)),
                             Divider(
@@ -193,7 +194,7 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
                           child: Column(children: [
                             Text("Dias disponíveis",
                                 style: TextStyle(
-                                    color: Colors.orange,
+                                    color: Colors.indigoAccent,
                                     fontFamily: 'OpenSans',
                                     fontSize: 17.0)),
                             Divider(
@@ -226,7 +227,7 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
                           child: Column(children: [
                             Text("Horários disponíveis",
                                 style: TextStyle(
-                                    color: Colors.orange,
+                                    color: Colors.indigoAccent,
                                     fontFamily: 'OpenSans',
                                     fontSize: 17.0)),
                             Divider(
@@ -259,7 +260,7 @@ class _NovoCronogramaPageState extends State<NovoCronogramaPage> {
                         textColor: Colors.white,
                         color: formIsOk(
                             _nomeInserido, _inicioInserido, _fimInserido,
-                            _diasInserido, _horariosInserido) == true ? Colors.orange : Colors.grey,
+                            _diasInserido, _horariosInserido) == true ? Colors.indigoAccent : Colors.grey,
                         onPressed: formIsOk(_nomeInserido, _inicioInserido, _fimInserido,
                             _diasInserido, _horariosInserido) == true ?
 

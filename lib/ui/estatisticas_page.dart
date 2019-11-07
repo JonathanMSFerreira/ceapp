@@ -53,11 +53,12 @@ class _EstatisticasPageState extends State<EstatisticasPage> {
       ),
       //drawer: _ceDrawer(),
       body: Container(
+          padding: EdgeInsets.only(left: 16.0, bottom: 10.0, right: 16.0),
           color: Colors.grey[350],
           constraints: BoxConstraints.expand(),
           child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
 
-            CeBottomNavigation(),
+            CeBottomNavigation(3),
 
             /* Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -104,7 +105,7 @@ class _EstatisticasPageState extends State<EstatisticasPage> {
               children: cards,
               mainAxisSpacing: 4.0,
               crossAxisSpacing: 4.0,
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(1.0),
             )),
 
           ])),
@@ -112,9 +113,12 @@ class _EstatisticasPageState extends State<EstatisticasPage> {
   }
 
   _cardPeriodos(BuildContext context) {
-    return Container(
+    return Card(
+
+      color: Colors.white,
+
       // padding: EdgeInsets.only(left: 10.0, top: 10.0),
-      decoration: BoxDecoration(
+ /*     decoration: BoxDecoration(
           shape: BoxShape.rectangle, // BoxShape.circle or BoxShape.retangle
           color: Colors.white,
           boxShadow: [
@@ -122,7 +126,7 @@ class _EstatisticasPageState extends State<EstatisticasPage> {
               color: Colors.grey,
               blurRadius: 2.0,
             ),
-          ]),
+          ]),*/
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -142,22 +146,15 @@ class _EstatisticasPageState extends State<EstatisticasPage> {
   }
 
   Widget _cardDias(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-          shape: BoxShape.rectangle, // BoxShape.circle or BoxShape.retangle
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 2.0,
-            ),
-          ]),
+    return Card(
+   
+
       child: Column(
+
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(left: 5.0),
+            padding: EdgeInsets.all(5.0),
             child: Text("Dias da semana",
                 style: TextStyle(
                     color: Colors.indigoAccent,
@@ -165,8 +162,11 @@ class _EstatisticasPageState extends State<EstatisticasPage> {
                     fontSize: 15.0)),
           ),
           Expanded(
+            
             flex: 1,
             child: Container(
+
+              margin: EdgeInsets.all(5.0),
               child: _diasSemanaChart.build(context),
             ),
           )
@@ -176,22 +176,13 @@ class _EstatisticasPageState extends State<EstatisticasPage> {
   }
 
   Widget _cardDisciplinas(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(7.0),
-      decoration: BoxDecoration(
-          shape: BoxShape.rectangle, // BoxShape.circle or BoxShape.retangle
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 2.0,
-            ),
-          ]),
+    return Card(
+      
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(left: 5.0),
+            padding: EdgeInsets.all( 5.0),
             child: Text("Disciplinas",
                 style: TextStyle(
                     color: Colors.indigoAccent,
@@ -201,6 +192,7 @@ class _EstatisticasPageState extends State<EstatisticasPage> {
           Expanded(
             flex: 1,
             child: Container(
+              margin: EdgeInsets.all(5.0),
               child: _disciplinasChart.build(context),
             ),
           )

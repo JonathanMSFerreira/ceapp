@@ -1,9 +1,11 @@
 final String diaPeriodoDisciplinaTable = "diaPeriodoDisciplinaTable";
 final String idDPDColumn = "idDPDColumn";
-
 final String fkPerColumn = "fkPerColumn";
 final String fkDiscColumn = "fkDiscColumn";
 final String fkDiaColumn = "fkDiaColumn";
+final String horaColumn = "horaColumn";
+final String minutoColumn = "minutoColumn";
+final String segundoColumn = "segundoColumn";
 
 
 
@@ -14,6 +16,9 @@ class DiaPeriodoDisciplina {
   int fkDisciplina;
   int fkPeriodo;
   int fkDia;
+  int hora;
+  int minuto;
+  int segundo;
 
   DiaPeriodoDisciplina();
 
@@ -23,6 +28,9 @@ class DiaPeriodoDisciplina {
     fkDisciplina = map[fkDiscColumn];
     fkPeriodo = map[fkPerColumn];
     fkDia = map[fkDiaColumn];
+    hora = map[horaColumn];
+    minuto = map[minutoColumn];
+    segundo = map[segundoColumn];
 
 
 
@@ -36,7 +44,10 @@ class DiaPeriodoDisciplina {
 
       fkDiscColumn: fkDisciplina,
       fkPerColumn: fkPeriodo,
-      fkDiaColumn: fkDia
+      fkDiaColumn: fkDia,
+      horaColumn: hora,
+      minutoColumn: minuto,
+      segundoColumn: segundo
 
 
     };

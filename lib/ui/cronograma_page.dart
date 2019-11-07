@@ -15,21 +15,26 @@ class CronogramaPage extends StatefulWidget {
 
 class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStateMixin {
 
- // List<Disciplina> _listDisciplinas = new List<Disciplina>();
+
   List<DisciplinaView> _listDisciplinasView = new List<DisciplinaView>();
   DbCeAppHelper _helper;
   bool down = false;
   Map<DateTime, List> _events;
-  List _selectedEvents;
+  List _selectedEvents ;
   AnimationController _animationController;
   CalendarController _calendarController;
+
+  var _option = 1;
+
 
   @override
   void initState() {
 
+
     _helper = new DbCeAppHelper();
     _calendarController = CalendarController();
     _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 400),
+
     );
 
     _animationController.forward();
@@ -102,11 +107,13 @@ class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStat
         ),
         drawer: _ceDrawer(),
         body: Container(
+          padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 10.0),
+
             color: Colors.grey[350],
             child: Column(
               children: <Widget>[
 
-                CeBottomNavigation(),
+                CeBottomNavigation(_option),
 
                 Card(
                     elevation: 6.0,
@@ -121,6 +128,7 @@ class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStat
                     )),
                 Expanded(
 
+                  flex: 1,
                     child: Card(
                         child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -145,8 +153,15 @@ class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStat
                       color: Colors.indigoAccent,
                     ),
                     Expanded(
-                        child:  _selectedEvents.isNotEmpty  ?  _buildEventList():
-                         Column(
+
+                        child:
+
+                       _selectedEvents.isNotEmpty  ?
+
+                        _buildEventList()
+
+                            : Column(
+
 
                            mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
@@ -473,38 +488,46 @@ class _CronogramaPageState extends State<CronogramaPage> with TickerProviderStat
   Widget _buildEventList() {
 
 
+
+
+
+
     return ListView.separated(
 
         itemCount: _selectedEvents.length,
         separatorBuilder: (context, index) => Divider(height: 1.0, color: Colors.grey),
         itemBuilder: (context, index) {
 
-          return ListTile(
-            leading: CircleAvatar(
-              backgroundColor: Color(_selectedEvents[index].cor),
-              child: Center(
-                child: Text(
-                  _selectedEvents[index].sigla,
-                  style: TextStyle(color: Colors.white),
+          return
+             ListTile(
+
+                leading: CircleAvatar(
+                  backgroundColor: Color(_selectedEvents[index].cor),
+                  child: Center(
+                    child: Text(
+                      _selectedEvents[index].sigla,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            subtitle: Text(_convertPeriodo(_selectedEvents[index].periodo)),
-            trailing: Icon(
-              Icons.access_alarms,
-              color: Colors.black26,
-            ),
-            title: Text(
-              _selectedEvents[index].nome ?? '',
-              style: TextStyle(color: Colors.indigo, fontSize: 20.0),
-            ),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => new CronometroPage(_selectedEvents[index])));
-            },
-          );
+                subtitle: Text(_convertPeriodo(_selectedEvents[index].periodo)),
+                trailing: Icon(
+                  Icons.access_alarms,
+                  color: Colors.black26,
+                ),
+                title: Text(
+                  _selectedEvents[index].nome ?? '',
+                  style: TextStyle(color: Colors.indigo, fontSize: 20.0),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new CronometroPage(_selectedEvents[index])));
+                },
+
+
+            );
         });
   }
 }
